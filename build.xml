@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== -->
+<!-- jsNyati -->
+<!-- ====================================================================== -->
+
+<project
+    name="Tatanka"
+    basedir="."
+    default="phonegappkg" >
+
+      <taskdef resource="net/sf/antcontrib/antcontrib.properties" >
+
+        <classpath>
+
+            <pathelement location="lib/ant-contrib-1.0b3.jar" />
+        </classpath>
+    </taskdef>
+    
+    <property
+        name="build.dir"
+        value="build" />
+
+      <property
+        name="tests.dir"
+        value="tests" />
+
+    <property
+        name="junit"
+        value="lib/junit-4.10.jar" />
+    
+    <property
+        name="master-file"
+        value="tatanka" />
+
+    <property
+        name="ios-AppID"
+        value="70832" />
+
+    <property
+        name="bb-AppID"
+        value="140913" />
+
+    <property
+        name="wp7-AppID"
+        value="140925" />
+
+    <property
+        name="android-AppID"
+        value="140929" />
+
+  
+    <target
+        name="phonegappkg"
+        depends="prepare.dirs" >
+
+        <exec executable="zip" >
+
+            <arg value="-r" />
+
+            <arg value="${build.dir}/${master-file}" />
+
+            <arg value="www" />
+        </exec>
+
+        <foreach
+            list="ios,bb,android,wp7"
+            param="os"
+            target="addOSSpecifics" >
+        </foreach>
+    </target>
+
+    <target
+        name="compile-tests"
+        depends="prepare.dirs" >
+
+        <javac
+            debug="on"
+            deprecation="off"
+            destdir="${build.dir}/tests"
+            optimize="off"
+            source="1.5"
+            srcdir="${tests.dir}" >
+
+            <classpath>
+
+                <pathelement path="${junit}" >
+                </pathelement>
+            </classpath>
+        </javac>
+    </target>
+
+    <target
+        name="test"
+        depends="compile-tests" >
+
+        <junit
+            haltonfailure="yes"
+            printsummary="yes" >
+
+            <classpath>
+
+                <pathelement location="${build.dir}/tests" />
+
+                <pathelement location="${junit}" />
+            </classpath>
+
+            <test
+                name="de.digitalemil.thisandthat.tests.AllTests"
+                haltonfailure="no"
+                outfile="${build.dir}/tests/results" >
+
+                <formatter type="xml" />
+            </test>
+        </junit>
+    </target>
+
+     <target
+        name="buildAndTest" depends="phonegappkg, test"/>
+     
+    <target
+        name="upload"
+        depends="buildAndTest" >
+
+        <foreach
+            list="ios,bb,android,wp7"
+            param="os"
+            target="upload-os-pkg" >
+        </foreach>
+    </target>
+
+    <target
+        name="addOSSpecifics"
+        depends="" >
+
+        <copy
+            file="${build.dir}/${master-file}.zip"
+            tofile="${build.dir}/${master-file}-${os}.zip" >
+        </copy>
+
+        <zip
+            basedir="phonegap/${os}"
+            destfile="${build.dir}/${master-file}-${os}.zip"
+            update="true" >
+        </zip>
+    </target>
+
+    <target name="upload-os-pkg" depends="">
+
+        <switch value="${os}" >
+
+            <case value="ios" >
+
+                <var
+                    name="id"
+                    value="${ios-AppID}" />
+            </case>
+
+            <case value="android" >
+
+                <var
+                    name="id"
+                    value="${android-AppID}" />
+            </case>
+
+            <case value="bb" >
+
+                <var
+                    name="id"
+                    value="${bb-AppID}" />
+            </case>
+
+            <case value="wp7" >
+
+                <var
+                    name="id"
+                    value="${wp7-AppID}" />
+            </case>
+        </switch>
+
+        <exec executable="curl" >
+
+            <arg value="-F" />
+
+            <arg value="file=@${build.dir}/${master-file}-${os}.zip" />
+
+            <arg value="-X" />
+
+            <arg value="PUT" />
+
+            <arg value="https://build.phonegap.com/api/v1/apps/${id}?auth_token=i1c3E6MMYymBTe1Y6mBN" />
+        </exec>
+    </target>
+
+    <target name="clean" >
+
+        <delete dir="${build.dir}" />
+    </target>
+
+    <target name="prepare.dirs" >
+
+        <mkdir dir="${build.dir}" />
+
+        <mkdir dir="${build.dir}/tests" />
+    </target>
+
+</project>

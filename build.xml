@@ -6,7 +6,7 @@
 <project
     name="Tatanka"
     basedir="."
-    default="phonegappkg" >
+    default="upload" >
 
       <taskdef resource="net/sf/antcontrib/antcontrib.properties" >
 

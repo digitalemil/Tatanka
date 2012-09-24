@@ -23,9 +23,9 @@
 <icon src="icons/icon-iphone-114.png" width="114" height="114"/>
 <icon src="icons/icon-iphone-144.png" width="144" height="144"/>
 
-<gap:splash src="splashes/Default-Landscape~ipad.png" width="1024" height="768"/>
-<gap:splash src="splashes/Default-Portrait~ipad.png" width="768" height="1024"/>
-<gap:splash src="splashes/Default.png"/>
+<gap:splash src="splashes/Default-Landscape~ipad.jpg" width="1024" height="768"/>
+<gap:splash src="splashes/Default-Portrait~ipad.jpg" width="768" height="1024"/>
+<gap:splash src="splashes/Default.jpg"/>
 
 <preference name="disable-cursor" value="true" />
 <preference name="fullscreen" value="true" />

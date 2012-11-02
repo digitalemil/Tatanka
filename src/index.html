@@ -1,0 +1,525 @@
+<html>
+<head>
+<title>Tatanka</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<style>
+* {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-touch-callout: none;
+	/* prevent callout to copy image, etc when tap to hold */
+	-webkit-text-size-adjust: none;
+	/* prevent webkit from resizing text to fit */
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	/* make transparent link [ remove highlighting ] selection, adjust last value opacity 0 to 1.0 */
+	-webkit-user-select: none;
+	/* prevent copy paste, to allow, change 'none' to 'text' */
+}
+</style>
+
+<style>
+canvas {
+	border: 0px solid black;
+}
+</style>
+</head>
+<body id="body" bgcolor="#cc9c5a" onkeydown="keyDown(event)"
+	onload="init()">
+	<script type="text/javascript" src="phonegap.js" charset="utf-8"></script>
+	<script type="text/javascript" src="js/timer.js"></script>
+	<script type="text/javascript" src="js/tools.js"></script>
+	<script type="text/javascript" src="js/part.js"></script>
+	<script type="text/javascript" src="js/bone.js"></script>
+	<script type="text/javascript" src="js/thing.js"></script>
+	<script type="text/javascript" src="js/ellipse.js"></script>
+	<script type="text/javascript" src="js/boundingcircle.js"></script>
+	<script type="text/javascript" src="js/triangle.js"></script>
+	<script type="text/javascript" src="js/buffalo.js"></script>
+	<script type="text/javascript" src="js/rectangle.js"></script>
+	<script type="text/javascript" src="js/quad.js"></script>
+	<script type="text/javascript" src="js/partanimation.js"></script>
+	<script type="text/javascript" src="js/compositeanimation.js"></script>
+	<script type="text/javascript" src="js/tatankaanimation.js"></script>
+	<script type="text/javascript" src="js/view.js"></script>
+	<script type="text/javascript" src="js/tatankaobjects.js"></script>
+	<script type="text/javascript" src="js/tatanka.js"></script>
+	<script type="text/javascript" src="jquery/jquery.js"></script>
+	<div id="all">
+		<canvas id="canvas" onMouseDown="tatankaclick(event)"
+			onMouseUp="mousedown=false"></canvas>
+	</div>
+	<div id="ribbons">
+		<img id="ribbon1" src="media/ribbonleft.png" width="0" height="0"
+			ondblclick="document.getElementById('img0').setAttribute('src', 'res/tatankas/willi.jpg')" />
+		<img id="ribbon2" src="media/ribbonright.png" width="0" height="0" />
+	</div>
+	<audio controls="controls" loop="loop" hidden="true" autoplay="autoplay" >
+	 <source src="crickets3.wav" type="audio/wav" />
+	</audio>
+	<script type="text/javascript">
+		/* var imgs = [ "tatanka.jpg", "tipi.jpg", "sioux.jpg", "warparty.jpg",
+		     "warriors.jpg" ];*/
+		var imgs = [ "tatanka0.jpg", "tatanka1.jpg", "tatanka2.jpg",
+				"tatanka3.jpg", "tatanka4.jpg", "tatanka5.jpg", "tatanka6.jpg",
+				"tatanka7.jpg", "tatanka8.jpg", "tatanka9.jpg" ];
+		var fades = [ 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
+				0.5, 0.5, 0.5, 0.5, 0.5 ];
+		var all = document.getElementById("all");
+		var ribbons = document.getElementById("ribbons");
+
+		var imgi = 0;
+		var cancontinue = false;
+		var isbb = false;
+		var canvaswidth, canvasheight;
+		var canvas = document.getElementById("canvas");
+		var w, h, scale;
+		var perfcor = 0;
+		var startaccel = undefined;
+		var phonegap = false;
+		var ax= 0, ay= 0, lax= 0, lay= 0;
+
+		noPhoneGapSetup = function() {
+			if (w == undefined)
+				setup();
+		}
+
+		setTimeout(noPhoneGapSetup, 400);
+
+		var deviceReady = function() {
+			setTimeout(setup, 200);
+		}
+		init = function() {
+			document.addEventListener("deviceready", deviceReady, true);
+
+		}
+		setup = function() {
+			w = window.innerWidth;
+			h = window.innerHeight;
+			//920, 576
+			scale = Math.min((w - perfcor * 64) / 768,
+					(h - perfcor * 64) / 1024);
+
+			canvaswidth = w - 92 * scale;
+			canvasheight = h;
+
+			document.getElementById("ribbon1").setAttribute(
+					"style",
+					"position:absolute; top:" + 0 + "px; left: " + 0
+							+ "px; width:" + (92 * scale) + "px; height:" + h
+							+ "px;");
+			document.getElementById("ribbon2").setAttribute(
+					"style",
+					"position:absolute; top:" + 0 + "px; left: "
+							+ (w - 92 * scale) + "px; width:" + (92 * scale)
+							+ "px; height:" + h + "px;");
+			createMainMenu();
+			//  	 startMe();
+		}
+		//    
+
+		function createMainMenu() {
+			if (services != undefined) {
+				services.getView().enabled = false;
+				console.log("services: " + services.getView().enabled);
+			}
+			document.getElementById("body").setAttribute("background", "");
+			document.getElementById("body").setAttribute("bgcolor", "#cc9c5a");
+			var img = new Image();
+			img.id = "img0";
+			all.appendChild(img);
+			var max
+			if (isbb)
+				imgi = Math.round(Math.random() * 3)
+			else
+				imgi = Math.round(Math.random() * 9)
+
+			img.setAttribute("src", "res/tatankas/" + imgs[imgi]);
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((h - scale * 800)) + "px; left: " + ((w - scale * 800))
+					/ 2 + "px; width:" + (scale * 800) + "px; height:"
+					+ (scale * 800) + "px;");
+			$('#img0').fadeTo(0, fades[imgi]);
+
+			var img = new Image();
+			img.id = "img1";
+			all.appendChild(img);
+			img.setAttribute("src", "res/gradientall800.png");
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((h - scale * 800)) + "px; left: " + ((w - scale * 800))
+					/ 2 + "px; width:" + (scale * 800) + "px; height:"
+					+ (scale * 800) + "px;");
+			$('#img1').fadeTo(0, 1);
+
+			var img = new Image();
+			img.src = "res/name.png";
+			img.id = "name";
+			all.appendChild(img);
+			img.setAttribute("style", "position:absolute; top:" + 0
+					+ "px; left: " + (w - 512 * scale) / 2 + "px; width:"
+					+ (512 * scale) + "px; height:" + (256 * scale) + "px;");
+
+			var img = new Image();
+			img.src = "res/null.png";
+			img.id = "help";
+			all.appendChild(img);
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((48 + 0 * 96) * scale) + "px; left: "
+					+ (w - 256 * scale) / 2 + "px; width:" + (256 * scale)
+					+ "px; height:" + (128 * scale) + "px;");
+
+			var img = new Image();
+			img.src = "res/hunt.png";
+			img.id = "hunt";
+			all.appendChild(img);
+			img.setAttribute("onClick", "startMe(event)");
+			//  img.setAttribute("onTouchStart", "startMe(event)");
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((64 + 48 + 96) * scale) + "px; left: "
+					+ (w - 256 * scale) / 2 + "px; width:" + (256 * scale)
+					+ "px; height:" + (128 * scale) + "px;");
+
+			var img = new Image();
+			if (cancontinue)
+				img.src = "res/continue.png";
+			else
+				img.src = "res/null.png";
+
+			img.id = "continue";
+			all.appendChild(img);
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((64 + 48 + 96 * 2) * scale) + "px; left: "
+					+ (w - 256 * scale) / 2 + "px; width:" + (256 * scale)
+					+ "px; height:" + (128 * scale) + "px;");
+
+			var img = new Image();
+			img.src = "res/options.png";
+			img.id = "options";
+			all.appendChild(img);
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((64 + 48 + 3 * 96) * scale) + "px; left: "
+					+ (w - 256 * scale) / 2 + "px; width:" + (256 * scale)
+					+ "px; height:" + (128 * scale) + "px;");
+
+			var img = new Image();
+			img.src = "res/more.png";
+			img.id = "more";
+			all.appendChild(img);
+			img.setAttribute("onClick", "deleteMenu(); createMoreMenu();");
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((64 + 48 + 4 * 96) * scale) + "px; left: "
+					+ (w - 256 * scale) / 2 + "px; width:" + (256 * scale)
+					+ "px; height:" + (128 * scale) + "px;");
+
+			canvas.setAttribute("width", 0);
+			canvas.setAttribute("height", 0);
+		}
+
+		function createMoreMenu() {
+
+			document.getElementById("body").setAttribute("bgcolor", "#cc9c5a");
+			var img = new Image();
+			img.id = "img0";
+			all.appendChild(img);
+			img.setAttribute("src", "res/tatankas/" + imgs[imgi]);
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((h - scale * 800)) + "px; left: " + ((w - scale * 800))
+					/ 2 + "px; width:" + (scale * 800) + "px; height:"
+					+ (scale * 800) + "px;");
+			$('#img0').fadeTo(0, fades[imgi]);
+			var img = new Image();
+			img.src = "res/name.png";
+			img.id = "name";
+			all.appendChild(img);
+
+			img.setAttribute("style", "position:absolute; top:" + 0
+					+ "px; left: " + (w - 512 * scale) / 2 + "px; width:"
+					+ (512 * scale) + "px; height:" + (256 * scale) + "px;");
+			var img = new Image();
+			img.id = "img1";
+			all.appendChild(img);
+			img.setAttribute("src", "res/gradientall800.png");
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((h - scale * 800)) + "px; left: " + ((w - scale * 800))
+					/ 2 + "px; width:" + (scale * 800) + "px; height:"
+					+ (scale * 800) + "px;");
+			$('#img1').fadeTo(0, 1);
+
+			var img = new Image();
+			img.src = "res/gallery.png";
+			img.id = "hunt";
+			all.appendChild(img);
+			img.setAttribute("onClick", "startGallery()");
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((192 + 48) * scale) + "px; left: " + (w - 256 * scale)
+					/ 2 + "px; width:" + (256 * scale) + "px; height:"
+					+ (128 * scale) + "px;");
+			/*var img = new Image();
+			img.src = "res/infos.png";
+			img.id = "continue";
+			all.appendChild(img);
+			img.setAttribute("style", "position:absolute; top:"
+			    + ((128+48 + 2 * 96) * scale) + "px; left: "
+			    + (w - 256 * scale)/2 + "px; width:"
+			    + (256 * scale) + "px; height:" + (128 * scale) + "px;");*/
+			var img = new Image();
+			img.src = "res/about.png";
+			img.id = "options";
+			all.appendChild(img);
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((192 + 48 + 96) * scale) + "px; left: "
+					+ (w - 256 * scale) / 2 + "px; width:" + (256 * scale)
+					+ "px; height:" + (128 * scale) + "px;");
+			var img = new Image();
+			img.src = "res/help.png";
+			img.id = "help";
+			all.appendChild(img);
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((192 + 48 + 2 * 96) * scale) + "px; left: "
+					+ (w - 256 * scale) / 2 + "px; width:" + (256 * scale)
+					+ "px; height:" + (128 * scale) + "px;");
+			var img = new Image();
+			img.src = "res/back.png";
+			img.id = "more";
+			all.appendChild(img);
+			img.setAttribute("onClick", "deleteMenu(); createMainMenu();");
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((192 + 48 + 3 * 96) * scale) + "px; left: "
+					+ (w - 256 * scale) / 2 + "px; width:" + (256 * scale)
+					+ "px; height:" + (128 * scale) + "px;");
+			canvas.setAttribute("width", 0);
+			canvas.setAttribute("height", 0);
+		}
+
+		function deleteMenu() {
+			if (document.getElementById("arrowsetal") != null)
+				ribbons.removeChild(document.getElementById("arrowsetal"));
+			if (document.getElementById("keypad") != null)
+				ribbons.removeChild(document.getElementById("keypad"));
+			if (document.getElementById("hunt") != null)
+				all.removeChild(document.getElementById("hunt"));
+			if (document.getElementById("name") != null)
+				all.removeChild(document.getElementById("name"));
+			if (document.getElementById("continue") != null)
+				all.removeChild(document.getElementById("continue"));
+			if (document.getElementById("options") != null)
+				all.removeChild(document.getElementById("options"));
+			if (document.getElementById("help") != null)
+				all.removeChild(document.getElementById("help"));
+			if (document.getElementById("more") != null)
+				all.removeChild(document.getElementById("more"));
+			if (document.getElementById("img0") != null)
+				all.removeChild(document.getElementById("img0"));
+			if (document.getElementById("img1") != null)
+				all.removeChild(document.getElementById("img1"));
+		}
+
+		sign= function(i) {
+			if(i< 0)
+				return -1;
+			if(i> 0)
+				return 1;
+			return 0;
+		}
+		
+		onAccelSuccess = function(acceleration) {
+			ax += acceleration.y;
+			lax= acceleration.y;
+			ay += -acceleration.x;
+			lay= acceleration.x;
+		//	console.log("ax: "+ax+" lax: "+lax+ " "+);
+		/*	if(lax!= 0) {
+				if(sign(lax)!= sign(ax)) {
+					ax= 0;
+					lax= 0;
+				}
+			}
+
+
+			if(lay!= 0) {
+				if(sign(lay)!= sign(ay)) {
+					ay= 0;
+					lay= 0;
+				}
+			}
+			*/
+			
+			if (startaccel == undefined) {
+				startaccel = ax;
+			}
+
+			//console.log("ax: "+ax+" ay: "+ay);
+			if (ax < startaccel - 3 * 0.2) {
+				handleKey(38);
+				ax = 0;
+			}
+			if (ax > startaccel + 3 * 0.2) {
+				handleKey(40);
+				ax = 0;
+			}
+
+			if (ay < 4 * -0.2) {
+				handleKey(37);
+				ay = 0;
+			}
+			if (ay > 4 * 0.2) {
+				handleKey(39);
+				ay = 0;
+			}
+		}
+
+		startMe = function() {
+			$('#img0').fadeOut(
+					0,
+					function() {
+						deleteMenu();
+						var img = new Image();
+						img.src = "res/menu.png";
+						img.id = "more";
+						all.appendChild(img);
+						document.getElementById("more").setAttribute("onClick",
+								"deleteMenu(); createMainMenu();");
+						document.getElementById("more")
+								.setAttribute(
+										"style",
+										"position:absolute; top:"
+												+ (h - 128 * scale)
+												+ "px; left: "
+												+ (w - 260 * scale)
+												+ "px; width:" + (256 * scale)
+												+ "px; height:" + (128 * scale)
+												+ "px;");
+
+						document.getElementById("canvas").setAttribute(
+								"style",
+								"position:absolute; top:" + 0 + "px; left: "
+										+ (46 * scale) + "px;");
+						document.getElementById("canvas").setAttribute("width",
+								canvaswidth);
+						document.getElementById("canvas").setAttribute(
+								"height", canvasheight);
+						img = new Image();
+						img.src = "res/arrowsetal-min.png";
+						img.id = "arrowsetal";
+						ribbons.appendChild(img);
+						document.getElementById("arrowsetal").setAttribute(
+								"style",
+								"position:absolute; top:" + (h - 192 * scale)
+										+ "px; left: " + (64 * scale)
+										+ "px; width:" + (128 / 2 * scale)
+										+ "px; height:" + (350 / 2 * scale)
+										+ "px;");
+						try {
+							device == undefined;
+						} catch (e) {
+							img = new Image();
+							img.src = "res/keypad.png";
+							img.id = "keypad";
+							ribbons.appendChild(img);
+
+							document.getElementById("keypad").setAttribute(
+									"onMouseDown", "tatankaclick(event)");
+							document.getElementById("keypad").setAttribute(
+									"style",
+									"position:absolute; top:"
+											+ (h - 144 * scale) + "px; left: "
+											+ (w - 219 * scale) / 2
+											+ "px; width:" + (219 * scale)
+											+ "px; height:" + (144 * scale)
+											+ "px;");
+						}
+
+						var options = {
+							frequency : 10
+						};
+						try {
+							if (device.platform.match("[0-9].*"))
+								isbb = true;
+							if (navigator.accelerometer != undefined) {
+								watchID = navigator.accelerometer
+										.watchAcceleration(onAccelSuccess,
+												onAccelSuccess, options);
+							}
+							phonegap = true;
+
+						} catch (e) {
+							console.log(e);
+						}
+
+						if (services == undefined) {
+							initTatanka(canvas);
+							resetTatanka();
+						} else {
+							services.getView().enabled = true;
+							resetTatanka();
+						}
+					});
+		}
+		var doslides, nslides = isbb ? 9 : 30;
+
+		slideshowIn = function() {
+			if (!doslides)
+				return;
+			console.log("media/img" + imgi + ".jpg")
+			img.setAttribute("src", "media/img" + imgi + ".jpg");
+			//3,4 6,7,8,9,13,18,19,23, 24
+			$('#img0').fadeIn(4000);
+			imgi++;
+			if (imgi > nslides)
+				imgi = 0;
+			setTimeout(slideshowOut, 4000);
+
+		}
+		slideshowOut = function() {
+			if (!doslides)
+				return;
+			$('#img0').fadeOut(4000);
+			setTimeout(slideshowIn, 4000);
+		}
+		img = document.getElementById("img0");
+
+		startGallery = function() {
+			try {
+				if (device.platform.match("[0-9].*"))
+					nslides = 11;
+			} catch (e) {
+				console.log(e);
+			}
+
+			doslides = true;
+			deleteMenu();
+			img = new Image();
+			img.id = "img0";
+			img.setAttribute("style", "position:absolute; top:"
+					+ ((h - scale * 576)) + "px; left: " + ((w - scale * 800))
+					/ 2 + "px; width:" + (scale * 800) + "px; height:"
+					+ (scale * 576) + "px;");
+			all.appendChild(img);
+			var img2 = new Image();
+			img2.id = "img1";
+			all.appendChild(img2);
+			img2.setAttribute("src", "res/gradientall.png");
+			img2.setAttribute("style", "position:absolute; top:"
+					+ ((h - scale * 576)) + "px; left: " + ((w - scale * 800))
+					/ 2 + "px; width:" + (scale * 800) + "px; height:"
+					+ (scale * 576) + "px;");
+			$('#img1').fadeTo(0, 1);
+
+			var bimg = new Image();
+			bimg.src = "res/back.png";
+			bimg.id = "more";
+			bimg
+					.setAttribute("onClick",
+							"doslides= false; imgi= 0; deleteMenu(); createMainMenu();");
+			bimg.setAttribute("style", "position:absolute; top:" + (64 * scale)
+					+ "px; left: " + (w - 256 * scale) / 2 + "px; width:"
+					+ (256 * scale) + "px; height:" + (128 * scale) + "px;");
+			all.appendChild(bimg);
+
+			$('#img0').fadeOut(0, 0);
+
+			setTimeout(slideshowIn, 0);
+		}
+	</script>
+</html>

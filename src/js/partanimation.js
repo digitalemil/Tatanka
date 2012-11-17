@@ -37,6 +37,9 @@ PartAnimation.prototype.start = function() {
 	this.lr = 0.0;
 	this.delta = 0;
 	this._start = this.currentTimeMillies();
+	if(this.name== "ArrowAni")
+		console.log("Arrow Animation started");
+	
 };
 
 PartAnimation.prototype.createReverseAnimation = function() {
@@ -74,6 +77,7 @@ PartAnimation.prototype.animate = function(now) {
 	if (percentage > 1.0) {
 		percentage = 1.0;
 	}
+	
 	if (delta >= this.duration && !this._loops) {
 		percentage= 1.0;
 		this.finish();
@@ -84,6 +88,8 @@ PartAnimation.prototype.animate = function(now) {
 	} else {
 		var v1 = (1.0 + (this.scaleX - 1.0) * percentage);
 		var v2 = (1.0 + (this.scaleY - 1.0) * percentage);
+	//	if(this.name== "ArrowAni")
+		//	console.log("Arrow Animation: "+(this.translationX * percentage - this.lx)+" "+(this.translationY * percentage - this.ly));
 
 		this.part.translate(this.translationX * percentage - this.lx,
 				this.translationY * percentage - this.ly, 0.0);

@@ -66,8 +66,10 @@ View.prototype.init = function(c, o, callback) {
 	this.timer.start(25);
 	fpstimer.start(1000);
 	
-	this.tatankas= 0;
+	this.tatankas= "";
 	this.tatankahealth= 100;
+	this.siouxs= "";
+	this.arrows= "";
 };
 
 View.prototype.loadImg = function(n) {
@@ -175,14 +177,14 @@ View.prototype.paintQuad= function(quad, teximg) {
 }
 
 View.prototype.paintPrep= function() {
-
 //	 this.ctx.clearRect(0, 0, canvaswidth, canvasheight);
 		for ( var t = 0; t < this.things.length; t++) {
 			if (this.things[t] == undefined)
 				continue;
+			//console.log(this.things[t]);
 			if (this.things[t].getType() == QUAD) {
 				var quad = this.things[t];
-				var texname = quad.texName;
+				var texname = quad.getTexName();
 				var tex = quad.texID;
 				if ((texname == null || texname == undefined)) {
 					continue;
@@ -215,12 +217,13 @@ View.prototype.paint = function() {
 	if (!(this.pa == undefined)) {
 		this.pa.animateNow();
 	}
+	/*
 	if (tatankaani != undefined) {
 		tatankaani.tatankaAnimate();
 	}
 	if (horseani != undefined) {
 		horseani.tatankaAnimate();
-	}
+	}*/
 	if (this.cb != undefined && this.cb != null) {
 		this.cb();
 	}
@@ -331,7 +334,7 @@ View.prototype.update = function(timer) {
 
 View.prototype.loadTexture = function(name) {
 	for ( var i = 1; i < this.textures.length; i++) {
-	//	console.log("Texture already loaded: " + this.textures[i].src);
+		console.log("Texture already loaded: " + this.textures[i].src);
 
 		if (this.textures[i] != undefined
 				&& this.textures[i].src.match(".*res/" + name)) {

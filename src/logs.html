@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Logs</title>
+</head>
+<body>
+	<textarea id="ta" style="height: 100%;"></textarea>
+	<button name="Clear Logs" onClick='localStorage.LOGENTRIES= 0; fillLogArea()'>Clear Logs</button>
+	<button name="Refresh Logs" onClick='fillLogArea()'>Refresh</button>
+</body>
+<script type="text/javascript">
+	function fillLogArea() {
+		var ta = document.getElementById("ta");
+		ta.setAttribute("rows", localStorage.LOGENTRIES);
+		ta.setAttribute("style", "width: 100%; height: "+window.innerHeight+";");
+
+		console.log("Entries: " + localStorage.LOGENTRIES);
+		var text = "";
+		for ( var i = 0; i < localStorage.LOGENTRIES; i++) {
+			text += "Log" + i + ": " + eval("localStorage.LOG" + i) + "\n";
+			console.log("Log" + i + ": " + eval("localStorage.LOG" + i));
+		}
+		ta.value = text;
+	}
+	fillLogArea();
+</script>
+</html>

@@ -28,7 +28,7 @@ CompositeAnimation.prototype.dispose= function() {
 CompositeAnimation.prototype.increaseLevel= function() {
 	var db= false; 
 	if(this.anis[this.level * this.maxanimation].coloranim== true) {
-      	console.log("increase level: "+this.level+" "+(this.maxlevel)+" "+this.anis[(this.level+1) * this.maxanimation]);
+     // 	console.log("increase level: "+this.level+" "+(this.maxlevel)+" "+this.anis[(this.level+1) * this.maxanimation]);
       	db= true;
 	}
       	this.level++;
@@ -42,8 +42,8 @@ CompositeAnimation.prototype.increaseLevel= function() {
             if (this.anis[this.level * this.maxanimation + i] == undefined) {
             	continue;
             }
-            if(db)
-            	console.log(this.anis[this.level * this.maxanimation + i].name);
+       //     if(db)
+       //    	console.log(this.anis[this.level * this.maxanimation + i].name);
             this.anis[this.level * this.maxanimation + i].start();
         }
     }

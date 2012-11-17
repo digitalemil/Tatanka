@@ -14,6 +14,7 @@ Bone.prototype.init = function(ix, iy, iz, ir, n) {
 	this.rz = iz;
 	this.rrot = ir;
 	this.visible = true;
+	this.nbcs = 0;
 };
 
 Bone.prototype.beginTX = function() {
@@ -49,15 +50,16 @@ Bone.prototype.boneRollbackTX = function() {
 	}
 };
 
+
 Bone.prototype.getByName = function(n) {
 	var result = null;
 	if (this.name != null && this.name == n) {
 		return this;
 	}
 	for ( var i = 0; i < this.pn; i++) {
-		var pn = this.parts[i].name;
+		var pn = this.parts[i].getName();
 		if (pn != null) {
-			if (this.parts[i].name == n) {
+			if (this.parts[i].getName() == n) {
 				result = this.parts[i];
 				break;
 			}
@@ -89,6 +91,13 @@ Bone.prototype.add = function(p, ix, iy, iz, ir) {
 	this.a = p.a;
 };
 
+Bone.prototype.printParents = function() {
+	if (this.parent != null && this.parent != undefined) {
+		this.parent.printParents();
+	}
+	console.log(this.name);
+}
+
 Bone.prototype.addPart = function(p) {
 	this.add(p, 0, 0, 0, 0);
 };
@@ -97,20 +106,55 @@ Bone.prototype.getNumberOfData = function() {
 	return this.nd;
 };
 
+Bone.prototype.canHaveChilds = function() {
+	return true;
+};
+
+Bone.prototype.getNumberOfBCs = function() {
+	return this.nbcs;
+};
+
+Bone.prototype.getBCs = function() {
+	if (this.bcs == null) {
+		this.bcs = new Array(this.nbcs);
+		this.addBCs(this.bcs, 0);
+	}
+	return this.bcs;
+};
+
+Bone.prototype.addBCs = function(bcarray, start) {
+	for ( var i = 0; i < this.pn; i++) {
+		if (this.parts[i].getType() == BOUNDINGCIRCLE) {
+			bcarray[start++] = this.parts[i];
+	//		console.log("Added BC: " + this.parts[i] + " to: " + this.name);
+		}
+
+		if (this.parts[i].canHaveChilds()) {
+			start = this.parts[i].addBCs(bcarray, start);
+		}
+	}
+	return start;
+};
+
 Bone.prototype.setupDone = function() {
 	this.nd = 0;
 	for ( var i = 0; i < this.pn; i++) {
 		this.nd += this.parts[i].getNumberOfData();
+		if (this.parts[i].getType() == BOUNDINGCIRCLE)
+			this.nbcs++;
+		if (this.parts[i].canHaveChilds()) {
+			this.nbcs += this.parts[i].getNumberOfBCs();
+		}
 	}
 	this.invalidateData();
 };
 
 Bone.prototype.getData = function(d, startD, xn, yn, zn, a11, a21, a12, a22) {
 	if (!this.invaliddata) {
-	//	console.log("Valid Bone: "+this.name);
+		// console.log("Valid Bone: "+this.name);
 		return this.getNumberOfData();
 	}
-	//console.log("Bone: "+this.name);
+	// console.log("Bone: "+this.name);
 	var sv = startD;
 	var phi = -(this.rot + this.rrot);
 	phi = Math.round(phi);
@@ -118,7 +162,7 @@ Bone.prototype.getData = function(d, startD, xn, yn, zn, a11, a21, a12, a22) {
 		phi += 360;
 	phi %= 360;
 
-	//console.log("phi: "+phi);
+	// console.log("phi: "+phi);
 	var cphi = mycos[phi];
 	var sphi = mysin[phi];
 
@@ -130,7 +174,7 @@ Bone.prototype.getData = function(d, startD, xn, yn, zn, a11, a21, a12, a22) {
 	xn = xn + a11 * (this.rx + this.x) + a12 * (this.ry + this.y);
 	yn = yn + a21 * (this.rx + this.x) + a22 * (this.ry + this.y);
 
-	if(this.coordtap!= null) 
+	if (this.coordtap != null)
 		this.coordtap.save(xn, yn, phi, a11, a21, a12, a22);
 	var na11 = (ta11 * a11 + ta12 * a21) * this.sx * this.rsx;
 	var na12 = (ta11 * a12 + ta12 * a22) * this.sy * this.rsy;

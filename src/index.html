@@ -25,7 +25,7 @@ canvas {
 }
 </style>
 </head>
-<body id="body" bgcolor="#cc9c5a" onkeydown="keyDown(event)"
+<body id="body" bgcolor="#cc9c5a" onkeydown="keyDown(event)" 
 	onload="init()">
 	<script type="text/javascript" src="phonegap.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/timer.js"></script>
@@ -42,6 +42,7 @@ canvas {
 	<script type="text/javascript" src="js/partanimation.js"></script>
 	<script type="text/javascript" src="js/compositeanimation.js"></script>
 	<script type="text/javascript" src="js/tatankaanimation.js"></script>
+	<script type="text/javascript" src="js/lakotaanimation.js"></script>
 	<script type="text/javascript" src="js/view.js"></script>
 	<script type="text/javascript" src="js/tatankaobjects.js"></script>
 	<script type="text/javascript" src="js/tatanka.js"></script>
@@ -49,15 +50,17 @@ canvas {
 	<div id="all">
 		<canvas id="canvas" onMouseDown="tatankaclick(event)"
 			onMouseUp="mousedown=false"></canvas>
-	</div>
+	</div> 
 	<div id="ribbons">
 		<img id="ribbon1" src="media/ribbonleft.png" width="0" height="0"
 			ondblclick="document.getElementById('img0').setAttribute('src', 'res/tatankas/willi.jpg')" />
 		<img id="ribbon2" src="media/ribbonright.png" width="0" height="0" />
 	</div>
-	<audio controls="controls" loop="loop" hidden="true" autoplay="autoplay" >
+	
+	<!--   <audio controls="controls" loop="loop" hidden="true" autoplay="autoplay" >
 	 <source src="crickets3.wav" type="audio/wav" />
 	</audio>
+	-->
 	<script type="text/javascript">
 		/* var imgs = [ "tatanka.jpg", "tipi.jpg", "sioux.jpg", "warparty.jpg",
 		     "warriors.jpg" ];*/
@@ -181,10 +184,15 @@ canvas {
 					+ "px; height:" + (128 * scale) + "px;");
 
 			var img = new Image();
+			
+			/*
 			if (cancontinue)
 				img.src = "res/continue.png";
 			else
 				img.src = "res/null.png";
+*/
+			img.src="res/seelogs.png";
+			img.setAttribute("onClick", 'window.open("logs.html")');
 
 			img.id = "continue";
 			all.appendChild(img);

@@ -20,6 +20,10 @@ Quad.prototype.getTex = function() {
 	return this.parts[0].tex;
 };
 
+Quad.prototype.getTexID = function() {
+	return this.texID;
+};
+
 Quad.prototype.setTexID = function(i) {
 	this.texidset = true;
 	this.texID = i;
@@ -29,6 +33,10 @@ Quad.prototype.setTexID = function(i) {
 Quad.prototype.setTexName = function(n) {
 	this.texchanged = true;
 	this.texName = n;
+};
+
+Quad.prototype.getTexName = function() {
+	return this.texName;
 };
 
 Quad.prototype.getTexSize = function() {

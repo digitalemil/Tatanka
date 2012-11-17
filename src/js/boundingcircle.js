@@ -53,9 +53,14 @@ BoundingCircle.prototype.__getData = function(d, startD, xn, yn, zn, a11, a21, a
 	d[n] = Math.round(dummy * a11 + dummy2 * a12 + xn);
 	d[n+ 1] = Math.round(dummy * a21 + dummy2 * a22 + yn);
 	d[n+ 2]= this.r1;
+	if(this.coordtap!= null) {
+		//	console.log(this.name+" "+d[n]+" "+ d[n+1]+"  "+d[n+2]+" "+dummy+" "+dummy2);
+		//	if(d[n]== undefined)
+			//	alert(this.name+" "+d[n]+" "+phi+" "+a11+" "+a12+" "+xn+" "+dummy+" "+dummy2);
+			this.coordtap.save(d[n], d[n+1], d[n+2], a11, a21, a12, a22);
+		}
+		
 	n+= 3;
-	if(this.coordtap!= null) 
-		this.coordtap.save(d[n], d[n+1], d[n+2], a11, a21, a12, a22);
 	if(!visibleboundingcircle) {
 		return this.getNumberOfData();
 	}

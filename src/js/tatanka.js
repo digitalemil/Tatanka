@@ -7,11 +7,11 @@ var fpstimer;
 var fps;
 var fpstext = "";
 var deg = -10;
-var shooting = true, shootAtX, shootAtY, checkHit = false;
-var hit = false;
+var shooting = true;
+var checkHit = false;
 var SPEED = [ 0, 1.5, 3, 4 ];
 var TATANKASPEED = 3;
-var sioux, horse, arrow, tatanka, bg1, bg2, bgd, speed = 2, tatankaani, horseani, tatankaspeed = TATANKASPEED, tseff;
+var sioux, horse, arrow, tatanka, bg1, bg2, bgd, speed = 2, tatankaspeed = TATANKASPEED, tseff;
 var startY = 320;
 var na = 0;
 var tx, ty, tr;
@@ -21,133 +21,54 @@ var hr;
 var arrowsleft = 30;
 var siouxs = 3;
 var tatankahealth = 100, tatankas = 0;
-var myobjects = new Array(24);
+var allthings = new Array(256);
 var frames = 0;
 var aggressive = false;
 var goodie;
 var sprint = 0;
 var rope = null;
 var minx, maxx;
+var lakotas;
+var nlakotas= 1;
+var herds;
+var prairie;
+var activelakota= 0;
 
-function Goodie() {
-}
 
-function getRandom(min, max) {
-	if (min > max) {
-		return -1;
+function initTatanka(c) {
+	//scale*= 2;
+	prairie= new Prairie(canvaswidth, canvasheight, "valleygras512.jpg");
+	
+	herds = new Array(1);
+	herds[0]= new TatankaHerd(3);
+	
+	lakotas= new Array(nlakotas);
+	for( var i= 0; i< nlakotas; i++) {
+		lakotas[i]= new MountedLakota(scale, 80*i, startY);
+		lakotas[i].translateRoot(-240*scale*nlakotas/2+i*100*scale, -100*scale+-50*scale+getRandom(0, 100), 0);
 	}
-
-	if (min == max) {
-		return min;
-	}
-
-	var r;
-
-	do {
-		r = Math.random();
-	} while (r == 1.0);
-
-	return min + parseInt(r * (max - min + 1));
-}
-
-Goodie.prototype = new Quad();
-
-Goodie.prototype.create = function(type) {
-	this.quadinit(128 * scale, 128 * scale, 0);
-	this.rotate(90);
-	this.setTexName((type == 0) ? "arrows.png" : "eaglefeather.png");
-	this.bc = new Thing(1);
-	var obj = new BoundingCircle();
-	obj.initBoundingCircle(10, 0, -2, 0);
-	this.bc.add(obj);
-	var obj = new BoundingCircle();
-	obj.initBoundingCircle(10, -10, 30, 0);
-	this.bc.add(obj);
-
-	var obj = new BoundingCircle();
-	obj.initBoundingCircle(10, 10, -30, 0);
-	this.bc.add(obj);
-
-	this.bc.setupDone();
-	this.move(-this.x)
-};
-
-Goodie.prototype.move = function(x, y) {
-	this.translate(x, y);
-	this.bc.translate(x, y);
-}
-
-function checkForAndHandleHit() {
-	var td;
-	if (checkHit) {
-		// Check for hit
-		ax= sioux.arrowCoords.x;
-		ay= sioux.arrowCoords.y;
-		var ar = sioux.arrowCoords.r * sioux.sx * sioux.rsx; // radius
-		td = tatanka.getThingData();
-		for ( var i = 0; i < 5; i++) {
-			tx = td[4 + i * nbc]; // tatanka bc x
-			ty = td[5 + i * nbc]; // tatanka bc y
-			tr = td[6 + i * nbc] * tatanka.sx * tatanka.rsx; // radius
-			// console.log(scale+" "+sioux.sx+" "+tatanka.sx+" "+sioux.rsx+"
-			// "+tatanka.rsx);
-			var r2=  (tr + ar)
-					* (tr + ar);
-			if ((tx - ax) * (tx - ax) + (ty - ay) * (ty - ay) <= r2) {
-				if (services.getView().pa != undefined) { // arrow is flying
-					hit = true;
-					tatankaIsHit(i);
-					var narr = tatanka.getByName("arrow" + tatanka.hits);
-					narr.setVisibility(true);
-					tatanka.hits++;
-					dx= (ax - tatanka.rx - tatanka.x);
-					dy= ( ay - tatanka.ry
-							- tatanka.y);
-					narr.getByName("stone").translateRoot(20000, 20000, 0);	
-					narr.translate(dx, dy, 0);
-				//	alert(arrowx+" "+arrowy);
-					narr.rrot = -tatanka.rot
-							- tatanka.rrot
-							+ (sioux.rot + sioux.getByName("Bow").rot
-									+ sioux.getByName("Arrow").rot
-									+ sioux.getByName("rest").rot + sioux
-									.getByName("ArmLeft").rot);
-					console.log("rot: "
-							+ (-tatanka.rot - tatanka.rrot + (sioux.rot
-									+ sioux.getByName("Bow").rot
-									+ sioux.getByName("Arrow").rot
-									+ sioux.getByName("rest").rot + sioux
-									.getByName("ArmLeft").rot)));
-					// Stop any sioux animation, hide sioux's arrow
-					services.getView().pa.stop();
-					var arr = sioux.getByName("Arrow");
-					arr.setVisibility(false);
-					checkHit = false;
-					hit = false;
-					return;
-				}
-			}
+	
+	var pos= 0;
+	for(var layer= 0; layer< 1000; layer++) {
+		pos+= prairie.addThings(allthings, pos, layer);
+		pos+= herds[0].addThings(allthings, pos, layer);
+		for(var j= 0; j< nlakotas; j++) {
+			pos+= lakotas[j].addThings(allthings, pos, layer);
 		}
 	}
+
+	for(var j= 0; j< nlakotas; j++) {
+		lakotas[j].arrow.setCollisionHandler(new ArrowCollisionHandler(allthings, 4, 4+6));
+	}
+	
+	minx = -292 * scale;
+	maxx = 292 * scale;
+
+	new View(c, allthings, updateAll);
+	shooting = false;
 }
 
-function tatankaIsHit(part) {
-	if (part < 2) {
-		tatankahealth -= 80 + getRandom(0, 40);
-	} else {
-		tatankahealth -= 30 + getRandom(0, 10);
-	}
-	if (tatankahealth <= 0) {
-		console.log("rsx: " + tatanka.rsx + " " + tatanka.sx);
-		tatankaani.kill();
-		tatankaani.stopWalk();
-		tatankaspeed = 0;
-		tatankahealth = 100;
-		tatankas++;
-		services.getView().tatankas = tatankas;
-	}
-	services.getView().tatankahealth = tatankahealth;
-}
+
 
 function tatankaUpdateDirection() {
 	var deg = ((tatanka.x + tatanka.rx - sioux.x - sioux.rx) > 0) ? 1 : -1;
@@ -232,8 +153,8 @@ function updateTatanka(tat, seff, speedy) {
 
 		tatankaspeed = TATANKASPEED;
 
-		tatankaani.unkill();
-		tatankaani.startRun();
+		//tatankaani.unkill();
+		//tatankaani.startRun();
 
 		// Calculate new Tatanka position and rotation
 		tat.x = -200 * scale + 400 * Math.random(0, 1);
@@ -265,6 +186,7 @@ function updateTatanka(tat, seff, speedy) {
 }
 
 function updateHorseAndSioux(seff, speedx, speedy, x, y, tat) {
+	lakotas[0].update();
 
 	// decrease horse's air if sprinting. Stop sprinting if no more reserves
 	if (sprint != 0) {
@@ -312,24 +234,20 @@ function updateHorseAndSioux(seff, speedx, speedy, x, y, tat) {
 
 }
 
-function updateBackground(seff, speedy) {
-	bg1.translate(0, -speedy + seff, 0);
-	bg2.translate(0, -speedy + seff, 0);
-	if (bg1.y > bgd - 1)
-		bg1.y -= 2 * (bgd - 1);
-	if (bg2.y > bgd)
-		bg2.y -= 2 * (bgd - 1);
-}
 
 function updateAll() {
-
+	prairie.update(0, 1);
+	herds[0].update();
+	for(var j= 0; j< nlakotas; j++)
+		lakotas[j].update();
+	return;
+	
 	if (!services.getView().enabled)
 		return;
-	frames;
 
-	var x = horse.rx + horse.x;
-	var y = horse.ry + horse.y;
-	var phi = horse.rot * Math.PI * 2.0 / 360;
+	var x = lakotas[activelakota].mustang.rx + lakotas[activelakota].mustang.x;
+	var y = lakotas[activelakota].mustang.ry + lakotas[activelakota].mustang.y;
+	var phi = lakotas[activelakota].mustang.rot * Math.PI * 2.0 / 360;
 	var seff = calculateHorsesEffectiveSpeed(x, y);
 	var speedy = -Math.cos(phi) * SPEED[speed];
 	var speedx = -Math.sin(phi) * SPEED[speed];
@@ -344,6 +262,7 @@ function updateAll() {
 }
 
 function resetTatanka() {
+	return;
 	shooting = true;
 	hit = false;
 	arrowsleft = 30;
@@ -351,8 +270,8 @@ function resetTatanka() {
 	siouxs = 3;
 	services.getView().siouxs = siouxs;
 	services.getView().pa = undefined;
-	tatankaani.stop();
-	horseani.stop();
+	//tatankaani.stop();
+	//horseani.stop();
 	tatanka.reset();
 	horse.setAlpha(255);
 	horse.reset();
@@ -367,7 +286,7 @@ function resetTatanka() {
 	sioux.rot = 0; // startY* scale;
 
 	// tatankaani.startRun();
-	horseani.startRun();
+	//horseani.startRun();
 	shooting = false;
 
 	/*
@@ -377,175 +296,7 @@ function resetTatanka() {
 	 */
 }
 
-function initTatanka(c) {
-	tatanka = new Tatanka();
-	horse = new Horse();
-	horse.name = "Horse";
-	sioux = new Sioux();
-	tatanka.name = "tatanka1";
-	//tatanka.rotate(90);
-	// rope= sioux.getByName("Rope");
-	bgd = Math.max(canvaswidth, canvasheight) + 1;
-	bg1 = new Quad();
-	bg1.quadinit(bgd, bgd, 0);
-	bg1.rotate(90);
-	bg1.setTexName("valleygras512.jpg");
-	myobjects[0] = bg1;
-	bg2 = new Quad();
-	bg2.quadinit(bgd, bgd, 0);
-	bg2.rotate(90);
-	bg2.setTexName("valleygras512.jpg");
-	myobjects[1] = bg2;
-	bg2.translate(0, -bgd + 1, 0);
 
-	myobjects[2] = tatanka;
-	tatanka.translateRoot(-80 * scale, -64 * scale, 0);
-	tatanka.scaleRoot(scale, scale);
-	myobjects[3] = horse;
-	horse.translateRoot(0, startY * scale, 0);
-	horse.scaleRoot(2 * scale, 2 * scale);
-
-	myobjects[4] = sioux;
-	sioux.translateRoot(0, startY * scale, 0);
-	sioux.scaleRoot(scale, scale);
-
-	tatankaani = new TatankaAnimation(tatanka, 16, 1000);
-	tatankaani.startRun();
-
-	horseani = new TatankaAnimation(horse, 16, 1200);
-	horseani.startRun();
-
-	minx = -292 * scale;
-	maxx = 292 * scale;
-
-	goodie = new Goodie();
-	goodie.create(1);
-	myobjects[6] = goodie;
-	myobjects[5] = goodie.bc;
-	
-	// myobjects[7] = rope;
-
-	new View(c, myobjects, updateAll);
-	shooting = false;
-}
-
-function shootStep1() { // get fibre
-	if (arrowsleft < 0)
-		return;
-	services.getView().arrows = arrowsleft;
-	shooting = true;
-	var bow = sioux.getByName("Bow");
-	var ra = sioux.getByName("ArmRight");
-	var arr = sioux.getByName("Arrow");
-	arr.beginTX();
-	var x = shootAtX - w / 2 - sioux.x - sioux.rx;
-	var y = h / 2 - shootAtY + sioux.y + sioux.ry;
-	var newdir = Math.atan2(y, x);
-	var sr = sioux.rot;
-	if (sr > 180)
-		sr = -360 + sr;
-	if (newdir < 0) {
-		newdir += 2 * Math.PI;
-	}
-	newdir = newdir * 360 / (2 * Math.PI);
-	deg = -135 + newdir - sr;
-	// console.log("deg: "+deg+" sr: "+sr);
-	if (deg > 90) {
-		shooting = false;
-		return;
-	}
-	arrowsleft--;
-
-	arr.setVisibility(true);
-	bow.rotate(35);
-	ra.rotate(40);
-	ra.scale(1.0, 1.4);
-	setTimeout(shootStep2, 500);
-}
-
-function shootStep2() { //
-	var rest = sioux.getByName("rest");
-	services.getView().pa = new PartAnimation();
-	// console.log(sioux.rot + " " + deg);
-	services.getView().pa.init(rest, 0, 0, deg, 1.0, 1.0, Math.abs(deg * 3),
-			false);
-	services.getView().pa.start();
-	setTimeout(shootStep3, Math.abs(deg * 3) + 100);
-}
-
-function shootStep3() { // span bow
-	var la = sioux.getByName("ArmLeft");
-	var ra = sioux.getByName("ArmRight");
-	var fibre = sioux.getByName("Fibre");
-	var arr = sioux.getByName("Arrow");
-
-	la.scale(1.0, 1.5);
-	ra.scale(1.0, 1 / 1.4);
-	arr.scale(1.0, 1 / 1.5);
-	arr.translate(0, 15, 0);
-	fibre.scale(1.0, 15.0);
-	setTimeout(shootStep4, 500);
-}
-
-function shootStep4() {
-	var bow = sioux.getByName("Bow");
-	var fibre = sioux.getByName("Fibre");
-	var arr = sioux.getByName("Arrow");
-
-	fibre.scale(1.0, 1.0 / 15.0);
-	bow.scale(1.0, 1.0 / 1.5);
-	arr.scale(1.0, 1.5);
-
-	var l = Math.sqrt(canvaswidth * canvaswidth + canvasheight * canvasheight)
-			/ scale;
-
-	services.getView().pa = new PartAnimation();
-	services.getView().pa.init(arr, 0, -l, 0, 1.0, 1.0, 1500, false);
-	services.getView().pa.start();
-	checkHit = true;
-
-	setTimeout(shootStep5, 1500);
-}
-
-function shootStep5() {
-	var la = sioux.getByName("ArmLeft");
-	var bow = sioux.getByName("Bow");
-	var ra = sioux.getByName("ArmRight");
-	checkHit = false;
-	bow.scale(1.0, 1.5);
-	ra.scale(1.0, 1.0 / 1.2);
-	la.scale(1.0, 1.0 / 1.5);
-	setTimeout(shootStep6, 500);
-}
-
-function shootStep6() {
-	if (!shooting)
-		return;
-
-	var la = sioux.getByName("ArmLeft");
-	var bow = sioux.getByName("Bow");
-	var ra = sioux.getByName("ArmRight");
-	var rest = sioux.getByName("rest");
-
-	la.rotate(-30);
-	ra.rotate(-40);
-	bow.rotate(-25);
-	services.getView().pa = new PartAnimation();
-	services.getView().pa.init(rest, 0, 0, -deg, 1.0, 1.0, Math.abs(deg * 3),
-			false);
-	services.getView().pa.start();
-	setTimeout(shootStep7, Math.abs(deg * 3) + 100);
-}
-
-function shootStep7() {
-	if (!shooting)
-		return;
-	var arr = sioux.getByName("Arrow");
-	arr.rollbackTX();
-	arr.setVisibility(false);
-	sioux.reset();
-	shooting = false;
-}
 
 function tatankaclick(e) {
 	e.preventDefault();
@@ -556,53 +307,19 @@ function tatankaclick(e) {
 		event = e;
 	}
 
-	if (!phonegap) {
-		var x = event.clientX;
-		var y = event.clientY;
-		// console.log(x+" "+y+" "+(w- 219*scale)/2+" "+(h-144*scale));
-		if (x > (w - 219 * scale) / 2
-				&& x < (w - 219 * scale) / 2 + (219 * scale)
-				&& y > h - 144 * scale) {
-			if (x > (w - 219 * scale) / 2 + 1.0 / 3.0 * scale * 219
-					&& x < (w - 219 * scale) / 2 + (219 * scale) * 2 / 3
-					&& y > h - 144 * scale && y < h - 144 * scale * 2 / 3.0) {
-				handleKey(38);
-			}
-			if (x > (w - 219 * scale) / 2 + 1.0 / 3.0 * scale * 219
-					&& x < (w - 219 * scale) / 2 + (219 * scale) * 2 / 3
-					&& y > h - 144 * scale * 1 / 3.0) {
-				handleKey(40);
-			}
-
-			if (x > (w - 219 * scale) / 2
-					&& x < (w - 219 * scale) / 2 + (219 * scale) / 3
-					&& y < h - 144 * scale / 3 && y > h - 144 * scale * 2 / 3.0)
-				handleKey(72);
-			if (x > (w - 219 * scale) / 2 + 2.0 / 3.0 * scale * 219
-					&& x < (w - 219 * scale) / 2 + (219 * scale)
-					&& y < h - 144 * scale / 3 && y > h - 144 * scale * 2 / 3) {
-				handleKey(76);
-			}
-			return;
-		}
-	}
-
-	if (shooting == true)
-		return;
-	shooting = true;
-
 	shootAtX = event.clientX - document.getElementById("canvas").offsetLeft;
 	shootAtY = event.clientY - document.getElementById("canvas").offsetTop;
-	setTimeout(shootStep1, 0);
+	lakotas[activelakota].shoot(shootAtX, shootAtY);
 	return;
 }
 
 function checkCollision(d) {
-	if (tatankaani.killed)
-		return false;
+//	if (tatankaani.killed)
+//		return false;
 	var hd = horse.getThingData();
 	var td = tatanka.getThingData();
 
+	/*
 	var gd = goodie.bc.getThingData();
 	for ( var hb = 0; hb < 5; hb++) {
 		var ax = hd[hb * 7 + 4];
@@ -621,6 +338,7 @@ function checkCollision(d) {
 			}
 		}
 	}
+	*/
 	var collision = false;
 	for ( var hb = 0; hb < 5; hb++) {
 		var ax = hd[hb * 7 + 4];
@@ -632,9 +350,9 @@ function checkCollision(d) {
 			var tr = td[6 + i * 7] * scale;
 			if ((tx - ax) * (tx - ax) + (ty - ay) * (ty - ay) <= (tr + ar)
 					* (tr + ar)) {
-				collision = true;
-				if (!tatankaani.killed)
-					horse.setAlpha(100);
+			//	collision = true;
+		//		if (!tatankaani.killed)
+			//		horse.setAlpha(100);
 			}
 		}
 	}
@@ -686,38 +404,45 @@ function handleKey(keyCode) {
 			if (speed == 2) {
 				horseani.duration = 800;
 				horseani.sl = 20;
-				horseani.startRun();
+				//horseani.startRun();
 				sprint = 1;
 			}
 			speed++;
 		}
+		/*
 		if (speed == 1)
-			horseani.startWalk();
+			//horseani.startWalk();
 		if (speed > 1)
-			horseani.startRun();
+			//horseani.startRun();
+		*/
+		activelakota++;
 		break;
 
 	case 40:
 		if (speed == 3) {
 			horseani.duration = 1200;
 			horseani.sl = 16;
-			horseani.startRun();
+			//horseani.startRun();
 			sprint = -60;
 		}
 		if (speed > 0)
 			speed--;
+/*
 		if (speed == 0)
-			horseani.stopWalk();
+			//horseani.stopWalk();
 		if (speed == 1)
-			horseani.startWalk();
-		break;
+			//horseani.startWalk();
+	*/
+			activelakota++;
+console.log("ac: "+activelakota);
+			break;
 	case 88:
-		tatankaani.kill();
-		tatankaani.stopWalk();
+	//	tatankaani.kill();
+	//	tatankaani.stopWalk();
 		tatankaspeed = 0;
 		break;
 	case 67:
-		tatankaani.startRun();
+	//	tatankaani.startRun();
 		break;
 
 	}
@@ -725,31 +450,52 @@ function handleKey(keyCode) {
 
 function keyDown(e) {
 	handleKey(e.keyCode);
-	sioux.beginTX();
-	horse.beginTX();
-	sioux.rotate(30);
-	horse.rotate(30);
-	sioux.scale(1.1, 1.1);
-	horse.scale(2, 2);
-	sioux.translate(20, 20, 0);
-	horse.translate(-200, 50, 0);
-	sioux.rollbackTX();
-	horse.rollbackTX();
 }
 
-function translateHorseAndSioux(x, y) {
-	horse.translate(x, y);
-	sioux.translate(x, y);
-	// rope.translate(x, y);
+function Goodie() {
 }
 
-function rotateHorseAndSioux(d) {
-	horse.rotate(d);
-	sioux.rotate(d);
-	// rope.rotate(d);
+function getRandom(min, max) {
+	if (min > max) {
+		return -1;
+	}
+
+	if (min == max) {
+		return min;
+	}
+
+	var r;
+
+	do {
+		r = Math.random();
+	} while (r == 1.0);
+
+	return min + parseInt(r * (max - min + 1));
 }
-function rotateHorseAndSiouxAbs(d) {
-	horse.rotate(d - horse.rot);
-	sioux.rotate(d - sioux.rot);
-	// rope.rotate(d);
+
+Goodie.prototype = new Quad();
+
+Goodie.prototype.create = function(type) {
+	this.quadinit(128 * scale, 128 * scale, 0);
+	this.rotate(90);
+	this.setTexName((type == 0) ? "arrows.png" : "eaglefeather.png");
+	this.bc = new Thing(1);
+	var obj = new BoundingCircle();
+	obj.initBoundingCircle(10, 0, -2, 0);
+	this.bc.add(obj);
+	var obj = new BoundingCircle();
+	obj.initBoundingCircle(10, -10, 30, 0);
+	this.bc.add(obj);
+
+	var obj = new BoundingCircle();
+	obj.initBoundingCircle(10, 10, -30, 0);
+	this.bc.add(obj);
+
+	this.bc.setupDone();
+	this.move(-this.x)
+};
+
+Goodie.prototype.move = function(x, y) {
+	this.translate(x, y);
+	this.bc.translate(x, y);
 }

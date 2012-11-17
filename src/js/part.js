@@ -20,7 +20,38 @@ var TATANKA= 82;
 var LOOP= 83;
 var SIOUXWITHROPE= 84;
 var ROPE= 85;
+var THINGCONTAINER= 86;
+var LAKOTAANIMATION= 87;
 
+
+function LOG(text) {
+	
+	var LOGENTRIES=  localStorage.LOGENTRIES;
+	if(LOGENTRIES== undefined) 
+		LOGENTRIES= 0;
+	if(LOGENTRIES>= 2048) {
+		LOGENTRIES= 0;
+	}
+	eval("localStorage.LOG"+LOGENTRIES+"='"+text+" @" + new Date()+"'");
+	LOGENTRIES++;
+	localStorage.LOGENTRIES= LOGENTRIES;
+}
+
+function FlushLog() {
+	var LOGENTRIES=  localStorage.LOGENTRIES;
+	for(var i= 0; i< LOGENTRIES; i++) {
+		console.log("Log"+i+": "+eval("localStorage.LOG"+i));
+	}
+}
+
+function Console() {
+}
+
+Console.prototype.log = function(text) {
+	LOG(text);
+};
+
+var console= new Console();
 var mycos = new Array(1.0, 0.9998477, 0.99939084, 0.9986295, 0.9975641,
 		0.9961947, 0.9945219, 0.99254614, 0.99026805, 0.98768836, 0.9848077,
 		0.98162717, 0.9781476, 0.97437006, 0.9702957, 0.9659258, 0.9612617,
@@ -154,6 +185,13 @@ var mysin = new Array(0.0, 0.017452406, 0.034899496, 0.052335955, 0.06975647,
 		-0.104528464, -0.087155744, -0.06975647, -0.052335955, -0.034899496,
 		-0.017452406);
 
+function calcMyPhi(phi) {
+	phi = Math.round(phi);
+	while (phi < 0)
+		phi += 360;
+	return phi %= 360;
+}
+
 function Part() {
 	this.partinit();
 }
@@ -196,8 +234,24 @@ Part.prototype.partinit = function() {
 	this.coordtap= null;
 };
 
+Part.prototype.canHaveChilds = function() {
+	return false;
+};
+
+Part.prototype.setName= function(n) {
+	this.name= n;
+};
+
+Part.prototype.getName= function() {
+	return this.name;
+};
+
 Part.prototype.setCoordinateTap= function(callback) {
 	this.coordtap= callback;
+};
+
+Part.prototype.getCoordinateTap= function(callback) {
+	return this.coordtap;
 };
 
 Part.prototype.saveState = function() {
@@ -331,10 +385,15 @@ Part.prototype.scale = function(x, y) {
 };
 
 Part.prototype.scaleRoot = function(x, y) {
-
 	this.invalidateData();
 	this.rsx *= x;
 	this.rsy *= y;
+};
+
+
+Part.prototype.rotateRoot = function(r) {
+	this.invalidateData();
+	this.rrot+= r;
 };
 
 Part.prototype.clearScale = function() {
@@ -426,3 +485,50 @@ Part.prototype.partreset = function() {
 	this.sy = 1.0;
 	this.invalidateData();
 };
+
+CoordCopy= function(n) {
+	this.name= n;
+	this.x= -100000;
+	this.y= -100000;
+	this.r= 0;
+	this.a11= 0;
+	this.a21= 0;
+	this.a12= 0;
+	this.a22= 0;
+};
+
+CoordCopy.prototype.save= function(ix, iy, ir, ia11, ia21, ia12, ia22) {
+	this.x= ix;
+	this.y= iy;
+	this.r= ir;
+	this.a11= ia11;
+	this.a21= ia21;
+	this.a12= ia12;
+	this.a22= ia22;
+	//if(this.name== "BCArrow")
+	//	console.log("save: "+this.name+" "+this.x);
+};
+
+CoordCopy.prototype.reset= function(n) {
+	this.y= -100000;
+	this.y= -100000;
+};
+
+CoordCopy.prototype.setName= function(n) {
+	this.name= n;
+};
+
+CoordCopy.prototype.getX= function(n) {
+	return this.x;
+};
+
+CoordCopy.prototype.getY= function(n) {
+	return this.y;
+};
+CoordCopy.prototype.getR= function(n) {
+	return this.r;
+};
+CoordCopy.prototype.getName= function(n) {
+	return this.name;
+};
+

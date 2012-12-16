@@ -14,7 +14,7 @@ public class Prairie extends ThingContainer {
 		for (int x = -nt/2; x <= nt/2; x++) {
 			for (int y = -nt/2; y <= nt/2; y++) {
 				int p= (y+nt/2)*nt+x+nt/2;
-				things[p] = new Quad(512, 512, 0);
+				things[p] = new Quad(dim, dim, 0);
 				things[p].setName("Prairie:" + p);
 				things[p].translateRoot(dim * x, dim * y, 0);
 				// things[i].setVisibility(false);

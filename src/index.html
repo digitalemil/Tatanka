@@ -2,7 +2,7 @@
 <head>
 <title>Tatanka</title>
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<style>
+<!-- <style>
 * {
 	user-select: none;
 	-webkit-user-select: none;
@@ -18,7 +18,7 @@
 	/* prevent copy paste, to allow, change 'none' to 'text' */
 }
 </style>
-
+ -->
 <style>
 canvas {
 	border: 0px solid black;
@@ -48,13 +48,13 @@ canvas {
 	<script type="text/javascript" src="js/tatanka.js"></script>
 	<script type="text/javascript" src="jquery/jquery.js"></script>
 	<div id="all">
-		<canvas id="canvas" onMouseDown="tatankaclick(event)"
-			onMouseUp="mousedown=false"></canvas>
+		<canvas id="canvas" onMouseDown="tatankaclick(event)" onMouseUp= "joystick.up(event)" onMouseMove="joystick.onmove(event)"  ontouchstart="tatankaclick(event)" ontouchend= "joystick.up(event)" ontouchmove="joystick.onmove(event)"
+			></canvas>
 	</div> 
 	<div id="ribbons">
-		<img id="ribbon1" src="media/ribbonleft.png" width="0" height="0"
+		<img id="ribbon1" src="media/ribbonleft.png" width="0" height="0" onMouseUp= "joystick.up(event)"
 			ondblclick="document.getElementById('img0').setAttribute('src', 'res/tatankas/willi.jpg')" />
-		<img id="ribbon2" src="media/ribbonright.png" width="0" height="0" />
+		<img id="ribbon2" src="media/ribbonright.png" width="0" height="0" onMouseUp= "joystick.up(event)"/>
 	</div>
 	
 	<!--   <audio controls="controls" loop="loop" hidden="true" autoplay="autoplay" >
@@ -303,8 +303,8 @@ canvas {
 		function deleteMenu() {
 			if (document.getElementById("arrowsetal") != null)
 				ribbons.removeChild(document.getElementById("arrowsetal"));
-			if (document.getElementById("keypad") != null)
-				ribbons.removeChild(document.getElementById("keypad"));
+		//	if (document.getElementById("keypad") != null)
+			//	ribbons.removeChild(document.getElementById("keypad"));
 			if (document.getElementById("hunt") != null)
 				all.removeChild(document.getElementById("hunt"));
 			if (document.getElementById("name") != null)
@@ -385,6 +385,8 @@ canvas {
 						var img = new Image();
 						img.src = "res/menu.png";
 						img.id = "more";
+						img.setAttribute("onMouseUp", "joystick.up(event)");
+						
 						all.appendChild(img);
 						document.getElementById("more").setAttribute("onClick",
 								"deleteMenu(); createMainMenu();");
@@ -410,18 +412,19 @@ canvas {
 						img = new Image();
 						img.src = "res/arrowsetal-min.png";
 						img.id = "arrowsetal";
+						img.setAttribute("onMouseUp", "joystick.up(event)");
 						ribbons.appendChild(img);
 						document.getElementById("arrowsetal").setAttribute(
 								"style",
-								"position:absolute; top:" + (h - 192 * scale)
-										+ "px; left: " + (64 * scale)
+								"position:absolute; top:" + (h - 320 * scale)
+										+ "px; left: " + (w- 212 * scale)
 										+ "px; width:" + (128 / 2 * scale)
 										+ "px; height:" + (350 / 2 * scale)
 										+ "px;");
 						try {
 							device == undefined;
 						} catch (e) {
-							img = new Image();
+							/*img = new Image();
 							img.src = "res/keypad.png";
 							img.id = "keypad";
 							ribbons.appendChild(img);
@@ -436,6 +439,7 @@ canvas {
 											+ "px; width:" + (219 * scale)
 											+ "px; height:" + (144 * scale)
 											+ "px;");
+							*/
 						}
 
 						var options = {

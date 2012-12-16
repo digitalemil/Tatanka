@@ -4,12 +4,12 @@ var objects;
 var retina = 1;
 var timer;
 var fpstimer;
-var fps;
+var fps= 0;
 var fpstext = "";
 var deg = -10;
 var shooting = true;
 var checkHit = false;
-var SPEED = [ 0, 1.5, 3, 4 ];
+var speed= 1;
 var TATANKASPEED = 3;
 var sioux, horse, arrow, tatanka, bg1, bg2, bgd, speed = 2, tatankaspeed = TATANKASPEED, tseff;
 var startY = 320;
@@ -36,6 +36,8 @@ var activelakota= 0;
 
 
 function initTatanka(c) {
+	joystick.setup();
+	console.log("Scale: "+scale);
 	//scale*= 2;
 	prairie= new Prairie(canvaswidth, canvasheight, "valleygras512.jpg");
 	
@@ -45,7 +47,7 @@ function initTatanka(c) {
 	lakotas= new Array(nlakotas);
 	for( var i= 0; i< nlakotas; i++) {
 		lakotas[i]= new MountedLakota(scale, 80*i, startY);
-		lakotas[i].translateRoot(-240*scale*nlakotas/2+i*100*scale, -100*scale+-50*scale+getRandom(0, 100), 0);
+	//	lakotas[i].translateRoot(-240*scale*nlakotas/2+i*100*scale, -100*scale+-50*scale+getRandom(0, 100), 0);
 	}
 	
 	var pos= 0;
@@ -60,6 +62,10 @@ function initTatanka(c) {
 	for(var j= 0; j< nlakotas; j++) {
 		lakotas[j].arrow.setCollisionHandler(new ArrowCollisionHandler(allthings, 4, 4+6));
 	}
+	
+	//joystick= new Joystick();
+	allthings[pos++]= joystick;
+	joystick.translate(128*scale-canvaswidth/2, canvasheight/2- 108*scale, 0);
 	
 	minx = -292 * scale;
 	maxx = 292 * scale;
@@ -236,10 +242,38 @@ function updateHorseAndSioux(seff, speedx, speedy, x, y, tat) {
 
 
 function updateAll() {
-	prairie.update(0, 1);
+	joystick.ani.animateNow();
+	var phi = calcMyPhi(lakotas[activelakota].lakota.rot+ 90);
+	var sin = mysin[phi];
+	var cos = -mycos[phi];
+
+	speed+= joystick.r/(31*scale)/fps;
+	if(speed> 4)
+		speed= 4;
+	if(speed< 0)
+		speed= 0;
+
+	var speedx= cos * speed;
+	var speedxeff= 0;
+	var speedy= sin * speed;
+	var dx= lakotas[activelakota].lakota.x; 
+	//console.log(dx+" "+(160*scale));
+	if(dx< 160*scale && dx> -160*scale) {
+		var w= 1- Math.abs(dx/(200*scale));
+		speedxeff= w* speedx;
+	}
+	prairie.update(speedx- speedxeff, speedy);
+	
+	herds[0].translate(0, -3+ speedy, 0);
 	herds[0].update();
-	for(var j= 0; j< nlakotas; j++)
+
+	if(lakotas[activelakota].lakota.x-speedxeff< 160*scale && lakotas[activelakota].lakota.x-speedxeff> -160*scale)
+		lakotas[activelakota].translate(-speedxeff, 0, 0);
+
+	for(var j= 0; j< nlakotas; j++) {
 		lakotas[j].update();
+	}
+	
 	return;
 	
 	if (!services.getView().enabled)
@@ -299,6 +333,8 @@ function resetTatanka() {
 
 
 function tatankaclick(e) {
+	if(joystick.down(e))
+		return;
 	e.preventDefault();
 	var event;
 	if (e.touches != undefined) {
@@ -306,7 +342,7 @@ function tatankaclick(e) {
 	} else {
 		event = e;
 	}
-
+	
 	shootAtX = event.clientX - document.getElementById("canvas").offsetLeft;
 	shootAtY = event.clientY - document.getElementById("canvas").offsetTop;
 	lakotas[activelakota].shoot(shootAtX, shootAtY);

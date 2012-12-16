@@ -101,6 +101,7 @@ CompositeAnimation.prototype.animate= function(now) {
         this.oneret = this.anis[this.level * this.maxanimation + i].animate(now);
         if(this.anis[this.level * this.maxanimation + i].coloranim== true)
         	console.log("colorranim ani done: "+this.oneret+" "+i+" "+(this.maxanimation - 1));
+   
         if (this.oneret >= 1.0 && i == this.maxanimation - 1) {
             this.increaseLevel();
          //   this.oneret = 0.0;

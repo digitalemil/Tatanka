@@ -1,13 +1,86 @@
+var joystick;
+
 function Joystick() {
-	/*
-	 * this.thinginit(2); var gray1 = 0x40000000; var gray2 = 0x80000000;
-	 * this.setName("Joystick"); this.add(new Ellipse(32, 32, 0, 0, -3, 0,
-	 * TRIANGLES20, gray1)); this.add(new Ellipse(12, 12, 0, 0, -3, 0,
-	 * TRIANGLES20, gray2)); this.setupDone();
-	 */
+	this.r= 10;
 }
 
-Joystick.prototype = new ThingContainer(2);
+Joystick.prototype = new Thing(2);
+
+Joystick.prototype.setup= function() {
+	this.thinginit(2);
+	var gray1 = 0x40000000;
+	var gray2 = 0x80000000;
+	this.setName("Joystick");
+	this.add(new Ellipse(48, 48, 0, 0, -3, 0, TRIANGLES20, gray1));
+	this.stick= new Ellipse(20, 20, 0, 0, -3, 0, TRIANGLES20, gray2);
+	this.add(this.stick);
+	this.scaleRoot(scale * 2, scale * 2);
+	this.setupDone();
+	this.pressed = false;
+	this.ani= new PartAnimation();
+};
+
+Joystick.prototype.up = function(event) {
+	if(!this.pressed)
+		return;
+	this.r= 10;
+	lakotas[activelakota].stopRotate();
+	this.pressed = false;
+	this.ani.init(this.stick, -this.stick.x, -this.stick.y, 0, 1.0, 1.0, 500, false);
+	this.ani.start();
+};
+
+Joystick.prototype.down = function(event) {	
+	var res = this.convert(event);
+	if (res)
+		this.pressed = true;
+	this.ani.stop();
+	return res;
+};
+
+Joystick.prototype.convert = function(event) {
+	event.preventDefault();
+	if (event.touches != undefined) {
+		event = event.touches[0];
+	} 
+	this.touchx = event.clientX - document.getElementById("canvas").offsetLeft;
+	this.touchy = event.clientY - document.getElementById("canvas").offsetTop;
+	this.touchx += -w / 2 - (this.x) + (w - canvaswidth) / 2;
+	this.touchy = -(this.touchy - h / 2 - (this.y));
+	var newdir = Math.atan2(this.touchy, this.touchx);
+	if (newdir < 0) {
+		newdir += 2 * Math.PI;
+	}
+	newdir = newdir * 360 / (2 * Math.PI);
+	while (newdir > 360)
+		newdir -= 360;
+	this.touchphi = newdir;
+	if (!(this.touchx * this.touchx + this.touchy * this.touchy <= 24 * scale
+			* 24 * scale))
+		return false;
+	return true;
+};
+
+Joystick.prototype.onmove = function(event) {
+	if(!this.pressed)
+		return;
+	var instick= this.convert(event);
+	this.r= Math.sqrt(Math.min(40 * 40 , ((this.touchx*this.touchx)+ (this.touchy*this.touchy))/scale/scale));
+	var phi = calcMyPhi(this.touchphi);
+	var sinphi = mysin[phi];
+	var cosphi = mycos[phi];
+	var x= cosphi*this.r;
+	var y= -sinphi*this.r;
+	this.stick.translate(-this.stick.x+x, -this.stick.y+y);
+	var dir= 1;
+	if(this.stick.x> 0)
+		dir= -1;
+	lakotas[activelakota].rotate(dir*this.r/(scale*40)*45);
+	if(this.stick.y> 0)
+		this.r*=-1.0;
+};
+
+joystick= new Joystick();
 
 function ArrowCollisionHandler(t, s, e) {
 	this.setup(t, s, e);
@@ -16,26 +89,29 @@ function ArrowCollisionHandler(t, s, e) {
 ArrowCollisionHandler.prototype = new CollisionHandler();
 
 ArrowCollisionHandler.prototype.canCollide = function(thing) {
-	return (thing.getType()== TATANKA);
+	return (thing.getType() == TATANKA);
 };
 
-ArrowCollisionHandler.prototype.handleCollision= function(arrow, tatanka) {
+ArrowCollisionHandler.prototype.handleCollision = function(arrow, tatanka) {
 	var narr = tatanka.getByName("arrow" + tatanka.hits);
 	narr.setVisibility(true);
-	var phi = calcMyPhi(tatanka.rot+ tatanka.rrot);
+	var phi = calcMyPhi(tatanka.rot + tatanka.rrot);
 	var sinphi = mysin[phi];
 	var cosphi = mycos[phi];
-//	ax = ((arrow.rx+ arrow.x)/(tatanka.sx*tatanka.rsx) - tatanka.x - tatanka.rx);
-//	ay = ((arrow.ry+ arrow.y)/(tatanka.sy*tatanka.rsy) - tatanka.y - tatanka.ry)
-	ax = ((arrow.rx+arrow.x) - tatanka.x - tatanka.rx)/tatanka.rsx/tatanka.sx;
-	ay = ((arrow.ry+arrow.y) - tatanka.y - tatanka.ry)/tatanka.rsy/tatanka.sy;
+	// ax = ((arrow.rx+ arrow.x)/(tatanka.sx*tatanka.rsx) - tatanka.x -
+	// tatanka.rx);
+	// ay = ((arrow.ry+ arrow.y)/(tatanka.sy*tatanka.rsy) - tatanka.y -
+	// tatanka.ry)
+	ax = ((arrow.rx + arrow.x) - tatanka.x - tatanka.rx) / tatanka.rsx
+			/ tatanka.sx;
+	ay = ((arrow.ry + arrow.y) - tatanka.y - tatanka.ry) / tatanka.rsy
+			/ tatanka.sy;
 
 	dx = (ax * cosphi - ay * sinphi);
 	dy = (ay * cosphi + ax * sinphi);
 	narr.getByName("stone").translateRoot(20000, 20000, 0);
-	narr.translate(-narr.x -narr.rx + dx, -narr.y- narr.ry + dy, 0);
-	LOG("Hit: "+dx+" "+dy);
-	FlushLog();
+	narr.translate(-narr.x - narr.rx + dx, -narr.y - narr.ry + dy, 0);
+	LOG("Hit: " + dx + " " + dy);
 	narr.rrot = -tatanka.rot - tatanka.rrot + arrow.rot + arrow.rrot;
 	tatanka.hit();
 
@@ -50,7 +126,7 @@ function TatankaHerd(nanimals) {
 		this.things[i].translateRoot(i * 50 * scale * (-4 + getRandom(0, 8)),
 				50 * scale * (-1 + getRandom(0, 2)), 0);
 		this.things[i].rotateRoot(-20 + getRandom(0, 40));
-		//this.things[i].rotateRoot(90);
+		// this.things[i].rotateRoot(90);
 		var s = 0.98 + getRandom(0, 4) / 100;
 		this.things[i].scaleRoot(s, s);
 		this.things[i].setLayer(1);
@@ -64,7 +140,7 @@ TatankaHerd.prototype = new ThingContainer(0);
 
 TatankaHerd.prototype.update = function() {
 	for ( var i = 0; i < this.n; i++) {
-		//this.things[i].rotate(3);
+		// this.things[i].rotate(3);
 		this.things[i].animation.animateImpl();
 	}
 };
@@ -125,20 +201,61 @@ function MountedLakota(s, sx, sy) {
 	this.arrow.setLayer(401);
 	this.arrow.setVisibility(false);
 	this.arrow.setName("Arrow");
-	//this.arrow.translateRoot(0, -26, 0);
+	// this.arrow.translateRoot(0, -26, 0);
 	this.lakota.setFlyingArrow(this.arrow);
 
 	this.translateRoot(sx * s, sy * s, 0);
 	this.scaleRoot(s * 0.6, s * 0.6);
-}
+	this.lakotaRot= null;
+	this.mustangRot= null;
+}	
 
 MountedLakota.prototype = new ThingContainer(0);
+
+MountedLakota.prototype.stopRotate = function() {
+	this.rotate(0);
+};
+
+MountedLakota.prototype.rotate = function(rot) {
+	if(this.lakotaRot== null) {
+		this.lakotaRot= new PartAnimation();
+	}
+	if(this.mustangRot== null) {
+		this.mustangRot= new PartAnimation();
+	}
+	rot= -this.lakota.rot+ rot;
+	
+	while(rot< -180)
+		rot+= 360;
+	
+	while(rot> 180)
+		rot= 360-rot;
+	
+	if(rot== 0)
+		return;
+	var d= Math.abs(rot/90)*2000;
+
+	this.lakotaRot.stop();
+	this.lakotaRot.init(this.lakota, 0, 0, rot, 1.0, 1.0, d, false);
+	this.lakotaRot.start();
+
+	this.mustangRot.stop();
+	this.mustangRot.init(this.mustang, 0, 0, rot, 1.0, 1.0, d, false);
+	this.mustangRot.start();
+
+};
+
 
 MountedLakota.prototype.shoot = function(x, y) {
 	this.lakota.shoot(x, y);
 };
 
 MountedLakota.prototype.update = function() {
+	if(this.lakotaRot!= null)
+		this.lakotaRot.animateNow();
+	if(this.mustangRot!= null)
+		this.mustangRot.animateNow();
+	
 	this.lakota.shootingani.animateImpl();
 	this.lakota.getFlyingArrow().ani.animateNow();
 	this.mustang.animation.animateImpl();
@@ -153,7 +270,7 @@ function Arrow() {
 	var brown = 0xff705125;
 	var white = 0xffffffff;
 	var stone = 0xff404040;
-	
+
 	this.name = "Arrow";
 	var arrow = new Bone(0, -8, 0, 0, 5);
 	arrow.name = "arrow";
@@ -178,8 +295,8 @@ function Arrow() {
 	arrow.setupDone();
 	this.add(arrow);
 	this.setupDone();
-	
-	this.ani= new PartAnimation();
+
+	this.ani = new PartAnimation();
 }
 
 Arrow.prototype = new Thing(1);
@@ -269,7 +386,7 @@ function Sioux() {
 	this.bow.add(el);
 	this.bow.setCoordinateTap(new CoordCopy());
 
-	bone= new Bone(0, -26, 0, 0, 1);
+	bone = new Bone(0, -26, 0, 0, 1);
 	bone.add(this.arrow);
 	bone.setupDone();
 	this.bow.add(bone);
@@ -505,14 +622,14 @@ function Tatanka() {
 
 	this.animation = new AnimalAnimation(this, 16, 1000);
 	this.animation.startRun();
-	
-	this.tatankahealth= 100;
-	this.speed= 0;
+
+	this.tatankahealth = 100;
+	this.speed = 0;
 }
 
 Tatanka.prototype = new Thing(12);
 
-Tatanka.prototype.hit= function(part) {
+Tatanka.prototype.hit = function(part) {
 	this.hits++;
 	if (part < 2) {
 		this.health -= 80 + getRandom(0, 40);
@@ -669,11 +786,11 @@ function Horse() {
 
 	body.scaleRoot(1.0, 1.0);
 	rest.scaleRoot(1.0, 1.0);
-	
+
 	var tap;
-	tap= new CoordCopy();
+	tap = new CoordCopy();
 	this.setCoordinateTap(tap);
-	
+
 	var bc;
 	bc = new BoundingCircle();
 	bc.initBoundingCircle(24, 0, 30, 0);

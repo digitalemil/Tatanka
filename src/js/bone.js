@@ -96,7 +96,7 @@ Bone.prototype.printParents = function() {
 		this.parent.printParents();
 	}
 	console.log(this.name);
-}
+};
 
 Bone.prototype.addPart = function(p) {
 	this.add(p, 0, 0, 0, 0);

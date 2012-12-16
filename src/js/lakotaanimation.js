@@ -19,6 +19,7 @@ LakotaAnimation.prototype.clear = function() {
 	}
 };
 
+
 LakotaAnimation.prototype.shoot = function(shootAtX, shootAtY) {
 	if (this.shooting)
 		return;
@@ -166,7 +167,6 @@ LakotaAnimation.prototype.increaseLevelImpl = function() {
 		var sinbeta = mysin[phi];
 		var cosbeta = mycos[phi];
 
-		this.arrow.ani= new PartAnimation();
 		this.arrow.ani.init(this.arrow, -sinbeta * l, -cosbeta * l, 0, 1.0, 1.0, 1500, false);
 		this.arrow.ani.name="ArrowAni";
 		this.arrow.ani.start();
@@ -187,6 +187,7 @@ LakotaAnimation.prototype.startImpl = function() {
 
 LakotaAnimation.prototype.animateImpl = function() {
 	var now = (new Date()).getTime();
+	
 	if (!this.running) {
 		return 1.0;
 	}

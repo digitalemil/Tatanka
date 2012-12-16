@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<!-- ====================================================================== -->
+<!-- Eagle (Ellipses Are Good Looking Entities) Java Implementation			-->
+<!-- ====================================================================== -->
+
+<project name="Eagle" default="jar" basedir=".">
+
+	<property name="src.dir" value="src/main/java" />
+	<property name="classes.dir" value="build" />
+	<property name="jars.dir" value="dist" />
+
+	<!-- ==================================================================== -->
+	<!-- Compiles/Preverifies the source code                                 -->
+	<!-- ==================================================================== -->
+	<target name="compile" depends="prepare.dirs">
+		<javac source="1.5" srcdir="${src.dir}" destdir="${classes.dir}" debug="on" deprecation="off" optimize="off" excludes="**/eagleandroid/**">
+			<classpath>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Creates the manifest	                                             -->
+	<!-- =================================================================== -->
+	<target name="manifest" depends="compile">
+		<manifest file="${classes.dir}/META-INF/MANIFEST.MF">
+			<attribute name="Developed-By" value="digitalemil" />
+		</manifest>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Creates the jar	                                                 -->
+	<!-- =================================================================== -->
+	<target name="jar" depends="manifest">
+		<jar destfile="${jars.dir}/eagle.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
+			<fileset dir="${classes.dir}" includes="de/digitalemil/eagle/**" />
+			<fileset dir="${src.dir}" includes="de/digitalemil/eagle/**" />
+		</jar>
+		<jar destfile="${jars.dir}/eaglerefimpl.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
+			<fileset dir="${classes.dir}" includes="de/digitalemil/eaglerefimpl/**" />
+			<fileset dir="${src.dir}" includes="de/digitalemil/eaglerefimpl/**" />
+		</jar>
+		<jar destfile="${jars.dir}/tatanka.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
+			<fileset dir="${classes.dir}" />
+			<fileset dir="${src.dir}" />
+		</jar>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Runs -->
+	<!-- =================================================================== -->
+	<target name="run" depends="jar">
+		<java fork="yes" classname="de.digitalemil.eaglerefimpl.EagleFrame">
+			<arg line="-width 480 -height 640 -modell de.digitalemil.tatanka.TatankaModell" />
+			<classpath>
+				<pathelement path="${jars.dir}/tatanka.jar" />
+				<pathelement path="../src/res" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="prepare.dirs">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${classes.dir}/META-INF" />
+		<mkdir dir="${jars.dir}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${classes.dir}" />
+		<delete dir="${jars.dir}" />
+	</target>
+
+</project>
+

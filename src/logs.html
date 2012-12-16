@@ -6,7 +6,7 @@
 </head>
 <body>
 	<textarea id="ta" style="height: 100%;"></textarea>
-	<button name="Clear Logs" onClick='localStorage.LOGENTRIES= 0; fillLogArea()'>Clear Logs</button>
+	<button name="Clear Logs" onClick='deleteLogs(); fillLogArea()'>Clear Logs</button>
 	<button name="Refresh Logs" onClick='fillLogArea()'>Refresh</button>
 </body>
 <script type="text/javascript">
@@ -15,14 +15,18 @@
 		ta.setAttribute("rows", localStorage.LOGENTRIES);
 		ta.setAttribute("style", "width: 100%; height: "+window.innerHeight+";");
 
-		console.log("Entries: " + localStorage.LOGENTRIES);
 		var text = "";
 		for ( var i = 0; i < localStorage.LOGENTRIES; i++) {
 			text += "Log" + i + ": " + eval("localStorage.LOG" + i) + "\n";
-			console.log("Log" + i + ": " + eval("localStorage.LOG" + i));
 		}
 		ta.value = text;
-	}
+	};
+	function deleteLogs() {
+		for ( var i = 0; i < localStorage.LOGENTRIES; i++) {
+			eval("delete localStorage.LOG" + i);
+		}
+		localStorage.LOGENTRIES= 0;
+	};
 	fillLogArea();
 </script>
 </html>

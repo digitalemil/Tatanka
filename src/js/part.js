@@ -23,9 +23,7 @@ var ROPE= 85;
 var THINGCONTAINER= 86;
 var LAKOTAANIMATION= 87;
 
-
 function LOG(text) {
-	
 	var LOGENTRIES=  localStorage.LOGENTRIES;
 	if(LOGENTRIES== undefined) 
 		LOGENTRIES= 0;
@@ -37,13 +35,6 @@ function LOG(text) {
 	localStorage.LOGENTRIES= LOGENTRIES;
 }
 
-function FlushLog() {
-	var LOGENTRIES=  localStorage.LOGENTRIES;
-	for(var i= 0; i< LOGENTRIES; i++) {
-		console.log("Log"+i+": "+eval("localStorage.LOG"+i));
-	}
-}
-
 function Console() {
 }
 
@@ -51,7 +42,8 @@ Console.prototype.log = function(text) {
 	LOG(text);
 };
 
-var console= new Console();
+//var console= new Console();
+
 var mycos = new Array(1.0, 0.9998477, 0.99939084, 0.9986295, 0.9975641,
 		0.9961947, 0.9945219, 0.99254614, 0.99026805, 0.98768836, 0.9848077,
 		0.98162717, 0.9781476, 0.97437006, 0.9702957, 0.9659258, 0.9612617,

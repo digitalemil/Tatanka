@@ -84,7 +84,6 @@ PartAnimation.prototype.animate = function(now) {
 	}
 	if (this.coloranim) {
 		this.part.setAlpha(this.lca + (this.fca - this.lca) * percentage);
-		console.log("ColorAnim update: "+percentage);
 	} else {
 		var v1 = (1.0 + (this.scaleX - 1.0) * percentage);
 		var v2 = (1.0 + (this.scaleY - 1.0) * percentage);

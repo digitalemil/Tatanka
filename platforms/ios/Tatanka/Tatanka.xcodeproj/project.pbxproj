@@ -1,0 +1,311 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		286B25D3167F32890046A5DE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286B25D2167F32890046A5DE /* UIKit.framework */; };
+		286B25D5167F32890046A5DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286B25D4167F32890046A5DE /* Foundation.framework */; };
+		286B25D7167F32890046A5DE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286B25D6167F32890046A5DE /* CoreGraphics.framework */; };
+		286B25DD167F32890046A5DE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 286B25DB167F32890046A5DE /* InfoPlist.strings */; };
+		286B25DF167F32890046A5DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B25DE167F32890046A5DE /* main.m */; };
+		286B25E3167F32890046A5DE /* de_digitalemilAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B25E2167F32890046A5DE /* de_digitalemilAppDelegate.m */; };
+		286B25E5167F32890046A5DE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 286B25E4167F32890046A5DE /* Default.png */; };
+		286B25E7167F32890046A5DE /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 286B25E6167F32890046A5DE /* Default@2x.png */; };
+		286B25E9167F32890046A5DE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 286B25E8167F32890046A5DE /* Default-568h@2x.png */; };
+		286B25EC167F32890046A5DE /* de_digitalemilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B25EB167F32890046A5DE /* de_digitalemilViewController.m */; };
+		286B25EF167F32890046A5DE /* de_digitalemilViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 286B25ED167F32890046A5DE /* de_digitalemilViewController_iPhone.xib */; };
+		286B25F2167F32890046A5DE /* de_digitalemilViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 286B25F0167F32890046A5DE /* de_digitalemilViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		286B25CE167F32890046A5DE /* Tatanka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tatanka.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		286B25D2167F32890046A5DE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		286B25D4167F32890046A5DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		286B25D6167F32890046A5DE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		286B25DA167F32890046A5DE /* Tatanka-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tatanka-Info.plist"; sourceTree = "<group>"; };
+		286B25DC167F32890046A5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		286B25DE167F32890046A5DE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		286B25E0167F32890046A5DE /* Tatanka-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tatanka-Prefix.pch"; sourceTree = "<group>"; };
+		286B25E1167F32890046A5DE /* de_digitalemilAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = de_digitalemilAppDelegate.h; sourceTree = "<group>"; };
+		286B25E2167F32890046A5DE /* de_digitalemilAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = de_digitalemilAppDelegate.m; sourceTree = "<group>"; };
+		286B25E4167F32890046A5DE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		286B25E6167F32890046A5DE /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		286B25E8167F32890046A5DE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		286B25EA167F32890046A5DE /* de_digitalemilViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = de_digitalemilViewController.h; sourceTree = "<group>"; };
+		286B25EB167F32890046A5DE /* de_digitalemilViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = de_digitalemilViewController.m; sourceTree = "<group>"; };
+		286B25EE167F32890046A5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/de_digitalemilViewController_iPhone.xib; sourceTree = "<group>"; };
+		286B25F1167F32890046A5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/de_digitalemilViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		286B25CB167F32890046A5DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286B25D3167F32890046A5DE /* UIKit.framework in Frameworks */,
+				286B25D5167F32890046A5DE /* Foundation.framework in Frameworks */,
+				286B25D7167F32890046A5DE /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		286B25C3167F32890046A5DE = {
+			isa = PBXGroup;
+			children = (
+				286B25D8167F32890046A5DE /* Tatanka */,
+				286B25D1167F32890046A5DE /* Frameworks */,
+				286B25CF167F32890046A5DE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		286B25CF167F32890046A5DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				286B25CE167F32890046A5DE /* Tatanka.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		286B25D1167F32890046A5DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				286B25D2167F32890046A5DE /* UIKit.framework */,
+				286B25D4167F32890046A5DE /* Foundation.framework */,
+				286B25D6167F32890046A5DE /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		286B25D8167F32890046A5DE /* Tatanka */ = {
+			isa = PBXGroup;
+			children = (
+				286B25E1167F32890046A5DE /* de_digitalemilAppDelegate.h */,
+				286B25E2167F32890046A5DE /* de_digitalemilAppDelegate.m */,
+				286B25EA167F32890046A5DE /* de_digitalemilViewController.h */,
+				286B25EB167F32890046A5DE /* de_digitalemilViewController.m */,
+				286B25ED167F32890046A5DE /* de_digitalemilViewController_iPhone.xib */,
+				286B25F0167F32890046A5DE /* de_digitalemilViewController_iPad.xib */,
+				286B25D9167F32890046A5DE /* Supporting Files */,
+			);
+			path = Tatanka;
+			sourceTree = "<group>";
+		};
+		286B25D9167F32890046A5DE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				286B25DA167F32890046A5DE /* Tatanka-Info.plist */,
+				286B25DB167F32890046A5DE /* InfoPlist.strings */,
+				286B25DE167F32890046A5DE /* main.m */,
+				286B25E0167F32890046A5DE /* Tatanka-Prefix.pch */,
+				286B25E4167F32890046A5DE /* Default.png */,
+				286B25E6167F32890046A5DE /* Default@2x.png */,
+				286B25E8167F32890046A5DE /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		286B25CD167F32890046A5DE /* Tatanka */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 286B25F5167F32890046A5DE /* Build configuration list for PBXNativeTarget "Tatanka" */;
+			buildPhases = (
+				286B25CA167F32890046A5DE /* Sources */,
+				286B25CB167F32890046A5DE /* Frameworks */,
+				286B25CC167F32890046A5DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tatanka;
+			productName = Tatanka;
+			productReference = 286B25CE167F32890046A5DE /* Tatanka.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		286B25C5167F32890046A5DE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = de.digitalemil;
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = digitalemil;
+			};
+			buildConfigurationList = 286B25C8167F32890046A5DE /* Build configuration list for PBXProject "Tatanka" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 286B25C3167F32890046A5DE;
+			productRefGroup = 286B25CF167F32890046A5DE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				286B25CD167F32890046A5DE /* Tatanka */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		286B25CC167F32890046A5DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286B25DD167F32890046A5DE /* InfoPlist.strings in Resources */,
+				286B25E5167F32890046A5DE /* Default.png in Resources */,
+				286B25E7167F32890046A5DE /* Default@2x.png in Resources */,
+				286B25E9167F32890046A5DE /* Default-568h@2x.png in Resources */,
+				286B25EF167F32890046A5DE /* de_digitalemilViewController_iPhone.xib in Resources */,
+				286B25F2167F32890046A5DE /* de_digitalemilViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		286B25CA167F32890046A5DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286B25DF167F32890046A5DE /* main.m in Sources */,
+				286B25E3167F32890046A5DE /* de_digitalemilAppDelegate.m in Sources */,
+				286B25EC167F32890046A5DE /* de_digitalemilViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		286B25DB167F32890046A5DE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				286B25DC167F32890046A5DE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		286B25ED167F32890046A5DE /* de_digitalemilViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				286B25EE167F32890046A5DE /* en */,
+			);
+			name = de_digitalemilViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		286B25F0167F32890046A5DE /* de_digitalemilViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				286B25F1167F32890046A5DE /* en */,
+			);
+			name = de_digitalemilViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		286B25F3167F32890046A5DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		286B25F4167F32890046A5DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		286B25F6167F32890046A5DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tatanka/Tatanka-Prefix.pch";
+				INFOPLIST_FILE = "Tatanka/Tatanka-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		286B25F7167F32890046A5DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tatanka/Tatanka-Prefix.pch";
+				INFOPLIST_FILE = "Tatanka/Tatanka-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		286B25C8167F32890046A5DE /* Build configuration list for PBXProject "Tatanka" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286B25F3167F32890046A5DE /* Debug */,
+				286B25F4167F32890046A5DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		286B25F5167F32890046A5DE /* Build configuration list for PBXNativeTarget "Tatanka" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286B25F6167F32890046A5DE /* Debug */,
+				286B25F7167F32890046A5DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 286B25C5167F32890046A5DE /* Project object */;
+}

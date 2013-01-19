@@ -45,6 +45,7 @@ public class JoystickImpl extends Thing implements Joystick {
 		return res;
 	}
 
+//	@SearchAndReplaceAnnotation({ "BY", "PI", "M_PI", "BY", "stick.", "stick->" })
 	public boolean convert(int mx, int my) {
 		touchx = (int) (mx - Globals.getW2() - x - stick.getX());
 		touchy = (int) (my - Globals.getH2() - y - stick.getY());
@@ -66,6 +67,7 @@ public class JoystickImpl extends Thing implements Joystick {
 		return instick;
 	}
 
+	//@SearchAndReplaceAnnotation({ "BY", "stick.", "stick->", "BY", "lakota.", "lakota->" })
 	public void move(int tx, int ty) {
 		if (!pressed)
 			return;

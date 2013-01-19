@@ -4,13 +4,15 @@ public abstract class Modell {
 
 	protected Thing things[];
 	protected int numberOfThings;
-	private long start, frames;
+	private long _start, frames;
 	private int fps;
 
+
+	@SearchAndReplaceAnnotation({ "BY", "new Thing", "new Thing*" })
 	public Modell(int n) {
 		things = new Thing[n];
 		Globals.setAllThings(things);
-		start = 0;
+		_start = 0;
 		setup();
 	}
 
@@ -20,15 +22,19 @@ public abstract class Modell {
 	//	System.out.println("update: "+ frames);
 		Globals.frames++;
 		frames++;
-		if (start == 0)
-			start = PartAnimation.currentTimeMillis();
+		if (_start == 0)
+			_start = PartAnimation.currentTimeMillis();
 
 		long now = PartAnimation.currentTimeMillis();
-		if (now - start > 1000) {
-			fps = (int)((1000 * frames) / (now - start));
-			start = 0;
+		if (now - _start > 1000) {
+			fps = (int)((1000 * frames) / (now - _start));
+			_start = 0;
 			frames = 0;
 		}
+	}
+
+	public String[] getTextAndFont(int t) {
+		return things[t].getThingTextAndFont();
 	}
 
 	public int getFps() {
@@ -78,8 +84,8 @@ public abstract class Modell {
 		return things[t].hasChanged();
 	}
 
-	public String getTexNameFromQuad(int t) {
-		return ((Quad) things[t]).getTexName();
+	public String getImageName(int t) {
+		return ((ImageThing) things[t]).getTexName();
 	}
 
 	public int getType(int t) {
@@ -87,32 +93,39 @@ public abstract class Modell {
 	}
 
 	public int getTexID(int t) {
-
-		return ((Quad) things[t]).getTexID();
+		return ((ImageThing) things[t]).getTexID();
 	}
 
+	public int getImageWidth(int t) {
+		if(! (things[t].getType() == Types.IMAGE))
+			return 0;
+		return (int)((ImageThing) things[t]).getWidth();
+	}
+
+	public int getImageHeight(int t) {
+		if(! (things[t].getType() == Types.IMAGE))
+			return 0;
+		return (int)((ImageThing) things[t]).getHeight();
+	}
+	
 	public float[] getData(int t) {
 		return things[t].getThingData();
-	}
-
-	public float[] getTex(int t) {
-		return ((Quad) things[t]).getTex();
 	}
 
 	public int getNumberOfData(int t) {
 		return things[t].getNumberOfData();
 	}
 
-	public boolean texNameChanged(int t) {
-		return ((Quad) things[t]).isTexchanged();
+	public boolean imageNameChanged(int t) {
+		return ((ImageThing) things[t]).isTexchanged();
 	}
 
 	public boolean isTexIDSet(int t) {
-		return ((Quad) things[t]).isTexidset();
+		return ((ImageThing) things[t]).isTexidset();
 	}
 
 	public void setTexIDForQuad(int t, int i) {
-		((Quad) things[t]).setTexID(i);
+		((ImageThing) things[t]).setTexID(i);
 	}
 
 	public boolean skipFrame() {

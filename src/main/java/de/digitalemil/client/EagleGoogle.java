@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.canvas.dom.client.*;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.Timer;
@@ -33,42 +33,44 @@ public class EagleGoogle implements EntryPoint {
 	private GTexture tex;
 
 	private HashMap textures = new HashMap();
+	private HashMap texNames = new HashMap();
+
 	private int maxtex = 0, frames;
 	long start;
 	private int swidth, sheight;
 	private boolean fullscreen = false;
 
 	public native String getNyatiRotation()/*-{
-		return $wnd.nyatiRotation;
-	}-*/;
+											return $wnd.nyatiRotation;
+											}-*/;
 
 	public native void alert(String alrt)/*-{
-		$wnd.alert(alrt);
-	}-*/;
+											$wnd.alert(alrt);
+											}-*/;
 
 	public native void log(String alrt)/*-{
-		console.log(alrt);
-	}-*/;
+										console.log(alrt);
+										}-*/;
 
 	public native String fullScreen()/*-{
-		return $wnd.nyatiFullScreen;
-	}-*/;
+										return $wnd.nyatiFullScreen;
+										}-*/;
 
 	public native String getScreenWidth()/*-{
-		return $wnd.screen.width;
-	}-*/;
+											return $wnd.screen.width;
+											}-*/;
 
 	public native String getScreenHeight()/*-{
-		return $wnd.screen.height;
-	}-*/;
+											return $wnd.screen.height;
+											}-*/;
 
 	public native String getWidth()/*-{
-		return $wnd.innerWidth;
-	}-*/;
+									return $wnd.innerWidth;
+									}-*/;
 
 	public native String getHeight()/*-{
-		return $wnd.innerHeight;
-	}-*/;
+									return $wnd.innerHeight;
+									}-*/;
 
 	/**
 	 * This is the entry point method.
@@ -129,10 +131,18 @@ public class EagleGoogle implements EntryPoint {
 		modell.touchStop(ix, iy);
 	}
 
-	public int loadTexture(String name) {
-		GTexture tex = new GTexture("res/" + name);
+	public int loadTexture(String name, int w, int h) {
+		for (int i = 1; i <= textures.size(); i++) {
+			GTexture img = (GTexture) textures.get(new Integer(i));
+			if (name.equals(texNames.get(i)) && w == img.getWidth()
+					&& h == img.getHeight())
+				return i;
+		}
+		GTexture tex = new GTexture(name, w, h);
 		int ret = new Integer(++maxtex).intValue();
 		textures.put(new Integer(ret), tex);
+		texNames.put(new Integer(ret), name);
+
 		System.out.println("Loading texture: " + name + " " + ret);
 
 		return ret;
@@ -259,13 +269,12 @@ public class EagleGoogle implements EntryPoint {
 		for (int t = 0; t < modell.getNumberOfThings(); t++) {
 			if (!modell.isVisible(t))
 				continue;
-			if ((modell.getType(t) == Types.QUAD || modell.getType(t) == Types.TEXQUAD)
-					&& (modell.getTexNameFromQuad(t) != null || modell
-							.getTexID(t) != 0)) {
+			if ((modell.getType(t) == Types.IMAGE)
+					&& (modell.getImageName(t) != null || modell.getTexID(t) != 0)) {
 
 				int tex = modell.getTexID(t);
 				GTexture timg = (GTexture) textures.get(new Integer(tex));
-				if (timg == null)
+				if (timg == null || !timg.loaded())
 					continue;
 
 				float[] d = modell.getData(t);
@@ -274,17 +283,20 @@ public class EagleGoogle implements EntryPoint {
 						d[RECTCOORDS + 4], d[RECTCOORDS + 6]);
 				float ymin = min(d[RECTCOORDS + 1], d[RECTCOORDS + 3],
 						d[RECTCOORDS + 5], d[RECTCOORDS + 7]);
-			//	log(timg.getImageElement()+" "+(int) (xmin + w2)+" "+(int) (h2 + ymin)+" "+	(int)((Quad) modell.getThings()[t]).getWidth()+" "+(int)((Quad) modell.getThings()[t]).getHeight());
+				// log(timg.getImageElement()+" "+(int) (xmin + w2)+" "+(int)
+				// (h2 + ymin)+" "+ (int)((Quad)
+				// modell.getThings()[t]).getWidth()+" "+(int)((Quad)
+				// modell.getThings()[t]).getHeight());
 				context.drawImage(timg.getImageElement(), (int) (xmin + w2),
-						(int) (h2 + ymin),
-						(int)((Quad) modell.getThings()[t]).getWidth(),
-						(int)((Quad) modell.getThings()[t]).getHeight());
+						(int) (h2 + ymin), modell.getImageWidth(t),
+						modell.getImageHeight(t));
 			} else {
-
+				String[] textandfont = modell.getTextAndFont(t);
+				
 				float[] d = modell.getData(t);
 				int di = 0;
 				int len = modell.getNumberOfData(t);
-
+				int texts= 0;
 				while (di < len) {
 					int type = (int) d[di];
 					if (type == Types.BOUNDINGCIRCLE
@@ -307,20 +319,39 @@ public class EagleGoogle implements EntryPoint {
 					if (type == Types.BOUNDINGCIRCLE) {
 						di++;
 					}
-					context.beginPath();
+					if (type == Types.TEXT) {
+						context.setFont(textandfont[texts + 1] + "  "
+								+ Math.round(d[di + 6]) + "px sans-serif");
+						TextMetrics metrics= context.measureText(textandfont[texts]);
+						int mh = (int)context.measureText("m").getWidth();
+						int x = (int)(d[di + 4] + w2);
+						switch ((int)d[di + 7]) {
+						case Text.TEXT_RIGHT:
+							x -= metrics.getWidth();
+							break;
+						case Text.TEXT_CENTER:
+							x -= metrics.getWidth() / 2;
+							break;
+						}
+						context.fillText(textandfont[texts], x, d[di + 5] + h2 + mh / 2);
+						texts += 2;
+						di += 8;
+					} else {
+						context.beginPath();
 
-					context.moveTo(d[di + 4 + 2 * cor] + w2, d[di + 4 + 2 * cor
-							+ 1]
-							+ h2);
-
-					for (int i = 2; i < 2 * ni; i += 2) {
-						context.lineTo(d[di + 4 + i + 2 * cor] + w2, d[di + 4
-								+ i + 2 * cor + 1]
+						context.moveTo(d[di + 4 + 2 * cor] + w2, d[di + 4 + 2
+								* cor + 1]
 								+ h2);
+
+						for (int i = 2; i < 2 * ni; i += 2) {
+							context.lineTo(d[di + 4 + i + 2 * cor] + w2, d[di
+									+ 4 + i + 2 * cor + 1]
+									+ h2);
+						}
+						context.closePath();
+						context.fill();
+						di += 4 + 2 * (ni + 1);
 					}
-					context.closePath();
-					context.fill();
-					di += 4 + 2 * (ni + 1);
 				}
 			}
 		}
@@ -350,11 +381,10 @@ public class EagleGoogle implements EntryPoint {
 		for (int i = 0; i < modell.getNumberOfThings(); i++) {
 			// if(!modell.isVisible(i))
 			// continue;
-			if ((modell.getType(i) == Types.QUAD || modell.getType(i) == Types.TEXQUAD)
-					&& (modell.getTexNameFromQuad(i) != null || modell
-							.getTexID(i) != 0)) {
+			if ((modell.getType(i) == Types.IMAGE)
+					&& (modell.getImageName(i) != null || modell.getTexID(i) != 0)) {
 				int t = modell.getTexID(i);
-				if (modell.texNameChanged(i)) {
+				if (modell.imageNameChanged(i)) {
 					if (modell.isTexIDSet(i)) {
 						System.out
 								.println("remove (" + i + "): " + t + " "
@@ -362,12 +392,13 @@ public class EagleGoogle implements EntryPoint {
 										+ modell.getNumberOfThings());
 						textures.remove(new Integer(t));
 					}
-					if (modell.getTexNameFromQuad(i) == null) {
+					if (modell.getImageName(i) == null) {
 						System.out.println("setTexQuadID to 0");
 						modell.setTexIDForQuad(i, 0);
 						continue;
 					}
-					t = loadTexture(modell.getTexNameFromQuad(i));
+					t = loadTexture(modell.getImageName(i),
+							modell.getImageWidth(i), modell.getImageHeight(i));
 					modell.setTexIDForQuad(i, t);
 					System.out.println("setTexQuadID to t:" + t);
 				}

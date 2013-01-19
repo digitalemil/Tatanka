@@ -3,6 +3,7 @@ package de.digitalemil.eagle;
 public class CoordinateTapImpl implements CoordinateTap {
 
 	@Override
+	@SearchAndReplaceAnnotation({ "BY", "return", "//return" })
 	public String toString() {
 		return "CoordinateTapImpl [name=" + name + ", x=" + x + ", y=" + y
 				+ ", r=" + r + ", a11=" + a11 + ", a21=" + a21 + ", a12=" + a12

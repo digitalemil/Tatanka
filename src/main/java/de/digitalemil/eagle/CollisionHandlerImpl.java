@@ -4,7 +4,7 @@ import de.digitalemil.tatanka.TatankaTypes;
 
 public class CollisionHandlerImpl implements CollisionHandler {
 	public final static int NOCOLLISION= -1;
-	public int collisionHappend;
+	public int collisionHadHappend;
 	
 	protected Thing me, other;
 	protected Thing others[];
@@ -40,11 +40,13 @@ public class CollisionHandlerImpl implements CollisionHandler {
 		return false;
 	}
 
+	@SearchAndReplaceAnnotation({ "BY", "BoundingCircle[] ", "BoundingCircle **", "BY", "BoundingCircle bbc", "BoundingCircle *bbc", "BY", "BoundingCircle abc", "BoundingCircle *abc"})
 	public boolean checkCollision() {
 		if (!enabled)
 			return false;
-		BoundingCircle mybcs[]= me.getBCs();
-
+		BoundingCircle[] mybcs= me.getBCs();
+		int mybcslength= me.getNumberOfBCs();
+		//System.out.println(mybcs.length+" vs. "+ mybcslength);
 		for (int i = start; i < end; i++) {
 			if (others[i] == null) {
 				//System.out.println("Others== null: "+me+" "+i);
@@ -53,9 +55,10 @@ public class CollisionHandlerImpl implements CollisionHandler {
 			if (!canCollide(others[i])  || me== others[i])
 				continue;
 			
-			BoundingCircle bcs[] = others[i].getBCs();
-			
-			for ( int h = 0; h < bcs.length; h++) {
+			BoundingCircle[] bcs = others[i].getBCs();
+			int bcslength= others[i].getNumberOfBCs();
+			//System.out.println(bcs.length+" vs. "+ bcslength);
+			for ( int h = 0; h < bcslength; h++) {
 				BoundingCircle bbc = bcs[h];
 				if(bbc== null || bbc.getCoordinateTap()== null)
 					continue;
@@ -64,10 +67,13 @@ public class CollisionHandlerImpl implements CollisionHandler {
 				float by = bbc.getCoordinateTap().getY();
 				float br = bbc.getCoordinateTap().getR() * others[i].sx
 						* others[i].rsx; // radius
-				for ( int j = 0; j < mybcs.length; j++) {
+			//	System.out.println("Checking collision: "+me.getName()+ " "+others[i].getName()+ " "+mybcs.length);
+				
+				for ( int j = 0; j < mybcslength; j++) {
 					BoundingCircle abc = mybcs[j];
 					if(abc.getCoordinateTap()==null)
 						continue;
+					
 					float ax = abc.getCoordinateTap().getX();
 					float ay = abc.getCoordinateTap().getY();
 					float ar = abc.getCoordinateTap().getR() * me.sx * me.rsx; // radius
@@ -75,7 +81,7 @@ public class CollisionHandlerImpl implements CollisionHandler {
 					if ((bx - ax) * (bx - ax) + (by - ay) * (by - ay) <= (br + ar)
 							* (br + ar)) {	
 						other= others[i];		
-						collisionHappend= other.getType();
+						collisionHadHappend= other.getType();
 						return handleCollision(others[i]);
 					}
 				}
@@ -86,12 +92,12 @@ public class CollisionHandlerImpl implements CollisionHandler {
 	}
 	
 	public void clearCollision() {
-		collisionHappend= NOCOLLISION;
+		collisionHadHappend= NOCOLLISION;
 		other= null;
 	}
 
 	public int collisionHappend() {
-		return collisionHappend;
+		return collisionHadHappend;
 	}
 	
 	public Thing getOther() {

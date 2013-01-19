@@ -1,206 +1,250 @@
 <?xml version="1.0"?>
 <!-- ====================================================================== -->
-<!-- jsNyati -->
+<!-- Tatanka -->
 <!-- ====================================================================== -->
 
-<project
-    name="Tatanka"
-    basedir="."
-    default="upload" >
+<project name="Tatanka" basedir="." default="www">
 
-      <taskdef resource="net/sf/antcontrib/antcontrib.properties" >
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<pathelement location="lib/ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
 
-        <classpath>
+	<property name="build.dir" value="build" />
 
-            <pathelement location="lib/ant-contrib-1.0b3.jar" />
-        </classpath>
-    </taskdef>
-    
-    <property
-        name="build.dir"
-        value="build" />
+	<property name="tests.dir" value="tests" />
 
-      <property
-        name="tests.dir"
-        value="tests" />
+	<property name="junit" value="lib/junit-4.10.jar" />
 
-    <property
-        name="junit"
-        value="lib/junit-4.10.jar" />
-    
-    <property
-        name="master-file"
-        value="tatanka" />
+	<property name="html5.src.dir" value="src/main/html5" />
 
-    <property
-        name="ios-AppID"
-        value="70832" />
+	<property name="html5.deploy.dir" value="${build.dir}/html5" />
 
-    <property
-        name="bb-AppID"
-        value="140913" />
+	<property name="appId" value="214436" />
 
-    <property
-        name="wp7-AppID"
-        value="140925" />
+	<property name="java.src.dir" value="src/main/java" />
 
-    <property
-        name="android-AppID"
-        value="140929" />
+	<property name="res.dir" value="src/main/res" />
 
-  
-    <target
-        name="phonegappkg"
-        depends="prepare.dirs" >
+	<property name="classes.dir" value="${build.dir}/classes" />
 
-        <exec executable="zip" >
+	<property name="jars.dir" value="dist" />
 
-            <arg value="-r" />
+	<property name="objc.dir" value="${build.dir}/objc" />
 
-            <arg value="${build.dir}/${master-file}" />
+	<property name="gwt.html.dir" value="src/main/gwt" />
 
-            <arg value="www" />
-        </exec>
+	<property name="gwt.www.dir" value="${build.dir}/gwt" />
 
-        <foreach
-            list="ios,bb,android,wp7"
-            param="os"
-            target="addOSSpecifics" >
-        </foreach>
-    </target>
+	<property name="lib.dir" value="lib" />
 
-    <target
-        name="compile-tests"
-        depends="prepare.dirs" >
+	<switch value="${devtype}">
+		<case value="bb">
+			<var name="www" value="${html5.deploy.dir}-bb" />
+		</case>
+		<default>
+			<var name="www" value="${html5.deploy.dir}" />
+		</default>
+	</switch>
 
-        <javac
-            debug="on"
-            deprecation="off"
-            destdir="${build.dir}/tests"
-            optimize="off"
-            source="1.5"
-            srcdir="${tests.dir}" >
+	<!-- ==================================================================== -->
+	<!-- Compiles/Preverifies the source code -->
+	<!-- ==================================================================== -->
+	<target name="compile" depends="prepare.dirs">
+		<javac source="1.5" srcdir="${java.src.dir}" destdir="${classes.dir}"
+			debug="on" deprecation="off" optimize="off" excludes="**/eagleandroid/**.*">
+			<classpath>
+				<pathelement path="${lib.dir}/gwt-user.jar"></pathelement>
+				<pathelement path="${lib.dir}/gwt-dev.jar"></pathelement>
+			</classpath>
+		</javac>
+	</target>
 
-            <classpath>
+	<!-- =================================================================== -->
+	<!-- Creates the manifest -->
+	<!-- =================================================================== -->
+	<target name="manifest" depends="compile">
+		<manifest file="${classes.dir}/META-INF/MANIFEST.MF">
+			<attribute name="Developed-By" value="digitalemil" />
+		</manifest>
+	</target>
 
-                <pathelement path="${junit}" >
-                </pathelement>
-            </classpath>
-        </javac>
-    </target>
+	<!-- =================================================================== -->
+	<!-- Creates the jar -->
+	<!-- =================================================================== -->
+	<target name="jar" depends="manifest">
+		<jar destfile="${jars.dir}/eagle.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
+			<fileset dir="${classes.dir}" includes="de/digitalemil/eagle/**" />
+			<fileset dir="${java.src.dir}" includes="de/digitalemil/eagle/**" />
+		</jar>
+		<jar destfile="${jars.dir}/eaglerefimpl.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
+			<fileset dir="${classes.dir}" includes="de/digitalemil/eaglerefimpl/**" />
+			<fileset dir="${java.src.dir}" includes="de/digitalemil/eaglerefimpl/**" />
+		</jar>
+		<jar destfile="${jars.dir}/tatanka.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
+			<fileset dir="${classes.dir}" />
+			<fileset dir="${java.src.dir}" />
+		</jar>
+	</target>
 
-    <target
-        name="test"
-        depends="compile-tests" >
+	<!-- =================================================================== -->
+	<!-- Creates ObjectivC from Java sources using j2objc: http://code.google.com/p/j2objc -->
+	<!-- =================================================================== -->
+	<target name="j2objc" depends="jar">
+		<exec executable="j2objc">
+			<arg value="-classpath" />
+			<arg value="${classes.dir}" />
+			<arg value="-sourcepath" />
+			<arg value="${java.src.dir}" />
+			<arg value="-d" />
+			<arg value="${objc.dir}" />
+			<arg value="src/main/java/de/digitalemil/eagle/*.java" />
+			<arg value="src/main/java/de/digitalemil/tatanka/*.java" />
+		</exec>
+	</target>
 
-        <junit
-            haltonfailure="yes"
-            printsummary="yes" >
+	<!-- =================================================================== -->
+	<!-- GWT compile https://developers.google.com/web-toolkit -->
+	<!-- =================================================================== -->
+	<target name="gwt" depends="jar">
+		<java fork="yes" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<pathelement path="${lib.dir}/gwt-user.jar"></pathelement>
+				<pathelement path="${lib.dir}/gwt-dev.jar"></pathelement>
+				<pathelement path="${lib.dir}/validation-api-1.0.0.GA.jar"></pathelement>
+				<pathelement path="${lib.dir}/validation-api-1.0.0.GA-sources.jar"></pathelement>
+				<pathelement path="${classes.dir}"></pathelement>
+				<pathelement path="${java.src.dir}"></pathelement>
+			</classpath>
+			<arg value="-war" />
+			<arg value="${gwt.www.dir}" />
+			<arg value="-extra" />
+			<arg value="tmp" />
+			<arg value="de.digitalemil.EagleGoogle" />
+		</java>
+		<copy todir="${gwt.www.dir}">
+			<fileset dir="${gwt.html.dir}"></fileset>
+		</copy>
+		<copy todir="${gwt.www.dir}/res">
+			<fileset dir="${res.dir}"></fileset>	    
+		</copy>
+		<delete dir="${gwt.www.dir}/WEB-INF"></delete>
+		
+	</target>
 
-            <classpath>
+	<!-- =================================================================== -->
+	<!-- Runs -->
+	<!-- =================================================================== -->
+	<target name="run" depends="jar">
+		<java fork="yes" classname="de.digitalemil.eaglerefimpl.EagleFrame">
+			<arg
+				line="-width 640 -height 960 -modell de.digitalemil.tatanka.TatankaModell" />
+			<classpath>
+				<pathelement path="${jars.dir}/tatanka.jar" />
+				<pathelement path="${res.dir}" />
+			</classpath>
+		</java>
+	</target>
 
-                <pathelement location="${build.dir}/tests" />
+	<target name="phonegap" depends="prepare.dirs, html5">
+		<exec executable="tools/phoneGapBuild.sh">
+			<arg value="/tmp/mustang" />
+			<arg value="${www}" />
+			<arg value="${appId}" />
+			<arg value="digitalemil@googlemail.com:Mm7496812abc" />
+			<arg value="https://github.com/digitalemil/Mustang.git" />
+		</exec>
+	</target>
 
-                <pathelement location="${junit}" />
-            </classpath>
+	<target name="compile-tests" depends="prepare.dirs">
+		<javac debug="on" deprecation="off" destdir="${build.dir}/tests"
+			optimize="off" source="1.5" srcdir="${tests.dir}">
+			<classpath>
+				<pathelement path="${junit}">
+				</pathelement>
+			</classpath>
+		</javac>
+	</target>
 
-            <test
-                name="de.digitalemil.thisandthat.tests.AllTests"
-                haltonfailure="no"
-                outfile="${build.dir}/tests/results" >
+	<target name="test" depends="compile-tests">
+		<junit haltonfailure="yes" printsummary="yes">
+			<classpath>
+				<pathelement location="${build.dir}/tests" />
+				<pathelement location="${junit}" />
+			</classpath>
 
-                <formatter type="xml" />
-            </test>
-        </junit>
-    </target>
+			<test name="de.digitalemil.thisandthat.tests.AllTests"
+				haltonfailure="no" outfile="${build.dir}/tests/results">
+				<formatter type="xml" />
+			</test>
+		</junit>
+	</target>
 
-     <target
-        name="buildAndTest" depends="phonegappkg, test"/>
-     
-    <target
-        name="upload"
-        depends="buildAndTest" >
+	<target name="buildAndTest" depends="phonegap, test" />
 
-        <foreach
-            list="ios,bb,android,wp7"
-            param="os"
-            target="upload-os-pkg" >
-        </foreach>
-    </target>
+	<target name="html5" depends="">
+		<copy todir="${www}">
+			<fileset dir="${html5.src.dir}">
+			</fileset>
+		</copy>
+		<copy todir="${www}/res">
+			<fileset dir="${res.dir}">
+			</fileset>
+		</copy>
+		
+		<switch value="${devtype}">
+			<case value="bb">
+				<exec executable="sed" output="${www}/index.html">
+					<arg value="-e" />
+					<arg value="s/isbb = false/isbb=true/" />
+					<arg value="${html5.src.dir}/index.html" />
+				</exec>
+				<delete>
+					<fileset dir="${www}/res/tatankas">
+						<exclude name="tatanka0.jpg" />
+						<exclude name="tatanka1.jpg" />
+						<exclude name="tatanka2.jpg" />
+						<exclude name="tatanka3.jpg" />
+					</fileset>
+					<fileset dir="${www}/splashes">
+						<exclude name="splash.png" />
+					</fileset>
+					<fileset dir="${www}/res">
+						<include name="img1*.jpg" />
+						<include name="img2*.jpg" />
+						<include name="img3*.jpg" />
+						<exclude name="img1.jpg" />
+						<exclude name="img2.jpg" />
+						<exclude name="img3.jpg" />
+					</fileset>
+					<fileset dir="${www}/icons">
+						<exclude name="iconbb.png" />
+						<exclude name="iconbb-hover.png" />
+					</fileset>
+				</delete>
+			</case>
+			<default />
+		</switch>
+	</target>
 
-    <target
-        name="addOSSpecifics"
-        depends="" >
+	<target name="prepare.dirs">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dir}/tests" />
+		<mkdir dir="${objc.dir}" />
+		<mkdir dir="${gwt.www.dir}" />
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${classes.dir}/META-INF" />
+		<mkdir dir="${jars.dir}" />
+	</target>
 
-        <copy
-            file="${build.dir}/${master-file}.zip"
-            tofile="${build.dir}/${master-file}-${os}.zip" >
-        </copy>
-
-        <zip
-            basedir="phonegap/${os}"
-            destfile="${build.dir}/${master-file}-${os}.zip"
-            update="true" >
-        </zip>
-    </target>
-
-    <target name="upload-os-pkg" depends="">
-
-        <switch value="${os}" >
-
-            <case value="ios" >
-
-                <var
-                    name="id"
-                    value="${ios-AppID}" />
-            </case>
-
-            <case value="android" >
-
-                <var
-                    name="id"
-                    value="${android-AppID}" />
-            </case>
-
-            <case value="bb" >
-
-                <var
-                    name="id"
-                    value="${bb-AppID}" />
-            </case>
-
-            <case value="wp7" >
-
-                <var
-                    name="id"
-                    value="${wp7-AppID}" />
-            </case>
-        </switch>
-
-        <exec executable="curl" >
-
-            <arg value="-F" />
-
-            <arg value="file=@${build.dir}/${master-file}-${os}.zip" />
-
-            <arg value="-X" />
-
-            <arg value="PUT" />
-
-            <arg value="https://build.phonegap.com/api/v1/apps/${id}?auth_token=i1c3E6MMYymBTe1Y6mBN" />
-        </exec>
-    </target>
-
-    <target name="clean" >
-
-        <delete dir="${build.dir}" />
-    </target>
-
-    <target name="prepare.dirs" >
-
-        <mkdir dir="${build.dir}" />
-
-        <mkdir dir="${build.dir}/tests" />
-    </target>
-
+	<target name="clean">
+		<delete dir="${classes.dir}" />
+		<delete dir="${jars.dir}" />
+		<delete dir="${objc.dir}" />
+		<delete dir="${gwt.www.dir}" />
+		<delete dir="${www.dir}" />
+		<delete dir="${www.dir}-bb" />
+		<delete dir="${build.dir}" />
+	</target>
 </project>

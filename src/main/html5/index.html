@@ -30,37 +30,40 @@ canvas {
 	<!-- 
 	<script type="text/javascript" src="phonegap.js" charset="utf-8"></script>
  -->
-	<script type="text/javascript" src="js/globals.js"></script>
-	<script type="text/javascript" src="js/timer.js"></script>
-	<script type="text/javascript" src="js/tools.js"></script>
-	<script type="text/javascript" src="js/part.js"></script>
-	<script type="text/javascript" src="js/bone.js"></script>
-	<script type="text/javascript" src="js/thing.js"></script>
-	<script type="text/javascript" src="js/thingcontainer.js"></script>
-	<script type="text/javascript" src="js/ellipse.js"></script>
-	<script type="text/javascript" src="js/boundingcircle.js"></script>
-	<script type="text/javascript" src="js/triangle.js"></script>
-	<script type="text/javascript" src="js/rectangle.js"></script>
-	<script type="text/javascript" src="js/quad.js"></script>
-	<script type="text/javascript" src="js/partanimation.js"></script>
-	<script type="text/javascript" src="js/compositeanimation.js"></script>
-	<script type="text/javascript" src="js/collisionhandler.js"></script>
-	<script type="text/javascript" src="js/lakotacollisionhandler.js"></script>
-	<script type="text/javascript" src="js/arrowcollisionhandler.js"></script>
-	<script type="text/javascript" src="js/coordinatetap.js"></script>
-	<script type="text/javascript" src="js/arrow.js"></script>
-	<script type="text/javascript" src="js/tatanka.js"></script>
-	<script type="text/javascript" src="js/sioux.js"></script>
-	<script type="text/javascript" src="js/mustang.js"></script>
-	<script type="text/javascript" src="js/joystick.js"></script>
-	<script type="text/javascript" src="js/tatankaanimation.js"></script>
-	<script type="text/javascript" src="js/lakotaanimation.js"></script>
-	<script type="text/javascript" src="js/prairie.js"></script>
-	<script type="text/javascript" src="js/mountedlakota.js"></script>
-	<script type="text/javascript" src="js/tatankaherd.js"></script>
-	<script type="text/javascript" src="js/modell.js"></script>
-	<script type="text/javascript" src="js/tatankamodell.js"></script>
-	<script type="text/javascript" src="js/view.js"></script>
+	<script type="text/javascript" src="js/eagle/globals.js"></script>
+	<script type="text/javascript" src="js/eagle/timer.js"></script>
+	<script type="text/javascript" src="js/eagle/tools.js"></script>
+	<script type="text/javascript" src="js/eagle/part.js"></script>
+	<script type="text/javascript" src="js/eagle/bone.js"></script>
+	<script type="text/javascript" src="js/eagle/thing.js"></script>
+	<script type="text/javascript" src="js/eagle/thingcontainer.js"></script>
+	<script type="text/javascript" src="js/eagle/ellipse.js"></script>
+	<script type="text/javascript" src="js/eagle/boundingcircle.js"></script>
+	<script type="text/javascript" src="js/eagle/triangle.js"></script>
+	<script type="text/javascript" src="js/eagle/rectangle.js"></script>
+	<script type="text/javascript" src="js/eagle/imagething.js"></script>
+	<script type="text/javascript" src="js/eagle/tools.js"></script>
+	<script type="text/javascript" src="js/eagle/text.js"></script>
+	<script type="text/javascript" src="js/eagle/partanimation.js"></script>
+	<script type="text/javascript" src="js/eagle/compositeanimation.js"></script>
+	<script type="text/javascript" src="js/eagle/collisionhandler.js"></script>
+	<script type="text/javascript" src="js/eagle/coordinatetap.js"></script>
+	<script type="text/javascript" src="js/eagle/modell.js"></script>
+	<script type="text/javascript" src="js/eagle/view.js"></script>
+	<script type="text/javascript" src="js/tatanka/lakotacollisionhandler.js"></script>
+	<script type="text/javascript" src="js/tatanka/arrowcollisionhandler.js"></script>
+	<script type="text/javascript" src="js/tatanka/arrow.js"></script>
+	<script type="text/javascript" src="js/tatanka/tatanka.js"></script>
+	<script type="text/javascript" src="js/tatanka/sioux.js"></script>
+	<script type="text/javascript" src="js/tatanka/mustang.js"></script>
+	<script type="text/javascript" src="js/tatanka/joystick.js"></script>
+	<script type="text/javascript" src="js/tatanka/animalanimation.js"></script>
+	<script type="text/javascript" src="js/tatanka/lakotaanimation.js"></script>
+	<script type="text/javascript" src="js/tatanka/prairie.js"></script>
+	<script type="text/javascript" src="js/tatanka/mountedlakota.js"></script>
+	<script type="text/javascript" src="js/tatanka/texts.js"></script>
+	<script type="text/javascript" src="js/tatanka/tatankaherd.js"></script>
+	<script type="text/javascript" src="js/tatanka/tatankamodell.js"></script>
 	<script type="text/javascript" src="jquery/jquery.js"></script>
 	<div id="all">
 		<canvas id="canvas" onMouseDown="view.down(event)"
@@ -373,7 +376,7 @@ canvas {
 						document.getElementById("canvas").setAttribute(
 								"height", canvasheight);
 						if (services == undefined) {
-							view= new View(canvas);
+							view= new View(canvas, new TatankaModell(), 40);
 						} else {
 							view= services.getView();
 							services.getView().enabled = true;

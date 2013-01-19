@@ -9,6 +9,7 @@ public class MountedLakota extends ThingContainer {
 	PartAnimation lakotaRot = null;
 	PartAnimation mustangRot = null;
 	float speed, speedxeff, speedyeff, speedx, speedy;
+	int arrows= 30;
 
 	public MountedLakota(float x, float y) {
 		init(3);
@@ -33,6 +34,8 @@ public class MountedLakota extends ThingContainer {
 		float s = Globals.getScale();
 		translateRoot(x * s, y * s, 0);
 		scaleRoot(s * 0.8f, s * 0.8f);
+		
+		
 	}
 
 	public void slower() {
@@ -93,7 +96,14 @@ public class MountedLakota extends ThingContainer {
 		return lakota;
 	}
 
+	public int getArrows() {
+		return arrows;
+	}
+	
 	public boolean shoot(int x, int y) {
+		if(arrows<= 0)
+			return false;
+		arrows--;
 		return lakota.shoot(x, y);
 	}
 
@@ -101,7 +111,7 @@ public class MountedLakota extends ThingContainer {
 		int phi = Part.calcPhi(lakota.getRotation() + 90);
 
 		float sin = Part.mysin[phi];
-		float cos = -Part.mycos[phi];
+		float cos = Part.mycos[phi]* -1;
 
 		float oldspeed = speed;
 		speed += acceleration;

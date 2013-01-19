@@ -1,3 +1,8 @@
-All JavaScript, HTML and images are in the public domain.
+All JavaScript, HTML and images under src/res are in the public domain.
 
-Most images by Edward S. Curtis.
+Images under src/media by Edward S. Curtis.
+Northwestern University Library, Edward S. Curtis's 'The North American Indian': the Photographic Images, 2001. 
+http://memory.loc.gov/ammem/award98/ienhtml/curthome.html
+
+Bison Sound:  License: Public Domain | Recorded by nps.gov 
+http://soundbible.com/918-Bison.html

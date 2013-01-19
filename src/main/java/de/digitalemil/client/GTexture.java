@@ -11,9 +11,12 @@ public class GTexture {
 	Image img;
 	ImageElement imgElement;
 	boolean imageLoaded;
+	private int width, height;
 
-	public GTexture (String name) {
-		img = new Image(name);
+	public GTexture (String name, int w, int h) {
+		width= w;
+		height= h;
+		img = new Image("res/"+name);
 		img.addLoadHandler(new LoadHandler() {
 			public void onLoad(LoadEvent event) {
 				imageLoaded = true;
@@ -23,6 +26,14 @@ public class GTexture {
 		});
 		img.setVisible(false);
 		RootPanel.get().add(img); // image must be on page to fire load
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 	
 	public ImageElement getImageElement() {
@@ -36,6 +47,10 @@ public class GTexture {
 
 	}
 
+	public boolean loaded() {
+		return imageLoaded;
+	}
+	/*
 	public void draw(Context2d context) {
 		if (!imageLoaded) {
 			return;
@@ -48,4 +63,5 @@ public class GTexture {
 
 		// draw(context);
 	}
+	*/
 }

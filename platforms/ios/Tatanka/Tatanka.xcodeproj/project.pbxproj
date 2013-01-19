@@ -19,6 +19,46 @@
 		286B25EC167F32890046A5DE /* de_digitalemilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B25EB167F32890046A5DE /* de_digitalemilViewController.m */; };
 		286B25EF167F32890046A5DE /* de_digitalemilViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 286B25ED167F32890046A5DE /* de_digitalemilViewController_iPhone.xib */; };
 		286B25F2167F32890046A5DE /* de_digitalemilViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 286B25F0167F32890046A5DE /* de_digitalemilViewController_iPad.xib */; };
+		286B2722167F496C0046A5DE /* TatankaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2721167F496C0046A5DE /* TatankaView.m */; };
+		286B277F167F4C930046A5DE /* Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2754167F4C930046A5DE /* Animation.m */; };
+		286B2780167F4C930046A5DE /* Bone.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2756167F4C930046A5DE /* Bone.m */; };
+		286B2781167F4C930046A5DE /* BoundingCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2758167F4C930046A5DE /* BoundingCircle.m */; };
+		286B2782167F4C930046A5DE /* CanHaveChilds.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B275A167F4C930046A5DE /* CanHaveChilds.m */; };
+		286B2783167F4C930046A5DE /* CollisionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B275C167F4C930046A5DE /* CollisionHandler.m */; };
+		286B2784167F4C930046A5DE /* CollisionHandlerImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B275E167F4C930046A5DE /* CollisionHandlerImpl.m */; };
+		286B2785167F4C930046A5DE /* CompositeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2760167F4C930046A5DE /* CompositeAnimation.m */; };
+		286B2786167F4C930046A5DE /* CoordinateTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2762167F4C930046A5DE /* CoordinateTap.m */; };
+		286B2787167F4C930046A5DE /* CoordinateTapImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2764167F4C930046A5DE /* CoordinateTapImpl.m */; };
+		286B2788167F4C930046A5DE /* Ellipse.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2766167F4C930046A5DE /* Ellipse.m */; };
+		286B2789167F4C930046A5DE /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2768167F4C930046A5DE /* Globals.m */; };
+		286B278A167F4C930046A5DE /* Joystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B276A167F4C930046A5DE /* Joystick.m */; };
+		286B278B167F4C930046A5DE /* Loop.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B276C167F4C930046A5DE /* Loop.m */; };
+		286B278C167F4C930046A5DE /* Modell.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B276E167F4C930046A5DE /* Modell.m */; };
+		286B278D167F4C930046A5DE /* Part.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2770167F4C930046A5DE /* Part.m */; };
+		286B278E167F4C930046A5DE /* PartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2772167F4C930046A5DE /* PartAnimation.m */; };
+		286B2790167F4C930046A5DE /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2776167F4C930046A5DE /* Rectangle.m */; };
+		286B2791167F4C930046A5DE /* Thing.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2778167F4C930046A5DE /* Thing.m */; };
+		286B2792167F4C930046A5DE /* ThingContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B277A167F4C930046A5DE /* ThingContainer.m */; };
+		286B2793167F4C930046A5DE /* Triangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B277C167F4C930046A5DE /* Triangle.m */; };
+		286B2794167F4C930046A5DE /* Types.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B277E167F4C930046A5DE /* Types.m */; };
+		286B27B4167F4CAA0046A5DE /* AnimalAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2797167F4CAA0046A5DE /* AnimalAnimation.m */; };
+		286B27B5167F4CAA0046A5DE /* Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B2799167F4CAA0046A5DE /* Arrow.m */; };
+		286B27B6167F4CAA0046A5DE /* ArrowCollisionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B279B167F4CAA0046A5DE /* ArrowCollisionHandler.m */; };
+		286B27B7167F4CAA0046A5DE /* JoystickImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B279D167F4CAA0046A5DE /* JoystickImpl.m */; };
+		286B27B8167F4CAA0046A5DE /* LakotaCollisionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B279F167F4CAA0046A5DE /* LakotaCollisionHandler.m */; };
+		286B27B9167F4CAA0046A5DE /* MountedLakota.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27A1167F4CAA0046A5DE /* MountedLakota.m */; };
+		286B27BA167F4CAA0046A5DE /* Mustang.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27A3167F4CAA0046A5DE /* Mustang.m */; };
+		286B27BB167F4CAA0046A5DE /* Prairie.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27A5167F4CAA0046A5DE /* Prairie.m */; };
+		286B27BC167F4CAA0046A5DE /* Rope.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27A7167F4CAA0046A5DE /* Rope.m */; };
+		286B27BD167F4CAA0046A5DE /* ShootingLakotaAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27A9167F4CAA0046A5DE /* ShootingLakotaAnimation.m */; };
+		286B27BE167F4CAA0046A5DE /* Sioux.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27AB167F4CAA0046A5DE /* Sioux.m */; };
+		286B27BF167F4CAA0046A5DE /* Tatanka.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27AD167F4CAA0046A5DE /* Tatanka.m */; };
+		286B27C0167F4CAA0046A5DE /* TatankaHerd.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27AF167F4CAA0046A5DE /* TatankaHerd.m */; };
+		286B27C1167F4CAA0046A5DE /* TatankaModell.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27B1167F4CAA0046A5DE /* TatankaModell.m */; };
+		286B27C2167F4CAA0046A5DE /* TatankaTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 286B27B3167F4CAA0046A5DE /* TatankaTypes.m */; };
+		28F6680C16A3FC3A0065FDD5 /* ImageThing.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F6680916A3FC3A0065FDD5 /* ImageThing.m */; };
+		28F6680D16A3FC3A0065FDD5 /* Text.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F6680B16A3FC3A0065FDD5 /* Text.m */; };
+		28F6681016A3FC480065FDD5 /* Texts.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F6680F16A3FC480065FDD5 /* Texts.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +79,86 @@
 		286B25EB167F32890046A5DE /* de_digitalemilViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = de_digitalemilViewController.m; sourceTree = "<group>"; };
 		286B25EE167F32890046A5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/de_digitalemilViewController_iPhone.xib; sourceTree = "<group>"; };
 		286B25F1167F32890046A5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/de_digitalemilViewController_iPad.xib; sourceTree = "<group>"; };
+		286B2720167F496C0046A5DE /* TatankaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TatankaView.h; sourceTree = "<group>"; };
+		286B2721167F496C0046A5DE /* TatankaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TatankaView.m; sourceTree = "<group>"; };
+		286B2753167F4C930046A5DE /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		286B2754167F4C930046A5DE /* Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animation.m; sourceTree = "<group>"; };
+		286B2755167F4C930046A5DE /* Bone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bone.h; sourceTree = "<group>"; };
+		286B2756167F4C930046A5DE /* Bone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bone.m; sourceTree = "<group>"; };
+		286B2757167F4C930046A5DE /* BoundingCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingCircle.h; sourceTree = "<group>"; };
+		286B2758167F4C930046A5DE /* BoundingCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoundingCircle.m; sourceTree = "<group>"; };
+		286B2759167F4C930046A5DE /* CanHaveChilds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanHaveChilds.h; sourceTree = "<group>"; };
+		286B275A167F4C930046A5DE /* CanHaveChilds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CanHaveChilds.m; sourceTree = "<group>"; };
+		286B275B167F4C930046A5DE /* CollisionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollisionHandler.h; sourceTree = "<group>"; };
+		286B275C167F4C930046A5DE /* CollisionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollisionHandler.m; sourceTree = "<group>"; };
+		286B275D167F4C930046A5DE /* CollisionHandlerImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollisionHandlerImpl.h; sourceTree = "<group>"; };
+		286B275E167F4C930046A5DE /* CollisionHandlerImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollisionHandlerImpl.m; sourceTree = "<group>"; };
+		286B275F167F4C930046A5DE /* CompositeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompositeAnimation.h; sourceTree = "<group>"; };
+		286B2760167F4C930046A5DE /* CompositeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompositeAnimation.m; sourceTree = "<group>"; };
+		286B2761167F4C930046A5DE /* CoordinateTap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoordinateTap.h; sourceTree = "<group>"; };
+		286B2762167F4C930046A5DE /* CoordinateTap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoordinateTap.m; sourceTree = "<group>"; };
+		286B2763167F4C930046A5DE /* CoordinateTapImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoordinateTapImpl.h; sourceTree = "<group>"; };
+		286B2764167F4C930046A5DE /* CoordinateTapImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoordinateTapImpl.m; sourceTree = "<group>"; };
+		286B2765167F4C930046A5DE /* Ellipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ellipse.h; sourceTree = "<group>"; };
+		286B2766167F4C930046A5DE /* Ellipse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ellipse.m; sourceTree = "<group>"; };
+		286B2767167F4C930046A5DE /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		286B2768167F4C930046A5DE /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
+		286B2769167F4C930046A5DE /* Joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Joystick.h; sourceTree = "<group>"; };
+		286B276A167F4C930046A5DE /* Joystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Joystick.m; sourceTree = "<group>"; };
+		286B276B167F4C930046A5DE /* Loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loop.h; sourceTree = "<group>"; };
+		286B276C167F4C930046A5DE /* Loop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Loop.m; sourceTree = "<group>"; };
+		286B276D167F4C930046A5DE /* Modell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Modell.h; sourceTree = "<group>"; };
+		286B276E167F4C930046A5DE /* Modell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Modell.m; sourceTree = "<group>"; };
+		286B276F167F4C930046A5DE /* Part.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Part.h; sourceTree = "<group>"; };
+		286B2770167F4C930046A5DE /* Part.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Part.m; sourceTree = "<group>"; };
+		286B2771167F4C930046A5DE /* PartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartAnimation.h; sourceTree = "<group>"; };
+		286B2772167F4C930046A5DE /* PartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PartAnimation.m; sourceTree = "<group>"; };
+		286B2775167F4C930046A5DE /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
+		286B2776167F4C930046A5DE /* Rectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rectangle.m; sourceTree = "<group>"; };
+		286B2777167F4C930046A5DE /* Thing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thing.h; sourceTree = "<group>"; };
+		286B2778167F4C930046A5DE /* Thing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Thing.m; sourceTree = "<group>"; };
+		286B2779167F4C930046A5DE /* ThingContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThingContainer.h; sourceTree = "<group>"; };
+		286B277A167F4C930046A5DE /* ThingContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThingContainer.m; sourceTree = "<group>"; };
+		286B277B167F4C930046A5DE /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
+		286B277C167F4C930046A5DE /* Triangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Triangle.m; sourceTree = "<group>"; };
+		286B277D167F4C930046A5DE /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		286B277E167F4C930046A5DE /* Types.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Types.m; sourceTree = "<group>"; };
+		286B2796167F4CAA0046A5DE /* AnimalAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimalAnimation.h; sourceTree = "<group>"; };
+		286B2797167F4CAA0046A5DE /* AnimalAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimalAnimation.m; sourceTree = "<group>"; };
+		286B2798167F4CAA0046A5DE /* Arrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Arrow.h; sourceTree = "<group>"; };
+		286B2799167F4CAA0046A5DE /* Arrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Arrow.m; sourceTree = "<group>"; };
+		286B279A167F4CAA0046A5DE /* ArrowCollisionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrowCollisionHandler.h; sourceTree = "<group>"; };
+		286B279B167F4CAA0046A5DE /* ArrowCollisionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrowCollisionHandler.m; sourceTree = "<group>"; };
+		286B279C167F4CAA0046A5DE /* JoystickImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoystickImpl.h; sourceTree = "<group>"; };
+		286B279D167F4CAA0046A5DE /* JoystickImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoystickImpl.m; sourceTree = "<group>"; };
+		286B279E167F4CAA0046A5DE /* LakotaCollisionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LakotaCollisionHandler.h; sourceTree = "<group>"; };
+		286B279F167F4CAA0046A5DE /* LakotaCollisionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LakotaCollisionHandler.m; sourceTree = "<group>"; };
+		286B27A0167F4CAA0046A5DE /* MountedLakota.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MountedLakota.h; sourceTree = "<group>"; };
+		286B27A1167F4CAA0046A5DE /* MountedLakota.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MountedLakota.m; sourceTree = "<group>"; };
+		286B27A2167F4CAA0046A5DE /* Mustang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mustang.h; sourceTree = "<group>"; };
+		286B27A3167F4CAA0046A5DE /* Mustang.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mustang.m; sourceTree = "<group>"; };
+		286B27A4167F4CAA0046A5DE /* Prairie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prairie.h; sourceTree = "<group>"; };
+		286B27A5167F4CAA0046A5DE /* Prairie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Prairie.m; sourceTree = "<group>"; };
+		286B27A6167F4CAA0046A5DE /* Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rope.h; sourceTree = "<group>"; };
+		286B27A7167F4CAA0046A5DE /* Rope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rope.m; sourceTree = "<group>"; };
+		286B27A8167F4CAA0046A5DE /* ShootingLakotaAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShootingLakotaAnimation.h; sourceTree = "<group>"; };
+		286B27A9167F4CAA0046A5DE /* ShootingLakotaAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShootingLakotaAnimation.m; sourceTree = "<group>"; };
+		286B27AA167F4CAA0046A5DE /* Sioux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sioux.h; sourceTree = "<group>"; };
+		286B27AB167F4CAA0046A5DE /* Sioux.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sioux.m; sourceTree = "<group>"; };
+		286B27AC167F4CAA0046A5DE /* Tatanka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tatanka.h; sourceTree = "<group>"; };
+		286B27AD167F4CAA0046A5DE /* Tatanka.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tatanka.m; sourceTree = "<group>"; };
+		286B27AE167F4CAA0046A5DE /* TatankaHerd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TatankaHerd.h; sourceTree = "<group>"; };
+		286B27AF167F4CAA0046A5DE /* TatankaHerd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TatankaHerd.m; sourceTree = "<group>"; };
+		286B27B0167F4CAA0046A5DE /* TatankaModell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TatankaModell.h; sourceTree = "<group>"; };
+		286B27B1167F4CAA0046A5DE /* TatankaModell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TatankaModell.m; sourceTree = "<group>"; };
+		286B27B2167F4CAA0046A5DE /* TatankaTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TatankaTypes.h; sourceTree = "<group>"; };
+		286B27B3167F4CAA0046A5DE /* TatankaTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TatankaTypes.m; sourceTree = "<group>"; };
+		28F6680816A3FC3A0065FDD5 /* ImageThing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageThing.h; sourceTree = "<group>"; };
+		28F6680916A3FC3A0065FDD5 /* ImageThing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageThing.m; sourceTree = "<group>"; };
+		28F6680A16A3FC3A0065FDD5 /* Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
+		28F6680B16A3FC3A0065FDD5 /* Text.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Text.m; sourceTree = "<group>"; };
+		28F6680E16A3FC480065FDD5 /* Texts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texts.h; sourceTree = "<group>"; };
+		28F6680F16A3FC480065FDD5 /* Texts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texts.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +205,8 @@
 		286B25D8167F32890046A5DE /* Tatanka */ = {
 			isa = PBXGroup;
 			children = (
+				286B2795167F4CAA0046A5DE /* tatanka */,
+				286B2752167F4C930046A5DE /* eagle */,
 				286B25E1167F32890046A5DE /* de_digitalemilAppDelegate.h */,
 				286B25E2167F32890046A5DE /* de_digitalemilAppDelegate.m */,
 				286B25EA167F32890046A5DE /* de_digitalemilViewController.h */,
@@ -92,6 +214,8 @@
 				286B25ED167F32890046A5DE /* de_digitalemilViewController_iPhone.xib */,
 				286B25F0167F32890046A5DE /* de_digitalemilViewController_iPad.xib */,
 				286B25D9167F32890046A5DE /* Supporting Files */,
+				286B2720167F496C0046A5DE /* TatankaView.h */,
+				286B2721167F496C0046A5DE /* TatankaView.m */,
 			);
 			path = Tatanka;
 			sourceTree = "<group>";
@@ -108,6 +232,100 @@
 				286B25E8167F32890046A5DE /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		286B2752167F4C930046A5DE /* eagle */ = {
+			isa = PBXGroup;
+			children = (
+				28F6680816A3FC3A0065FDD5 /* ImageThing.h */,
+				28F6680916A3FC3A0065FDD5 /* ImageThing.m */,
+				28F6680A16A3FC3A0065FDD5 /* Text.h */,
+				28F6680B16A3FC3A0065FDD5 /* Text.m */,
+				286B2753167F4C930046A5DE /* Animation.h */,
+				286B2754167F4C930046A5DE /* Animation.m */,
+				286B2755167F4C930046A5DE /* Bone.h */,
+				286B2756167F4C930046A5DE /* Bone.m */,
+				286B2757167F4C930046A5DE /* BoundingCircle.h */,
+				286B2758167F4C930046A5DE /* BoundingCircle.m */,
+				286B2759167F4C930046A5DE /* CanHaveChilds.h */,
+				286B275A167F4C930046A5DE /* CanHaveChilds.m */,
+				286B275B167F4C930046A5DE /* CollisionHandler.h */,
+				286B275C167F4C930046A5DE /* CollisionHandler.m */,
+				286B275D167F4C930046A5DE /* CollisionHandlerImpl.h */,
+				286B275E167F4C930046A5DE /* CollisionHandlerImpl.m */,
+				286B275F167F4C930046A5DE /* CompositeAnimation.h */,
+				286B2760167F4C930046A5DE /* CompositeAnimation.m */,
+				286B2761167F4C930046A5DE /* CoordinateTap.h */,
+				286B2762167F4C930046A5DE /* CoordinateTap.m */,
+				286B2763167F4C930046A5DE /* CoordinateTapImpl.h */,
+				286B2764167F4C930046A5DE /* CoordinateTapImpl.m */,
+				286B2765167F4C930046A5DE /* Ellipse.h */,
+				286B2766167F4C930046A5DE /* Ellipse.m */,
+				286B2767167F4C930046A5DE /* Globals.h */,
+				286B2768167F4C930046A5DE /* Globals.m */,
+				286B2769167F4C930046A5DE /* Joystick.h */,
+				286B276A167F4C930046A5DE /* Joystick.m */,
+				286B276B167F4C930046A5DE /* Loop.h */,
+				286B276C167F4C930046A5DE /* Loop.m */,
+				286B276D167F4C930046A5DE /* Modell.h */,
+				286B276E167F4C930046A5DE /* Modell.m */,
+				286B276F167F4C930046A5DE /* Part.h */,
+				286B2770167F4C930046A5DE /* Part.m */,
+				286B2771167F4C930046A5DE /* PartAnimation.h */,
+				286B2772167F4C930046A5DE /* PartAnimation.m */,
+				286B2775167F4C930046A5DE /* Rectangle.h */,
+				286B2776167F4C930046A5DE /* Rectangle.m */,
+				286B2777167F4C930046A5DE /* Thing.h */,
+				286B2778167F4C930046A5DE /* Thing.m */,
+				286B2779167F4C930046A5DE /* ThingContainer.h */,
+				286B277A167F4C930046A5DE /* ThingContainer.m */,
+				286B277B167F4C930046A5DE /* Triangle.h */,
+				286B277C167F4C930046A5DE /* Triangle.m */,
+				286B277D167F4C930046A5DE /* Types.h */,
+				286B277E167F4C930046A5DE /* Types.m */,
+			);
+			name = eagle;
+			path = ../../../../build/objc/de/digitalemil/eagle;
+			sourceTree = "<group>";
+		};
+		286B2795167F4CAA0046A5DE /* tatanka */ = {
+			isa = PBXGroup;
+			children = (
+				28F6680E16A3FC480065FDD5 /* Texts.h */,
+				28F6680F16A3FC480065FDD5 /* Texts.m */,
+				286B2796167F4CAA0046A5DE /* AnimalAnimation.h */,
+				286B2797167F4CAA0046A5DE /* AnimalAnimation.m */,
+				286B2798167F4CAA0046A5DE /* Arrow.h */,
+				286B2799167F4CAA0046A5DE /* Arrow.m */,
+				286B279A167F4CAA0046A5DE /* ArrowCollisionHandler.h */,
+				286B279B167F4CAA0046A5DE /* ArrowCollisionHandler.m */,
+				286B279C167F4CAA0046A5DE /* JoystickImpl.h */,
+				286B279D167F4CAA0046A5DE /* JoystickImpl.m */,
+				286B279E167F4CAA0046A5DE /* LakotaCollisionHandler.h */,
+				286B279F167F4CAA0046A5DE /* LakotaCollisionHandler.m */,
+				286B27A0167F4CAA0046A5DE /* MountedLakota.h */,
+				286B27A1167F4CAA0046A5DE /* MountedLakota.m */,
+				286B27A2167F4CAA0046A5DE /* Mustang.h */,
+				286B27A3167F4CAA0046A5DE /* Mustang.m */,
+				286B27A4167F4CAA0046A5DE /* Prairie.h */,
+				286B27A5167F4CAA0046A5DE /* Prairie.m */,
+				286B27A6167F4CAA0046A5DE /* Rope.h */,
+				286B27A7167F4CAA0046A5DE /* Rope.m */,
+				286B27A8167F4CAA0046A5DE /* ShootingLakotaAnimation.h */,
+				286B27A9167F4CAA0046A5DE /* ShootingLakotaAnimation.m */,
+				286B27AA167F4CAA0046A5DE /* Sioux.h */,
+				286B27AB167F4CAA0046A5DE /* Sioux.m */,
+				286B27AC167F4CAA0046A5DE /* Tatanka.h */,
+				286B27AD167F4CAA0046A5DE /* Tatanka.m */,
+				286B27AE167F4CAA0046A5DE /* TatankaHerd.h */,
+				286B27AF167F4CAA0046A5DE /* TatankaHerd.m */,
+				286B27B0167F4CAA0046A5DE /* TatankaModell.h */,
+				286B27B1167F4CAA0046A5DE /* TatankaModell.m */,
+				286B27B2167F4CAA0046A5DE /* TatankaTypes.h */,
+				286B27B3167F4CAA0046A5DE /* TatankaTypes.m */,
+			);
+			name = tatanka;
+			path = ../../../../build/objc/de/digitalemil/tatanka;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +399,46 @@
 				286B25DF167F32890046A5DE /* main.m in Sources */,
 				286B25E3167F32890046A5DE /* de_digitalemilAppDelegate.m in Sources */,
 				286B25EC167F32890046A5DE /* de_digitalemilViewController.m in Sources */,
+				286B2722167F496C0046A5DE /* TatankaView.m in Sources */,
+				286B277F167F4C930046A5DE /* Animation.m in Sources */,
+				286B2780167F4C930046A5DE /* Bone.m in Sources */,
+				286B2781167F4C930046A5DE /* BoundingCircle.m in Sources */,
+				286B2782167F4C930046A5DE /* CanHaveChilds.m in Sources */,
+				286B2783167F4C930046A5DE /* CollisionHandler.m in Sources */,
+				286B2784167F4C930046A5DE /* CollisionHandlerImpl.m in Sources */,
+				286B2785167F4C930046A5DE /* CompositeAnimation.m in Sources */,
+				286B2786167F4C930046A5DE /* CoordinateTap.m in Sources */,
+				286B2787167F4C930046A5DE /* CoordinateTapImpl.m in Sources */,
+				286B2788167F4C930046A5DE /* Ellipse.m in Sources */,
+				286B2789167F4C930046A5DE /* Globals.m in Sources */,
+				286B278A167F4C930046A5DE /* Joystick.m in Sources */,
+				286B278B167F4C930046A5DE /* Loop.m in Sources */,
+				286B278C167F4C930046A5DE /* Modell.m in Sources */,
+				286B278D167F4C930046A5DE /* Part.m in Sources */,
+				286B278E167F4C930046A5DE /* PartAnimation.m in Sources */,
+				286B2790167F4C930046A5DE /* Rectangle.m in Sources */,
+				286B2791167F4C930046A5DE /* Thing.m in Sources */,
+				286B2792167F4C930046A5DE /* ThingContainer.m in Sources */,
+				286B2793167F4C930046A5DE /* Triangle.m in Sources */,
+				286B2794167F4C930046A5DE /* Types.m in Sources */,
+				286B27B4167F4CAA0046A5DE /* AnimalAnimation.m in Sources */,
+				286B27B5167F4CAA0046A5DE /* Arrow.m in Sources */,
+				286B27B6167F4CAA0046A5DE /* ArrowCollisionHandler.m in Sources */,
+				286B27B7167F4CAA0046A5DE /* JoystickImpl.m in Sources */,
+				286B27B8167F4CAA0046A5DE /* LakotaCollisionHandler.m in Sources */,
+				286B27B9167F4CAA0046A5DE /* MountedLakota.m in Sources */,
+				286B27BA167F4CAA0046A5DE /* Mustang.m in Sources */,
+				286B27BB167F4CAA0046A5DE /* Prairie.m in Sources */,
+				286B27BC167F4CAA0046A5DE /* Rope.m in Sources */,
+				286B27BD167F4CAA0046A5DE /* ShootingLakotaAnimation.m in Sources */,
+				286B27BE167F4CAA0046A5DE /* Sioux.m in Sources */,
+				286B27BF167F4CAA0046A5DE /* Tatanka.m in Sources */,
+				286B27C0167F4CAA0046A5DE /* TatankaHerd.m in Sources */,
+				286B27C1167F4CAA0046A5DE /* TatankaModell.m in Sources */,
+				286B27C2167F4CAA0046A5DE /* TatankaTypes.m in Sources */,
+				28F6680C16A3FC3A0065FDD5 /* ImageThing.m in Sources */,
+				28F6680D16A3FC3A0065FDD5 /* Text.m in Sources */,
+				28F6681016A3FC480065FDD5 /* Texts.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +526,19 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tatanka/Tatanka-Prefix.pch";
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					/Users/esiemes/tools/j2objc/include,
+					/Users/esiemes/Dropbox/digitalemil/projects/myApps/tatanka/build/objc,
+				);
 				INFOPLIST_FILE = "Tatanka/Tatanka-Info.plist";
+				"LIBRARY_SEARCH_PATHS[arch=*]" = "~/tools/j2objc/lib";
+				"OTHER_LDFLAGS[arch=*]" = (
+					"-l",
+					jre_emul,
+					"-ObjC",
+					"-force_load",
+					/Users/esiemes/tools/j2objc/lib/libjre_emul.a,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -279,7 +549,16 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tatanka/Tatanka-Prefix.pch";
+				"HEADER_SEARCH_PATHS[arch=*]" = "/Users/esiemes/Dropbox/digitalemil/projects/myApps/tatanka/build/objc:/Users/esiemes/tools/j2objc/include";
 				INFOPLIST_FILE = "Tatanka/Tatanka-Info.plist";
+				"LIBRARY_SEARCH_PATHS[arch=*]" = "~/tools/j2objc/lib";
+				"OTHER_LDFLAGS[arch=*]" = (
+					"-l",
+					jre_emul,
+					"-ObjC",
+					"-force_load",
+					/Users/esiemes/tools/j2objc/lib/libjre_emul.a,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -304,6 +583,7 @@
 				286B25F7167F32890046A5DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

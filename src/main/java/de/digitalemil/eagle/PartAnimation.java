@@ -43,6 +43,7 @@ public class PartAnimation implements Animation {
 		running = false;
 	}
 
+	@SearchAndReplaceAnnotation({ "BY", "System.currentTimeMillis", "OS::currentTimeMillies" })
 	public static long currentTimeMillis() {
 		return System.currentTimeMillis();
 	}

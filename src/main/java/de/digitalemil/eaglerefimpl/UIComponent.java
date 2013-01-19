@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Label;
@@ -31,7 +32,7 @@ public class UIComponent extends JComponent {
 	private Image img;
 	public int WIDTH = 768, HEIGHT = 1024;
 	private static final Object lock = new Object();
-	private HashMap textures = new HashMap();
+	private HashMap textures = new HashMap(), texNames = new HashMap();
 	boolean wasSwipe = false;
 	private int startX = 0, startY = 0, maxtex = 0;
 	Modell modell;
@@ -57,21 +58,23 @@ public class UIComponent extends JComponent {
 			for (int i = 0; i < modell.getNumberOfThings(); i++) {
 				if (modell.getThings()[i] == null)
 					continue;
-				if ((modell.getType(i) == Types.QUAD || modell.getType(i) == Types.TEXQUAD)
-						&& (modell.getTexNameFromQuad(i) != null || modell
+				if ((modell.getType(i) == Types.IMAGE)
+						&& (modell.getImageName(i) != null || modell
 								.getTexID(i) != 0)) {
 					int t = modell.getTexID(i);
-					if (modell.texNameChanged(i)) {
+					if (modell.imageNameChanged(i)) {
 						if (modell.isTexIDSet(i)) {
 							// System.out.println("remove: "+t+ " "+textures);
 							textures.remove(new Integer(t));
 						}
-						if (modell.getTexNameFromQuad(i) == null) {
+						if (modell.getImageName(i) == null) {
 							// System.out.println("setTexQuadID to 0");
 							modell.setTexIDForQuad(i, 0);
 							continue;
 						}
-						t = loadTexture(modell.getTexNameFromQuad(i));
+						t = loadTexture(modell.getImageName(i),
+								this.modell.getImageWidth(i),
+								this.modell.getImageHeight(i));
 						modell.setTexIDForQuad(i, t);
 						System.out.println("setTexQuadID to t:" + t);
 					}
@@ -96,9 +99,8 @@ public class UIComponent extends JComponent {
 			if (!modell.isVisible(t))
 				continue;
 
-			if ((modell.getType(t) == Types.QUAD || modell.getType(t) == Types.TEXQUAD)
-					&& (modell.getTexNameFromQuad(t) != null || modell
-							.getTexID(t) != 0)) {
+			if ((modell.getType(t) == Types.IMAGE)
+					&& (modell.getImageName(t) != null || modell.getTexID(t) != 0)) {
 
 				int tex = modell.getTexID(t);
 				Image timg = (Image) textures.get(new Integer(tex));
@@ -113,12 +115,14 @@ public class UIComponent extends JComponent {
 
 				float xmin = min(d[i], d[i + 2], d[i + 4], d[i + 6]);
 				float ymin = min(d[i + 1], d[i + 3], d[i + 5], d[i + 7]);
-			//	System.out.println("img: "+timg.getWidth(null));
+				//System.out.println("img: "+texNames.get(new Integer(tex)));
 				g1.drawImage(timg, (int) (xmin + WIDTH / 2),
 						(int) (HEIGHT / 2 + ymin), null);
 
 			} else {
+				String[] textandfont= modell.getTextAndFont(t);
 				float[] d = modell.getData(t);
+				int texts= 0;
 				int di = 0;
 				int len = modell.getNumberOfData(t);
 				while (di < len) {
@@ -135,15 +139,39 @@ public class UIComponent extends JComponent {
 					if (type == Types.BOUNDINGCIRCLE) {
 						di++;
 					}
-					int[] xa = new int[ni];
-					int[] ya = new int[ni];
-					for (int i = 0; i < 2 * ni; i += 2) {
-						xa[i / 2] = (int) (d[di + 4 + i + 2 * cor] + WIDTH / 2);
-						ya[i / 2] = (int) (d[di + 4 + i + 2 * cor + 1] + HEIGHT / 2);
+					if (type == Types.TEXT) {
+						Font font= new Font(textandfont[texts+1], Font.BOLD, Math.round(d[di + 6]));
+						g1.setColor(color);
+						g1.setFont(font);
+						
+						FontMetrics fm= g1.getFontMetrics();
+						
+						int mw = fm.stringWidth(textandfont[texts]);
+						int mh = fm.stringWidth("m");
+						int x = (int)(d[di + 4] + Globals.getW2());
+						switch ((int)d[di + 7]) {
+						case Text.TEXT_RIGHT:
+							x -= mw;
+							break;
+						case Text.TEXT_CENTER:
+							x -= mw / 2;
+							break;
+						}
+						g1.drawString(textandfont[texts], x, d[di + 5] + (int)Globals.getH2()
+								+ mh / 2);
+						texts += 2;
+						di += 8;
+					} else {
+						int[] xa = new int[ni];
+						int[] ya = new int[ni];
+						for (int i = 0; i < 2 * ni; i += 2) {
+							xa[i / 2] = (int) (d[di + 4 + i + 2 * cor] + WIDTH / 2);
+							ya[i / 2] = (int) (d[di + 4 + i + 2 * cor + 1] + HEIGHT / 2);
+						}
+						g1.setColor(color);
+						g1.fillPolygon(xa, ya, ni);
+						di += 4 + 2 * (ni + 1);
 					}
-					g1.setColor(color);
-					g1.fillPolygon(xa, ya, ni);
-					di += 4 + 2 * (ni + 1);
 				}
 
 			}
@@ -151,8 +179,8 @@ public class UIComponent extends JComponent {
 		g1.setColor(Color.WHITE);
 
 		g1.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		
-		g1.drawString("fps: "+modell.getFps(), 20, 20);
+
+		g1.drawString("fps: " + modell.getFps(), 20, 20);
 		g.drawImage(img, 0, 0, null);
 	}
 
@@ -223,12 +251,19 @@ public class UIComponent extends JComponent {
 		}
 	}
 
-	public int loadTexture(String name) {
-		Image tex = loadImage(name);
+	public int loadTexture(String name, int w, int h) {
+		for (int i = 1; i <= textures.size(); i++) {
+			Image img = (Image) textures.get(new Integer(i));
+			if (name.equals(texNames.get(i)) && w == img.getWidth(null)
+					&& h == img.getHeight(null))
+				return i;
+		}
+		Image tex = loadImage(name, w, h);
 		if (tex == null)
 			return 0;
 		int ret = new Integer(++maxtex).intValue();
 		textures.put(new Integer(ret), tex);
+		texNames.put(new Integer(ret), name);
 		return ret;
 	}
 
@@ -252,8 +287,8 @@ public class UIComponent extends JComponent {
 		return ret;
 	}
 
-	public Image loadImage(String name) {
-		System.out.println("loadImage: " + name);
+	public Image loadImage(String name, int w, int h) {
+		System.out.println("loadImage: " + name+" "+w+" "+h);
 		Image image = null;
 		InputStream bais = null;
 		try {
@@ -297,14 +332,8 @@ public class UIComponent extends JComponent {
 			} catch (IOException e1) {
 			}
 		}
-	/*	if ((name.contains("gras") || name.contains("brush"))) {
-			int bgd = Math.max(WIDTH, HEIGHT);
-			System.out.println("Scaled Image: " + bgd);
-			Image ret = image.getScaledInstance(bgd + 1, bgd + 1,
-					Image.SCALE_SMOOTH);
-			image = ret;
-		}*/
-		return image;
+		Image ret = image.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+		return ret;
 	}
 
 }

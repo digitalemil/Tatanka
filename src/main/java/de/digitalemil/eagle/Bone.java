@@ -1,9 +1,10 @@
 package de.digitalemil.eagle;
 
-public class Bone extends Part implements CanHaveChilds {
+public class Bone extends Part {
 	protected float[] data;
+	public String[] textAndFont;
 	protected Part[] parts;
-	protected int nd = 0;
+	protected int nd = 0, nt= 0, maxp= 0;
 	
 	/* For j2objc */
 	public void setData(float[] data) {
@@ -22,22 +23,46 @@ public class Bone extends Part implements CanHaveChilds {
 		return pn;
 	}
 	
+	public String[] getTextAndFont() {
+		return textAndFont;
+	}
+	
+	public void setTextAndFont(String[] taf) {
+		textAndFont= taf;
+	}
+	
 	/* End for j2objc */
 
+	public int getTextAndFont(String [] t, int startT) {
+//		if (invaliddata) {
+	//		return getNumberOfTextAndFont();
+		//}
+//System.err.println("getTextAndFont: "+t+" "+startT);
+		int st = startT;
+		for ( int i = 0; i < pn; i++) {
+			st += parts[i].getTextAndFont(t, st);
+		}
+		return this.nt;
+	}
+
+	
 	protected BoundingCircle[] bcs;
 	protected int pn = 0;
 	protected int nbcs = 0;
 	protected boolean visible = true;
 
+	@SearchAndReplaceAnnotation({ "BY", "new Part", "new Part*" })
 	public Bone(float x, float y, float z, float r, int n) {
 		setRoot(x, y, z, r);
-		parts = new Part[n];
+		maxp= n;
+		parts = new Part[maxp];
 	}
 
 	public int getNumberOfBCs() {
 		return nbcs;
 	}
 
+	@SearchAndReplaceAnnotation({ "BY", "new BoundingCircle", "new BoundingCircle*" })
 	public BoundingCircle[] getBCs() {
 		if (bcs == null) {
 			bcs = new BoundingCircle[nbcs];
@@ -52,8 +77,8 @@ public class Bone extends Part implements CanHaveChilds {
 
 				bcarray[start++] = (BoundingCircle) parts[i];
 			}
-			if (parts[i] instanceof CanHaveChilds) {
-				start = ((CanHaveChilds) parts[i]).addBCs(bcarray, start);
+			if (parts[i].canHaveChilds()) {
+				start = parts[i].addBCs(bcarray, start);
 			}
 		}
 		return start;
@@ -97,6 +122,7 @@ public class Bone extends Part implements CanHaveChilds {
 		this.visible = visible;
 	}
 
+	@SearchAndReplaceAnnotation({ "BY", "Part result", "Part *result", "BY", "n.equals(parts[i].name)", "!strcmp((const char*)n, (const char*)parts[i]->name)" })
 	public Part getByName(String n) {
 		Part result = null;
 		if (name != null && name == n) {
@@ -120,6 +146,7 @@ public class Bone extends Part implements CanHaveChilds {
 		return result;
 	}
 
+	
 	public void add(Part p, float x, float y, float z, float r) {
 		p.translateRoot(x, y, z);
 		p.rotate(r);
@@ -132,22 +159,33 @@ public class Bone extends Part implements CanHaveChilds {
 		add(p, 0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
+	public int getNumberOfTextAndFont() {
+		return nt;
+	}
+
 	public int getNumberOfData() {
 		return nd;
+	}
+
+	public boolean canHaveChilds() {
+		return true;
 	}
 
 	public void setupDone() {
 		nd = 0;
 		nbcs= 0;
+		nt= 0;
 		for (int i = 0; i < pn; i++) {
 			nd += parts[i].getNumberOfData();
+			nt += this.parts[i].getNumberOfTextAndFont();		
+
 			if (parts[i].getType() == Types.BOUNDINGCIRCLE)
 				nbcs++;
-			if (parts[i] instanceof CanHaveChilds) {
-				nbcs += ((CanHaveChilds) parts[i]).getNumberOfBCs();
+			if (parts[i].canHaveChilds()) {
+				nbcs += parts[i].getNumberOfBCs();
 			}
 		}
-		invalidateData();
+		invalidateData();	
 	}
 
 	public int getData(float[] d, int startD, float xn, float yn, float zn,

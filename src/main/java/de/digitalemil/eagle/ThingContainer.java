@@ -3,16 +3,17 @@ package de.digitalemil.eagle;
 public class ThingContainer {
 	protected int n;
 	protected Thing things[];
-	protected Integer layers[];
+	protected int layers[];
 	protected int pos;
 
 	public ThingContainer() {
 	}
 
+	@SearchAndReplaceAnnotation({ "BY", "new Thing", "new Thing*" })	
 	public void init(int nthings) {
 		n = nthings;
 		things = new Thing[n];
-		layers = new Integer[1000];
+		layers = new int[1000];
 	}
 
 	public int addThings(Thing[] in, int p, int layer) {

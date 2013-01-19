@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="optimized"/>
+	<classpathentry kind="src" path="phonegap/iOS/Tatanka/www/jquery"/>
+	<classpathentry kind="src" path="phonegap/iOS/Tatanka/www/js"/>
+	<classpathentry kind="src" path="phonegap/iOS/Tatanka/www/phonegap"/>
+	<classpathentry kind="src" path="phonegap/js"/>
+	<classpathentry kind="src" path="src/jquery"/>
+	<classpathentry kind="src" path="src/js"/>
+	<classpathentry kind="src" path="src/phonegap"/>
+	<classpathentry kind="src" path="www/jquery"/>
+	<classpathentry kind="src" path="www/js"/>
+	<classpathentry kind="src" path="www/phonegap"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

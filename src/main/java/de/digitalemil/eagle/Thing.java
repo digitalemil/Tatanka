@@ -6,6 +6,7 @@ public class Thing extends Bone {
 	protected boolean changed, cancollide, nonvisiblecancollide, movable;
 	protected float maxr;
 	protected CollisionHandler collisionHandler;
+	
 
 	public Thing(int n) {
 		super(0.0f, 0.0f, 0.0f, 0.0f, n);
@@ -43,7 +44,7 @@ public class Thing extends Bone {
 	public void change() {
 		changed = true;
 	}
- 
+
 	public float getRotation() {
 		return rot;
 	}
@@ -52,6 +53,16 @@ public class Thing extends Bone {
 		return changed;
 	}
 
+	public String[] getThingTextAndFont() {
+		String [] taf= getTextAndFont();
+		if (taf == null) {
+			taf= new String[this.nt];
+			setTextAndFont(taf);
+		}
+		getTextAndFont(taf, 0);
+		return taf;	
+	}
+	
 	public float[] getThingData() {
 		if (getData() == null) {
 			setData(new float[getNumberOfData()]);
@@ -65,11 +76,14 @@ public class Thing extends Bone {
 
 	public void reset() {
 		invalidateData();
-		for(int i= 0; i< getNumberOfParts(); i++) {
+		sx= 1.0f;
+		sy= 1.0f;
+		
+		for (int i = 0; i < getNumberOfParts(); i++) {
 			getParts()[i].reset();
 		}
 	}
-	
+
 	public void deleteData() {
 		setData(null);
 		invalidateData();

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface TatankaView : UIView
-
+#import "de/digitalemil/eagle/Globals.h"
+#import "de/digitalemil/tatanka/TatankaModell.h"
+@interface TatankaView : UIView {
+    DeDigitalemilTatankaTatankaModell *modell;
+    
+}
 @end

@@ -10,23 +10,18 @@ public class Prairie extends ThingContainer {
 		ntx = Globals.getWidth() / imgdim + 2;
 		nty = Globals.getHeight() / imgdim + 2;
 
-		System.out.println("Tiles: " + ntx + " " + nty);
 		init(ntx * nty);
 
 		int nt = 0;
 		for (int x = 0; x < ntx; x++) {
 			for (int y = 0; y < nty; y++) {
 				things[nt] = new ImageThing(imgname, imgdim, imgdim);
-				things[nt].setName("Prairie:" + nt);
+				things[nt].setName("Prairie");
 				things[nt].translate(
 						-Math.abs((Globals.getWidth() - imgdim * ntx)) / 2 + x
 								* imgdim + imgdim / 2 - Globals.getW2(),
 						-Math.abs((Globals.getHeight() - imgdim * nty)) / 2 + y
 								* imgdim + imgdim / 2 - Globals.getH2(), 0);
-				if (y == 0)
-					System.out.println(-Math.abs((Globals.getWidth() - imgdim
-							* ntx))
-							/ 2 + x * imgdim + imgdim / 2 - Globals.getW2());
 				// things[i].setVisibility(false);
 				nt++;
 			}

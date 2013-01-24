@@ -1,6 +1,9 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.ClazzModifierAnnotation;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
+@ClazzModifierAnnotation({ "AF", "isTextSet", "boolean", "false" })
 public abstract class Part {
 
 	protected float rsx = 1.0f, rsy = 1.0f, sx = 1.0f, sy = 1.0f;
@@ -9,45 +12,46 @@ public abstract class Part {
 
 	protected float rot = 0.0f, rrot = 0.0f;
 	protected int a = 0, r = 0, g = 0, b = 0;
-	protected String name = "";
+	protected String name;
 
 	protected float tx_rsx, tx_rsy, tx_sx, tx_sy, tx_x, tx_y, tx_z, tx_rot,
 			tx_rx, tx_ry, tx_rz, tx_rrot;
 	protected int tx_a, tx_r, tx_g, tx_b, tx_type = getType();
 	protected boolean tx_invaliddata = true, tx_highlighted = false,
 			intransaction = false;
-	protected String tx_name = "";
+	protected String tx_name;
 	protected CoordinateTap coordtap;
-	protected boolean invaliddata = true, highlighted = false, supTX= true;
+	protected boolean invaliddata = true, highlighted = false, supTX = true;
 
 	protected Bone parent = null;
 
 	public Part() {
+		name= "";
 	}
 
 	abstract public int getData(float[] d, int startD, float xn, float yn,
 			float zn, float a11, float a21, float a12, float a22);
 
 	public int getNumberOfTextAndFont() {
-		return 0; 
+		return 0;
 	}
 
-	public int getTextAndFont(String []t, int startT) {
+	public int getTextAndFont(String[] t, int startT) {
 		return 0;
 	}
 
 	public void setTXSupport(boolean b) {
-		supTX= b;
+		supTX = b;
 	}
-	
+
 	public boolean supportsTX() {
 		return supTX;
 	}
-	
+
 	public boolean isInvalid() {
 		return invaliddata;
 	}
-	
+
 	public void setCoordinateTap(CoordinateTap ct) {
 		coordtap = ct;
 	}
@@ -56,16 +60,14 @@ public abstract class Part {
 		return coordtap;
 	}
 
-	public String saveState() {
-		return "PART|" + this.tx_type + "|" + this.tx_name + "|" + this.tx_rsx
-				+ "||";
-	}
-
-	public boolean loadState(String instate) {
-		return true;
-	}
-
-	@SearchAndReplaceAnnotation({"BY", "throw", "//throw" } )
+	/*
+	 * public String saveState() { return "PART|" + this.tx_type + "|" +
+	 * this.tx_name + "|" + this.tx_rsx + "||"; }
+	 * 
+	 * public boolean loadState(String instate) { return true; }
+	 */
+	@MethodDefinitionChangerAnnotation({ "BY", "throw", "//throw", "BY",
+			"@EMPTYSTRING", "(unsigned char *)@EMPTYSTRING" })
 	public void beginTX() {
 		if (intransaction) {
 			throw new RuntimeException("Already in transaction: " + name);
@@ -96,7 +98,7 @@ public abstract class Part {
 		tx_highlighted = highlighted;
 	}
 
-	@SearchAndReplaceAnnotation({"BY", "throw", "//throw" } )
+	@MethodDefinitionChangerAnnotation({ "BY", "throw", "//throw" })
 	public void commitTX() {
 		if (!intransaction) {
 			throw new RuntimeException("Can not commit: Not in transaction: "
@@ -105,7 +107,7 @@ public abstract class Part {
 		intransaction = false;
 	}
 
-	@SearchAndReplaceAnnotation({"BY", "throw", "//throw" } )
+	@MethodDefinitionChangerAnnotation({ "BY", "throw", "//throw" })
 	public void rollbackTX() {
 		if (!intransaction) {
 			throw new RuntimeException("Can not rollback: Not in transaction: "
@@ -130,7 +132,7 @@ public abstract class Part {
 		rz = tx_rz;
 		rrot = tx_rrot;
 		name = tx_name;
-		invaliddata = true; //tx_invaliddata;
+		invaliddata = true; // tx_invaliddata;
 		highlighted = tx_highlighted;
 	}
 
@@ -182,8 +184,6 @@ public abstract class Part {
 		return rrot;
 	}
 
-	
-
 	public static int calcPhi(float in) {
 		int phi = Math.round(in);
 		while (phi < 0)
@@ -196,10 +196,18 @@ public abstract class Part {
 		return name;
 	}
 
+	@MethodDefinitionChangerAnnotation({
+		"BY",
+		"name=n;",
+		"   if(isTextSet) free(name); name=(unsigned char *)malloc((size_t)(strlen((const char*)n)+1)); strcpy((char*)name, (const char*)n); isTextSet= true;" })
 	public void setName(String n) {
 		name = n;
 	}
 
+	@MethodDefinitionChangerAnnotation({"BY", "int i;", "if(isTextSet) free(name);" })
+	protected void finalize() throws Throwable {
+		int i;
+	}
 	public int getNumberOfData() {
 		return 0; // type, n, color, data triangles*(x & y)
 	}
@@ -223,13 +231,14 @@ public abstract class Part {
 		rz = z;
 		rrot = r;
 	}
-	
+
 	public void rotateRoot(float deg) {
 		invalidateData();
 		rrot = r;
 	}
 
 	@Override
+	@MethodDefinitionChangerAnnotation({ "BY", "return ", "//return" })
 	public String toString() {
 		return "Part [rsx=" + rsx + ", rsy=" + rsy + ", sx=" + sx + ", sy="
 				+ sy + ", x=" + x + ", y=" + y + ", z=" + z + ", rx=" + rx
@@ -240,6 +249,7 @@ public abstract class Part {
 				+ highlighted + "]";
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "a=", "a = (unsigned int) (c >> 24);//" })
 	public void setColor(int c) {
 		invalidateData();
 		a = (int) (c >>> 24);
@@ -289,6 +299,18 @@ public abstract class Part {
 		x = y = z = 0.0f;
 	}
 
+	public boolean canHaveChilds() {
+		return false;
+	}
+
+	public int addBCs(BoundingCircle bcarray[], int start) {
+		return start;
+	}
+
+	public int getNumberOfBCs() {
+		return 0;
+	}
+	
 	public void rotate(float r) {
 		rot += r;
 		while (rot < 0.0) {
@@ -332,6 +354,7 @@ public abstract class Part {
 		clearRotation();
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "Types.PART", "Types::PART" })
 	public int getType() {
 		return Types.PART;
 	}
@@ -345,6 +368,7 @@ public abstract class Part {
 		invalidateData();
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "random()", "(((float)rand())/RAND_MAX)" })
 	public static int getRandom(int min, int max) {
 		if (min > max) {
 			return -1;
@@ -360,7 +384,7 @@ public abstract class Part {
 			r = Math.random();
 		} while (r == 1.0);
 
-		return min + Math.round((float)r * (max - min + 1));
+		return min + Math.round((float) r * (max - min + 1));
 	}
 
 	public final static float mycos[] = { 1.0f, 0.9998477f, 0.99939084f,

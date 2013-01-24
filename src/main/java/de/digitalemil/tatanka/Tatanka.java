@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class Tatanka extends Thing {
 	public final static int MAXARROWS = 5, MAXHEALTH = 100;
@@ -18,6 +19,7 @@ public class Tatanka extends Thing {
 
 	protected AnimalAnimation animation;
 
+	@MethodDefinitionChangerAnnotation({ "BY", "arrow.setName", "sprintf((char*)tmptextbuffer, (const char*)'arrow%i', i); arrow->setName(tmptextbuffer); //" })
 	public Tatanka(float scale) {
 		super(12);
 		setCoordinateTap(new CoordinateTapImpl());
@@ -201,8 +203,8 @@ public class Tatanka extends Thing {
 			health = 100;
 		}
 	}
-
-	@SearchAndReplaceAnnotation({ "BY", "Arrow arr", "Arrow *arr" })
+	
+	@MethodDefinitionChangerAnnotation({ "BY", "Arrow arr", "sprintf((char*)tmptextbuffer, (const char*)'arrow%i', i); Arrow *arr= (Arrow *)getByName(tmptextbuffer); //" })
 	public void resetHealth() {
 		for (int i = 0; i < this.MAXARROWS; i++) {
 			Arrow arr = (Arrow)getByName("arrow" + i);

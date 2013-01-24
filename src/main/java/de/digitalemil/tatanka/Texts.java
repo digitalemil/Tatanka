@@ -1,10 +1,12 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class Texts extends Thing {
 	private Text t1, t2, t3;
 	
+	@MethodDefinitionChangerAnnotation({ "BY", "-80", "-120", "BY", "-30", "-60", "BY", "-150", "-180" })
 	public Texts() {
 		super(3);
 
@@ -30,6 +32,8 @@ public class Texts extends Thing {
 		setupDone();
 	}
 	
+	
+	@MethodDefinitionChangerAnnotation({ "BY", "t2",  "sprintf((char*)tmptextbuffer, (const char*)'%i', a);t2->setText(tmptextbuffer);//" })
 	public void setArrows(int a) {
 		t2.setText(""+a);
 	}

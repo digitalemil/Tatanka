@@ -3,6 +3,7 @@ package de.digitalemil.tatanka;
 import java.util.Date;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class ShootingLakotaAnimation extends CompositeAnimation {
 	private Sioux lakota;
@@ -145,18 +146,20 @@ public class ShootingLakotaAnimation extends CompositeAnimation {
 	}
 
 	public void increaseLevelImpl() {
+		int l, phi;
+		float sinbeta, cosbeta, arot;
 		switch (level) {
 		case 2:
 			break;
 		case 3:
-			int l = (int) (Math.sqrt(width * width + height * height));
+			l = (int) (Math.sqrt(width * width + height * height));
 
 			arrow.translate(-arrow.getX() - arrow.getRx()
 					+ lakota.getArrow().getCoordinateTap().getX(),
 					-arrow.getY() - arrow.getRy()
 							+ lakota.getArrow().getCoordinateTap().getY(), 0);
 
-			float arot = lakota.getRotation()
+			arot = lakota.getRotation()
 					+ lakota.getUpperparts().getRotation()
 					+ lakota.getBody().getRotation()
 					+ lakota.getLeftarm().getRotation()
@@ -169,9 +172,9 @@ public class ShootingLakotaAnimation extends CompositeAnimation {
 			arrow.rotate(-arrow.getRotation() + arot);
 			arrow.setVisibility(true);
 
-			int phi = Part.calcPhi(arrow.getRotation() + arrow.getRrot());
-			float sinbeta = Part.mysin[phi];
-			float cosbeta = Part.mycos[phi];
+			phi = Part.calcPhi(arrow.getRotation() + arrow.getRrot());
+			sinbeta = Part.mysin[phi];
+			cosbeta = Part.mycos[phi];
 
 			arrow.getArrowAnimation().init(arrow, -sinbeta * l, -cosbeta * l,
 					0, 1.0f, 1.0f, 1500, false);
@@ -179,12 +182,7 @@ public class ShootingLakotaAnimation extends CompositeAnimation {
 			lakota.arrow.setVisibility(false);
 			break;
 		case 6:
-			try {
 			lakota.arrow.rollbackTX();
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
 			lakota.reset();
 			shooting = false;
 			break;
@@ -196,6 +194,7 @@ public class ShootingLakotaAnimation extends CompositeAnimation {
 		lt = _start = PartAnimation.currentTimeMillis();
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "animate", "CompositeAnimation::animate" })
 	public float animate() {
 
 		long now = PartAnimation.currentTimeMillis();

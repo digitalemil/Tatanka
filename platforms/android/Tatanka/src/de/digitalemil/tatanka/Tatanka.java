@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class Tatanka extends Thing {
 	public final static int MAXARROWS = 5, MAXHEALTH = 100;
@@ -18,6 +19,7 @@ public class Tatanka extends Thing {
 
 	protected AnimalAnimation animation;
 
+	@MethodDefinitionChangerAnnotation({ "BY", "arrow.setName", "sprintf((char*)tmptextbuffer, (const char*)'arrow%i', i); arrow->setName(tmptextbuffer); //" })
 	public Tatanka(float scale) {
 		super(12);
 		setCoordinateTap(new CoordinateTapImpl());
@@ -29,13 +31,12 @@ public class Tatanka extends Thing {
 		int huf = 0xff000000;
 		int red = 0xff9f0609;
 		int schnauze = 0xff000000;
-		Ellipse el;
 
 		this.setName("Tatanka");
 		Bone head = new Bone(0, -42, 16, 0, 8);
 		head.setName("Head");
 
-		el = new Ellipse(1, 1, 0, -20, -3, 0, Ellipse.TRIANGLES8, red);
+		Ellipse el = new Ellipse(1, 1, 0, -20, -3, 0, Ellipse.TRIANGLES8, red);
 		el.setName("Tongue");
 		head.addPart(el);
 		el = new Ellipse(14, 12, 0, -34, 0, -2, Ellipse.TRIANGLES8, schnauze);
@@ -140,8 +141,7 @@ public class Tatanka extends Thing {
 
 		rest.setupDone();
 
-		Part bc;
-		bc = new BoundingCircle(15, 22, -2, 0);
+		Part bc = new BoundingCircle(15, 22, -2, 0);
 		bc.setCoordinateTap(new CoordinateTapImpl());
 		this.addPart(bc);
 		bc = new BoundingCircle(15, -22, -2, 0);
@@ -203,7 +203,8 @@ public class Tatanka extends Thing {
 			health = 100;
 		}
 	}
-
+	
+	@MethodDefinitionChangerAnnotation({ "BY", "Arrow arr", "sprintf((char*)tmptextbuffer, (const char*)'arrow%i', i); Arrow *arr= (Arrow *)getByName(tmptextbuffer); //" })
 	public void resetHealth() {
 		for (int i = 0; i < this.MAXARROWS; i++) {
 			Arrow arr = (Arrow)getByName("arrow" + i);

@@ -1,5 +1,7 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class CompositeAnimation implements Animation {
 
 	protected String name;
@@ -8,7 +10,7 @@ public class CompositeAnimation implements Animation {
 	protected Animation anis[];
 	protected long _start;
 	
-	@SearchAndReplaceAnnotation({ "BY", "new Animation", "new Animation*" })
+	@MethodDefinitionChangerAnnotation({ "BY", "new Animation", "(Animation**)new void*" })
 	public CompositeAnimation(String n, int ml, int maxa, boolean l) {
 		_loops = l;
 		name = n;
@@ -74,7 +76,7 @@ public class CompositeAnimation implements Animation {
 		return ret;
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "PartAnimation.", "PartAnimation::" })
+	@MethodDefinitionChangerAnnotation({ "BY", "PartAnimation.", "PartAnimation::" })
 	public void start() {
 		level = 0;
 		_start = PartAnimation.currentTimeMillis();
@@ -90,7 +92,7 @@ public class CompositeAnimation implements Animation {
 		return animate(_start + delta);
 	}
 	
-	@SearchAndReplaceAnnotation({ "BY", "PartAnimation.", "PartAnimation::" })
+	@MethodDefinitionChangerAnnotation({ "BY", "PartAnimation.", "PartAnimation::" })
 	public float animate() {
 		return animate(PartAnimation.currentTimeMillis());
 	}

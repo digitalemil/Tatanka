@@ -1,10 +1,12 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class Bone extends Part {
 	protected float[] data;
 	public String[] textAndFont;
 	protected Part[] parts;
-	protected int nd = 0, nt= 0;
+	protected int nd = 0, nt= 0, maxp= 0;
 	
 	/* For j2objc */
 	public void setData(float[] data) {
@@ -51,15 +53,18 @@ public class Bone extends Part {
 	protected int nbcs = 0;
 	protected boolean visible = true;
 
+	@MethodDefinitionChangerAnnotation({ "BY", "new Part", "(Part**)new void*" })
 	public Bone(float x, float y, float z, float r, int n) {
 		setRoot(x, y, z, r);
-		parts = new Part[n];
+		maxp= n;
+		parts = new Part[maxp];
 	}
 
 	public int getNumberOfBCs() {
 		return nbcs;
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "new BoundingCircle", "(BoundingCircle**)new void*" })
 	public BoundingCircle[] getBCs() {
 		if (bcs == null) {
 			bcs = new BoundingCircle[nbcs];
@@ -74,8 +79,8 @@ public class Bone extends Part {
 
 				bcarray[start++] = (BoundingCircle) parts[i];
 			}
-			if (parts[i].anHaveChilds()) {
-				start = ((CanHaveChilds) parts[i]).addBCs(bcarray, start);
+			if (parts[i].canHaveChilds()) {
+				start = parts[i].addBCs(bcarray, start);
 			}
 		}
 		return start;
@@ -119,6 +124,7 @@ public class Bone extends Part {
 		this.visible = visible;
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "name == n", "!strcmp((const char*)n, (const char *)name)", "BY", "Part result", "Part *result", "BY", "n.equals(parts[i].name)", "!strcmp((const char*)n, (const char*)parts[i]->name)" })
 	public Part getByName(String n) {
 		Part result = null;
 		if (name != null && name == n) {
@@ -142,6 +148,7 @@ public class Bone extends Part {
 		return result;
 	}
 
+	
 	public void add(Part p, float x, float y, float z, float r) {
 		p.translateRoot(x, y, z);
 		p.rotate(r);
@@ -162,6 +169,10 @@ public class Bone extends Part {
 		return nd;
 	}
 
+	public boolean canHaveChilds() {
+		return true;
+	}
+
 	public void setupDone() {
 		nd = 0;
 		nbcs= 0;
@@ -172,11 +183,11 @@ public class Bone extends Part {
 
 			if (parts[i].getType() == Types.BOUNDINGCIRCLE)
 				nbcs++;
-			if (parts[i] instanceof CanHaveChilds) {
-				nbcs += ((CanHaveChilds) parts[i]).getNumberOfBCs();
+			if (parts[i].canHaveChilds()) {
+				nbcs += parts[i].getNumberOfBCs();
 			}
 		}
-		invalidateData();
+		invalidateData();	
 	}
 
 	public int getData(float[] d, int startD, float xn, float yn, float zn,

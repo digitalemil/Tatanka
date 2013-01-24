@@ -18,7 +18,7 @@ public class MountedLakota extends ThingContainer {
 		things[0] = mustang;
 		mustang.setLayer(200);
 		mustang.setCollisionHandler(new LakotaCollisionHandler(mustang, Globals
-				.getAllThings(), 0, 1000));
+				.getAllThings(), 0, 256));
 
 		lakota = new Sioux();
 		things[1] = lakota;

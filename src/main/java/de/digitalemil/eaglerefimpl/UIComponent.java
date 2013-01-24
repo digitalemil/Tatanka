@@ -246,6 +246,7 @@ public class UIComponent extends JComponent {
 			Globals.setDefaults(768, 1024);
 			Globals.set(WIDTH, HEIGHT);
 			modell = new TatankaModell();
+			modell.setup();
 			modell.start();
 			setSize(WIDTH, HEIGHT);
 		}

@@ -1,5 +1,7 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class CompositeAnimation implements Animation {
 
 	protected String name;
@@ -8,6 +10,7 @@ public class CompositeAnimation implements Animation {
 	protected Animation anis[];
 	protected long _start;
 	
+	@MethodDefinitionChangerAnnotation({ "BY", "new Animation", "(Animation**)new void*" })
 	public CompositeAnimation(String n, int ml, int maxa, boolean l) {
 		_loops = l;
 		name = n;
@@ -56,8 +59,9 @@ public class CompositeAnimation implements Animation {
 		}
 	}
 
+	
 	public Animation createReverseAnimation() {
-		CompositeAnimation ret = new CompositeAnimation("Reverse" + name,
+		CompositeAnimation ret = new CompositeAnimation("Reverse",
 				maxlevel, maxanimation, _loops);
 		for (int i = 0; i < maxlevel; i++) {
 			for (int j = 0; j < maxanimation; j++) {
@@ -72,6 +76,7 @@ public class CompositeAnimation implements Animation {
 		return ret;
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "PartAnimation.", "PartAnimation::" })
 	public void start() {
 		level = 0;
 		_start = PartAnimation.currentTimeMillis();
@@ -87,6 +92,7 @@ public class CompositeAnimation implements Animation {
 		return animate(_start + delta);
 	}
 	
+	@MethodDefinitionChangerAnnotation({ "BY", "PartAnimation.", "PartAnimation::" })
 	public float animate() {
 		return animate(PartAnimation.currentTimeMillis());
 	}

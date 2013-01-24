@@ -1,11 +1,12 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class ArrowCollisionHandler extends CollisionHandlerImpl {
 	private static int n = 0;
 
-	@SearchAndReplaceAnnotation({"SC", "arrow", "(Thing*)arrow" } )
+	@MethodDefinitionChangerAnnotation({"SC", "arrow", "(Thing*)arrow" } )
 	public ArrowCollisionHandler(Arrow arrow, Thing things[]) {
 		super(arrow, things, 4, 1000);
 	}
@@ -16,7 +17,10 @@ public class ArrowCollisionHandler extends CollisionHandlerImpl {
 		return (thing.getType() == TatankaTypes.TATANKA);
 	}
 
+
+	@MethodDefinitionChangerAnnotation({ "BY", "Arrow narr", "sprintf((char*)tmptextbuffer, (const char*)'arrow%i', tatanka->hits); Arrow  narr= (Arrow)tatanka.getByName(tmptextbuffer); //", "BY", "Arrow ", "Arrow*", "BY", "Tatanka t", "Tatanka *t", "BY", "Part.", "Part::" })
 	public boolean handleCollision(Thing t) {
+		System.out.println("HIT!!!");
 		Tatanka tatanka = (Tatanka) t;
 		Arrow arrow = (Arrow) me;
 		Arrow narr = (Arrow) tatanka.getByName("arrow" + tatanka.hits);

@@ -1,5 +1,7 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class ThingContainer {
 	protected int n;
 	protected Thing things[];
@@ -9,6 +11,7 @@ public class ThingContainer {
 	public ThingContainer() {
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "new Thing", "new Thing*" })	
 	public void init(int nthings) {
 		n = nthings;
 		things = new Thing[n];

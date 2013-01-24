@@ -1,3 +1,4 @@
+//
 package de.digitalemil.eagle;
 
 public class Thing extends Bone {
@@ -55,7 +56,8 @@ public class Thing extends Bone {
 	public String[] getThingTextAndFont() {
 		String [] taf= getTextAndFont();
 		if (taf == null) {
-			setTextAndFont(new String[this.nt]);
+			taf= new String[this.nt];
+			setTextAndFont(taf);
 		}
 		getTextAndFont(taf, 0);
 		return taf;	

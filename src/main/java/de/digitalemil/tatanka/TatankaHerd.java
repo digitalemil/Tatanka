@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class TatankaHerd extends ThingContainer {
 	private int alpha = 0;
@@ -56,12 +57,12 @@ public class TatankaHerd extends ThingContainer {
 		}
 		for (int i = 0; i < n; i++) {
 			things[i].setCollisionHandler(new LakotaCollisionHandler(things[i],
-					Globals.getAllThings(), 4, 1000));
+					Globals.getAllThings(), 4, 256));
 		}
 		things[alpha].highlight(true);
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "Tatanka tatanka", "Tatanka *tatanka" })
+	@MethodDefinitionChangerAnnotation({ "BY", "Tatanka tatanka", "Tatanka *tatanka" })
 	private int getRotation(float speedx, float speedy, float lakotaX) {
 		Tatanka tatanka = (Tatanka) things[alpha];
 		if (tatanka.didCollide() || tatanka.getRotation() < -10
@@ -88,7 +89,7 @@ public class TatankaHerd extends ThingContainer {
 
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "Tatanka tatanka", "Tatanka *tatanka"})
+	@MethodDefinitionChangerAnnotation({ "BY", "Tatanka tatanka", "Tatanka *tatanka"})
 	public void update(float speedx, float speedy, float lakotaX, float lakotaY) {
 
 		float sx, sy, sin, cos;

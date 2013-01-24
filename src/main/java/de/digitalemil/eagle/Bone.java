@@ -1,5 +1,7 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class Bone extends Part {
 	protected float[] data;
 	public String[] textAndFont;
@@ -51,7 +53,7 @@ public class Bone extends Part {
 	protected int nbcs = 0;
 	protected boolean visible = true;
 
-	@SearchAndReplaceAnnotation({ "BY", "new Part", "new Part*" })
+	@MethodDefinitionChangerAnnotation({ "BY", "new Part", "(Part**)new void*" })
 	public Bone(float x, float y, float z, float r, int n) {
 		setRoot(x, y, z, r);
 		maxp= n;
@@ -62,7 +64,7 @@ public class Bone extends Part {
 		return nbcs;
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "new BoundingCircle", "new BoundingCircle*" })
+	@MethodDefinitionChangerAnnotation({ "BY", "new BoundingCircle", "(BoundingCircle**)new void*" })
 	public BoundingCircle[] getBCs() {
 		if (bcs == null) {
 			bcs = new BoundingCircle[nbcs];
@@ -122,7 +124,7 @@ public class Bone extends Part {
 		this.visible = visible;
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "Part result", "Part *result", "BY", "n.equals(parts[i].name)", "!strcmp((const char*)n, (const char*)parts[i]->name)" })
+	@MethodDefinitionChangerAnnotation({ "BY", "name == n", "!strcmp((const char*)n, (const char *)name)", "BY", "Part result", "Part *result", "BY", "n.equals(parts[i].name)", "!strcmp((const char*)n, (const char*)parts[i]->name)" })
 	public Part getByName(String n) {
 		Part result = null;
 		if (name != null && name == n) {

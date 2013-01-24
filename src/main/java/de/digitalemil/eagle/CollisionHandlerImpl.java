@@ -1,6 +1,7 @@
 package de.digitalemil.eagle;
 
 import de.digitalemil.tatanka.TatankaTypes;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class CollisionHandlerImpl implements CollisionHandler {
 	public final static int NOCOLLISION= -1;
@@ -40,7 +41,7 @@ public class CollisionHandlerImpl implements CollisionHandler {
 		return false;
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "BoundingCircle[] ", "BoundingCircle **", "BY", "BoundingCircle bbc", "BoundingCircle *bbc", "BY", "BoundingCircle abc", "BoundingCircle *abc"})
+	@MethodDefinitionChangerAnnotation({ "BY", "BoundingCircle[] ", "BoundingCircle **", "BY", "BoundingCircle bbc", "BoundingCircle *bbc", "BY", "BoundingCircle abc", "BoundingCircle *abc"})
 	public boolean checkCollision() {
 		if (!enabled)
 			return false;

@@ -36,9 +36,8 @@ public class Globals {
 	
 
 	private static void calcScale() { 
-		scale = Math.min((float)width / defaultWidth,
-				(float)height / defaultHeight);
-		System.out.println("scale: "+scale);
+		scale = Math.min(((float)width / defaultWidth),
+				((float)height / defaultHeight));
 	}
 	
 	private static void setWidth(int width) {

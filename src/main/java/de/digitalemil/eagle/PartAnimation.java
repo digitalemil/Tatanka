@@ -1,5 +1,7 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class PartAnimation implements Animation {
 	protected boolean coloranim = false;
 	protected int fca, sduration, duration, rduration;
@@ -43,7 +45,7 @@ public class PartAnimation implements Animation {
 		running = false;
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "System.currentTimeMillis", "OS::currentTimeMillies" })
+	@MethodDefinitionChangerAnnotation({ "BY", "System.currentTimeMillis", "OS::currentTimeMillies" })
 	public static long currentTimeMillis() {
 		return System.currentTimeMillis();
 	}

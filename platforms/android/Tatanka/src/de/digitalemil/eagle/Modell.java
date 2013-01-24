@@ -1,5 +1,7 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public abstract class Modell {
 
 	protected Thing things[];
@@ -7,14 +9,16 @@ public abstract class Modell {
 	private long _start, frames;
 	private int fps;
 
+
+	@MethodDefinitionChangerAnnotation({ "BY", "new Thing", "(Thing **)new void*", "BY", "Globals", "for(int i=0; i< n; i++) things[i]= 0; Globals" })
 	public Modell(int n) {
 		things = new Thing[n];
 		Globals.setAllThings(things);
 		_start = 0;
-		setup();
 	}
 
-	public abstract void setup();
+	public void setup() {		
+	}
 
 	public void update(long currentTimeMillis) {
 	//	System.out.println("update: "+ frames);
@@ -94,15 +98,14 @@ public abstract class Modell {
 		return ((ImageThing) things[t]).getTexID();
 	}
 
-
 	public int getImageWidth(int t) {
-		if(! (things[t] instanceof ImageThing))
+		if(! (things[t].getType() == Types.IMAGE))
 			return 0;
 		return (int)((ImageThing) things[t]).getWidth();
 	}
 
 	public int getImageHeight(int t) {
-		if(! (things[t] instanceof ImageThing))
+		if(! (things[t].getType() == Types.IMAGE))
 			return 0;
 		return (int)((ImageThing) things[t]).getHeight();
 	}

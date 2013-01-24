@@ -201,6 +201,6 @@ public class Ellipse extends Part {
 			(float) 1.1924881E-8, 0.258819f, 0.4999999f, 0.707107f,
 			0.86602557f, 0.9659259f };
 
-	protected int mycs[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3,
+	protected final static int mycs[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 3,
 			3, 3, 3, 3, 4, 4, 4, 4 };
 }

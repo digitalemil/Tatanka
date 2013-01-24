@@ -1,5 +1,7 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public abstract class Modell {
 
 	protected Thing things[];
@@ -8,15 +10,15 @@ public abstract class Modell {
 	private int fps;
 
 
-	@SearchAndReplaceAnnotation({ "BY", "new Thing", "new Thing*" })
+	@MethodDefinitionChangerAnnotation({ "BY", "new Thing", "(Thing **)new void*", "BY", "Globals", "for(int i=0; i< n; i++) things[i]= 0; Globals" })
 	public Modell(int n) {
 		things = new Thing[n];
 		Globals.setAllThings(things);
 		_start = 0;
-		setup();
 	}
 
-	public abstract void setup();
+	public void setup() {		
+	}
 
 	public void update(long currentTimeMillis) {
 	//	System.out.println("update: "+ frames);

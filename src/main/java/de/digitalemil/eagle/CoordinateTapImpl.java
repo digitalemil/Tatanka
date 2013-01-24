@@ -1,20 +1,23 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class CoordinateTapImpl implements CoordinateTap {
 
 	@Override
-	@SearchAndReplaceAnnotation({ "BY", "return", "//return" })
+	@MethodDefinitionChangerAnnotation({ "BY", "return", "//return" })
 	public String toString() {
 		return "CoordinateTapImpl [name=" + name + ", x=" + x + ", y=" + y
 				+ ", r=" + r + ", a11=" + a11 + ", a21=" + a21 + ", a12=" + a12
 				+ ", a22=" + a22 + "]";
 	}
 
-	protected String name = "";
+	protected String name;
 	protected float x = -100000, y = -100000, r = 0, a11 = 0, a21 = 0, a12 = 0,
 			a22;
 
 	public CoordinateTapImpl() {
+		this.name= "";
 	}
 
 	public CoordinateTapImpl(String n) {

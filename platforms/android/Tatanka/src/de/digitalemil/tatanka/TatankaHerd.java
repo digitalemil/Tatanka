@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class TatankaHerd extends ThingContainer {
 	private int alpha = 0;
@@ -28,11 +29,10 @@ public class TatankaHerd extends ThingContainer {
 			int hh = (int) ((n * 200.0f + Part.getRandom(0, 48))
 					* Globals.getScale() / 2.4);
 
-			System.out.println("hw: "+hw);
 			do {
 				things[i].beginTX();
 				int rx = -hw / 2 + Part.getRandom(0, hw);
-				int ry = -Globals.getH2() / 2 - hh / 2 + Part.getRandom(0, hh);
+				int ry = Globals.getH2() / -2 - hh / 2 + Part.getRandom(0, hh);
 				things[i].translateRoot(rx, ry, 0);
 				// things[i].rotateRoot(-20 + Part.getRandom(0, 40));
 				things[i].getThingData();
@@ -57,11 +57,12 @@ public class TatankaHerd extends ThingContainer {
 		}
 		for (int i = 0; i < n; i++) {
 			things[i].setCollisionHandler(new LakotaCollisionHandler(things[i],
-					Globals.getAllThings(), 4, 1000));
+					Globals.getAllThings(), 4, 256));
 		}
 		things[alpha].highlight(true);
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "Tatanka tatanka", "Tatanka *tatanka" })
 	private int getRotation(float speedx, float speedy, float lakotaX) {
 		Tatanka tatanka = (Tatanka) things[alpha];
 		if (tatanka.didCollide() || tatanka.getRotation() < -10
@@ -88,6 +89,7 @@ public class TatankaHerd extends ThingContainer {
 
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "Tatanka tatanka", "Tatanka *tatanka"})
 	public void update(float speedx, float speedy, float lakotaX, float lakotaY) {
 
 		float sx, sy, sin, cos;

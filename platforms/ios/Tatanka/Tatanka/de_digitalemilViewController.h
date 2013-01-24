@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface de_digitalemilViewController : UIViewController
-
+@interface de_digitalemilViewController : UIViewController {
+}
 @end

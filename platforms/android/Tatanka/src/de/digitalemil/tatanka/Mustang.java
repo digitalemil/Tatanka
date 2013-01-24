@@ -4,7 +4,7 @@ import de.digitalemil.eagle.*;
 
 public class Mustang extends Thing {
 	AnimalAnimation animation;
-	
+
 	public Mustang() {
 		super(7);
 		int brown = 0xff3a270c;
@@ -13,13 +13,13 @@ public class Mustang extends Thing {
 		int white = 0xffffffff;
 		int white2 = 0xffE0E0E0;
 
-		Ellipse el;
+		
 
 		this.setName("Mustang");
 		Bone head = new Bone(0, -42, 16, 0, 7);
 		head.setName("Head");
 
-		el = new Ellipse(8, 12, 0, -20, -3, 0, Ellipse.TRIANGLES8, white);
+		Ellipse el = new Ellipse(8, 12, 0, -20, -3, 0, Ellipse.TRIANGLES8, white);
 		el.setName("h1");
 		head.addPart(el);
 		el = new Ellipse(8, 12, 0, -34, 0, -2, Ellipse.TRIANGLES8, white);
@@ -130,8 +130,8 @@ public class Mustang extends Thing {
 
 		body.scaleRoot(1.0f, 1.0f);
 		rest.scaleRoot(1.0f, 1.0f);
-		Part bc;
-		bc = new BoundingCircle(24, 0, 30, 0);
+		
+		Part bc = new BoundingCircle(24, 0, 30, 0);
 		bc.setCoordinateTap(new CoordinateTapImpl());
 		this.addPart(bc);
 		bc = new BoundingCircle(28, 0, -20, 0);
@@ -152,13 +152,12 @@ public class Mustang extends Thing {
 		// this.scaleRoot(0.9, 0.9);
 		// this.setRoot(0, -24, 0, 0);
 		this.setupDone();
-		
 
 		animation = new AnimalAnimation(this, 16, 1000);
 		animation.startRun();
 
 	}
-	
+
 	public void animate() {
 		animation.animate();
 	}

@@ -18,7 +18,7 @@ public class MountedLakota extends ThingContainer {
 		things[0] = mustang;
 		mustang.setLayer(200);
 		mustang.setCollisionHandler(new LakotaCollisionHandler(mustang, Globals
-				.getAllThings(), 0, 1000));
+				.getAllThings(), 0, 256));
 
 		lakota = new Sioux();
 		things[1] = lakota;
@@ -111,7 +111,7 @@ public class MountedLakota extends ThingContainer {
 		int phi = Part.calcPhi(lakota.getRotation() + 90);
 
 		float sin = Part.mysin[phi];
-		float cos = -Part.mycos[phi];
+		float cos = Part.mycos[phi]* -1;
 
 		float oldspeed = speed;
 		speed += acceleration;

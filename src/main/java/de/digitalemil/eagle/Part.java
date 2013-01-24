@@ -1,5 +1,9 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.ClazzModifierAnnotation;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
+@ClazzModifierAnnotation({ "AF", "isTextSet", "boolean", "false" })
 public abstract class Part {
 
 	protected float rsx = 1.0f, rsy = 1.0f, sx = 1.0f, sy = 1.0f;
@@ -8,20 +12,21 @@ public abstract class Part {
 
 	protected float rot = 0.0f, rrot = 0.0f;
 	protected int a = 0, r = 0, g = 0, b = 0;
-	protected String name = "";
+	protected String name;
 
 	protected float tx_rsx, tx_rsy, tx_sx, tx_sy, tx_x, tx_y, tx_z, tx_rot,
 			tx_rx, tx_ry, tx_rz, tx_rrot;
 	protected int tx_a, tx_r, tx_g, tx_b, tx_type = getType();
 	protected boolean tx_invaliddata = true, tx_highlighted = false,
 			intransaction = false;
-	protected String tx_name = "";
+	protected String tx_name;
 	protected CoordinateTap coordtap;
 	protected boolean invaliddata = true, highlighted = false, supTX = true;
 
 	protected Bone parent = null;
 
 	public Part() {
+		name= "";
 	}
 
 	abstract public int getData(float[] d, int startD, float xn, float yn,
@@ -61,7 +66,7 @@ public abstract class Part {
 	 * 
 	 * public boolean loadState(String instate) { return true; }
 	 */
-	@SearchAndReplaceAnnotation({ "BY", "throw", "//throw", "BY",
+	@MethodDefinitionChangerAnnotation({ "BY", "throw", "//throw", "BY",
 			"@EMPTYSTRING", "(unsigned char *)@EMPTYSTRING" })
 	public void beginTX() {
 		if (intransaction) {
@@ -93,7 +98,7 @@ public abstract class Part {
 		tx_highlighted = highlighted;
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "throw", "//throw" })
+	@MethodDefinitionChangerAnnotation({ "BY", "throw", "//throw" })
 	public void commitTX() {
 		if (!intransaction) {
 			throw new RuntimeException("Can not commit: Not in transaction: "
@@ -102,7 +107,7 @@ public abstract class Part {
 		intransaction = false;
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "throw", "//throw" })
+	@MethodDefinitionChangerAnnotation({ "BY", "throw", "//throw" })
 	public void rollbackTX() {
 		if (!intransaction) {
 			throw new RuntimeException("Can not rollback: Not in transaction: "
@@ -191,10 +196,18 @@ public abstract class Part {
 		return name;
 	}
 
+	@MethodDefinitionChangerAnnotation({
+		"BY",
+		"name=n;",
+		"   if(isTextSet) free(name); name=(unsigned char *)malloc((size_t)(strlen((const char*)n)+1)); strcpy((char*)name, (const char*)n); isTextSet= true;" })
 	public void setName(String n) {
 		name = n;
 	}
 
+	@MethodDefinitionChangerAnnotation({"BY", "int i;", "if(isTextSet) free(name);" })
+	protected void finalize() throws Throwable {
+		int i;
+	}
 	public int getNumberOfData() {
 		return 0; // type, n, color, data triangles*(x & y)
 	}
@@ -225,7 +238,7 @@ public abstract class Part {
 	}
 
 	@Override
-	@SearchAndReplaceAnnotation({ "BY", "return ", "//return" })
+	@MethodDefinitionChangerAnnotation({ "BY", "return ", "//return" })
 	public String toString() {
 		return "Part [rsx=" + rsx + ", rsy=" + rsy + ", sx=" + sx + ", sy="
 				+ sy + ", x=" + x + ", y=" + y + ", z=" + z + ", rx=" + rx
@@ -236,7 +249,7 @@ public abstract class Part {
 				+ highlighted + "]";
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "a=", "a = (unsigned int) (c >> 24);//" })
+	@MethodDefinitionChangerAnnotation({ "BY", "a=", "a = (unsigned int) (c >> 24);//" })
 	public void setColor(int c) {
 		invalidateData();
 		a = (int) (c >>> 24);
@@ -341,7 +354,7 @@ public abstract class Part {
 		clearRotation();
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "Types.PART", "Types::PART" })
+	@MethodDefinitionChangerAnnotation({ "BY", "Types.PART", "Types::PART" })
 	public int getType() {
 		return Types.PART;
 	}
@@ -355,7 +368,7 @@ public abstract class Part {
 		invalidateData();
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "random", "rand" })
+	@MethodDefinitionChangerAnnotation({ "BY", "random()", "(((float)rand())/RAND_MAX)" })
 	public static int getRandom(int min, int max) {
 		if (min > max) {
 			return -1;

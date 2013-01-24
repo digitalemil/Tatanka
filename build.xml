@@ -25,6 +25,8 @@
 
 	<property name="java.src.dir" value="src/main/java" />
 
+	<property name="java.classes.dir" value="build/classes" />
+	
 	<property name="res.dir" value="src/main/res" />
 
 	<property name="classes.dir" value="${build.dir}/classes" />
@@ -38,6 +40,9 @@
 	<property name="gwt.www.dir" value="${build.dir}/gwt" />
 
 	<property name="lib.dir" value="lib" />
+
+	<property name="j2c++.src.dir" value="../toCPlusPlus/src" />
+	<property name="j2c++.classes.dir" value="../toCPlusPlus/bin" />
 
 	<switch value="${devtype}">
 		<case value="bb">
@@ -57,6 +62,8 @@
 			<classpath>
 				<pathelement path="${lib.dir}/gwt-user.jar"></pathelement>
 				<pathelement path="${lib.dir}/gwt-dev.jar"></pathelement>
+				<pathelement path="${j2c++.classes.dir}"></pathelement>
+
 			</classpath>
 		</javac>
 	</target>
@@ -75,16 +82,23 @@
 	<!-- =================================================================== -->
 	<target name="jar" depends="manifest">
 		<jar destfile="${jars.dir}/eagle.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
-			<fileset dir="${classes.dir}" includes="de/digitalemil/eagle/**" />
+			<fileset dir="${java.classes.dir}" includes="de/digitalemil/eagle/**" />
 			<fileset dir="${java.src.dir}" includes="de/digitalemil/eagle/**" />
+			<fileset dir="${j2c++.classes.dir}" includes="de/digitalemil/tocplusplus/**" />
+			<fileset dir="${j2c++.src.dir}" includes="de/digitalemil/tocplusplus/**" />
 		</jar>
 		<jar destfile="${jars.dir}/eaglerefimpl.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
 			<fileset dir="${classes.dir}" includes="de/digitalemil/eaglerefimpl/**" />
 			<fileset dir="${java.src.dir}" includes="de/digitalemil/eaglerefimpl/**" />
+			<fileset dir="${j2c++.classes.dir}" includes="de/digitalemil/tocplusplus/**" />
+			<fileset dir="${j2c++.src.dir}" includes="de/digitalemil/tocplusplus/**" />
+
 		</jar>
 		<jar destfile="${jars.dir}/tatanka.jar" manifest="${classes.dir}/META-INF/MANIFEST.MF">
 			<fileset dir="${classes.dir}" />
 			<fileset dir="${java.src.dir}" />
+			<fileset dir="${j2c++.classes.dir}" includes="de/digitalemil/tocplusplus/**" />
+			<fileset dir="${j2c++.src.dir}" includes="de/digitalemil/tocplusplus/**" />
 		</jar>
 	</target>
 
@@ -127,10 +141,10 @@
 			<fileset dir="${gwt.html.dir}"></fileset>
 		</copy>
 		<copy todir="${gwt.www.dir}/res">
-			<fileset dir="${res.dir}"></fileset>	    
+			<fileset dir="${res.dir}"></fileset>
 		</copy>
 		<delete dir="${gwt.www.dir}/WEB-INF"></delete>
-		
+
 	</target>
 
 	<!-- =================================================================== -->
@@ -145,6 +159,17 @@
 				<pathelement path="${res.dir}" />
 			</classpath>
 		</java>
+	</target>
+	
+	<!-- =================================================================== -->
+	<!-- Java to C++ conversion												 -->
+	<!-- =================================================================== -->
+	<target name="j2c++" depends="jar">
+	    <exec executable="tools/j2cpp.sh">
+			<arg value="platforms/ios/Tatanka/Tatanka/eagletatanka"/>
+			<arg value="${java.src.dir}/de/digitalemil/eagle/**.java" />
+			<arg value="${java.src.dir}/de/digitalemil/tatanka/**.java" />	
+		</exec>
 	</target>
 
 	<target name="phonegap" depends="prepare.dirs, html5">
@@ -192,7 +217,7 @@
 			<fileset dir="${res.dir}">
 			</fileset>
 		</copy>
-		
+
 		<switch value="${devtype}">
 			<case value="bb">
 				<exec executable="sed" output="${www}/index.html">

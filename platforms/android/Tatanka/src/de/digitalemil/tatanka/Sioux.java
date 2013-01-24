@@ -46,14 +46,12 @@ public class Sioux extends Thing {
 		int white = 0xffffffff;
 		int black = 0xFF000000;
 		int blue = 0xFF0000FF;
-		Ellipse el;
-		Bone bone;
-
+	
 		this.setName("Sioux");
 		Bone head = new Bone(0.0f, 0.0f, 0.0f, 0.0f, 8);
 		head.setName("Head");
 
-		el = new Ellipse(14, 14, 0, 0, -3, 0, Ellipse.TRIANGLES12, black);
+		Ellipse el = new Ellipse(14, 14, 0, 0, -3, 0, Ellipse.TRIANGLES12, black);
 		el.setName("Schaedel");
 		head.addPart(el);
 		el = new Ellipse(6, 4, 0, 6, 0, -2, Ellipse.TRIANGLES8, blue);
@@ -113,7 +111,7 @@ public class Sioux extends Thing {
 		bow.addPart(el);
 		bow.setCoordinateTap(new CoordinateTapImpl());
 
-		bone = new Bone(0, -26, 0, 0, 1);
+		Bone bone = new Bone(0, -26, 0, 0, 1);
 		bone.addPart(arrow);
 		bone.setupDone();
 		

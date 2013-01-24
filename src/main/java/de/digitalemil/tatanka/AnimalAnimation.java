@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class AnimalAnimation extends CompositeAnimation {
 
@@ -153,7 +154,7 @@ public class AnimalAnimation extends CompositeAnimation {
 		}
 	}
 	
-	@SearchAndReplaceAnnotation({ "BY", "animal.getName().equals('Tatanka')", "!strcmp((const char *)animal.getName(), (const char *)'Tatanka')" })
+	@MethodDefinitionChangerAnnotation({ "BY", "animal.getName().equals('Tatanka')", "!strcmp((const char *)animal.getName(), (const char *)'Tatanka')" })
 	public void createWalk(int s, int d) {
 		clear();
 		_loops = true;
@@ -346,14 +347,14 @@ public class AnimalAnimation extends CompositeAnimation {
 		}
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "PartAnimation.curr", "PartAnimation::curr" })
+	@MethodDefinitionChangerAnnotation({ "BY", "PartAnimation.curr", "PartAnimation::curr" })
 	public void start() {
 		super.start();
 		lt = _start = PartAnimation.currentTimeMillis();
 		animal.reset();
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "PartAnimation.curr", "PartAnimation::curr", "BY", "Part.", "Part::", "BY", "ret=animate(now)", "ret = CompositeAnimation::animate(now)" })
+	@MethodDefinitionChangerAnnotation({ "BY", "PartAnimation.curr", "PartAnimation::curr", "BY", "Part.", "Part::", "BY", "ret=animate(now)", "ret = CompositeAnimation::animate(now)" })
 	public float animate() {
 		long now = PartAnimation.currentTimeMillis();
 		if (dir != null && dir.isRunning()) {

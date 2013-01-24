@@ -1,6 +1,7 @@
 package de.digitalemil.eagle;
 
 import de.digitalemil.tatanka.TatankaTypes;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class CollisionHandlerImpl implements CollisionHandler {
 	public final static int NOCOLLISION= -1;
@@ -40,11 +41,13 @@ public class CollisionHandlerImpl implements CollisionHandler {
 		return false;
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "BoundingCircle[] ", "BoundingCircle **", "BY", "BoundingCircle bbc", "BoundingCircle *bbc", "BY", "BoundingCircle abc", "BoundingCircle *abc"})
 	public boolean checkCollision() {
 		if (!enabled)
 			return false;
-		BoundingCircle mybcs[]= me.getBCs();
-
+		BoundingCircle[] mybcs= me.getBCs();
+		int mybcslength= me.getNumberOfBCs();
+		//System.out.println(mybcs.length+" vs. "+ mybcslength);
 		for (int i = start; i < end; i++) {
 			if (others[i] == null) {
 				//System.out.println("Others== null: "+me+" "+i);
@@ -53,9 +56,10 @@ public class CollisionHandlerImpl implements CollisionHandler {
 			if (!canCollide(others[i])  || me== others[i])
 				continue;
 			
-			BoundingCircle bcs[] = others[i].getBCs();
-			
-			for ( int h = 0; h < bcs.length; h++) {
+			BoundingCircle[] bcs = others[i].getBCs();
+			int bcslength= others[i].getNumberOfBCs();
+			//System.out.println(bcs.length+" vs. "+ bcslength);
+			for ( int h = 0; h < bcslength; h++) {
 				BoundingCircle bbc = bcs[h];
 				if(bbc== null || bbc.getCoordinateTap()== null)
 					continue;
@@ -64,10 +68,13 @@ public class CollisionHandlerImpl implements CollisionHandler {
 				float by = bbc.getCoordinateTap().getY();
 				float br = bbc.getCoordinateTap().getR() * others[i].sx
 						* others[i].rsx; // radius
-				for ( int j = 0; j < mybcs.length; j++) {
+			//	System.out.println("Checking collision: "+me.getName()+ " "+others[i].getName()+ " "+mybcs.length);
+				
+				for ( int j = 0; j < mybcslength; j++) {
 					BoundingCircle abc = mybcs[j];
 					if(abc.getCoordinateTap()==null)
 						continue;
+					
 					float ax = abc.getCoordinateTap().getX();
 					float ay = abc.getCoordinateTap().getY();
 					float ar = abc.getCoordinateTap().getR() * me.sx * me.rsx; // radius

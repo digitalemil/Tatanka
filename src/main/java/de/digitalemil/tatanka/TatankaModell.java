@@ -1,18 +1,18 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class TatankaModell extends Modell {
 	Prairie prairie;
-	static int nlakotas = 1, activelakota = 0;
+	int nlakotas = 1, activelakota = 0;
 	MountedLakota lakotas[];
 	TatankaHerd herds[];
 	JoystickImpl joystick;
 	Texts texts;
 
 	public TatankaModell() {
-		super(64);
-		// Ellipse.slowDevice();
+		super(256);
 	}
 
 	public void update(long currentTimeMillis) {
@@ -53,11 +53,12 @@ public class TatankaModell extends Modell {
 		joystick.update((int) newdir);
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "new TatankaHerd[", "new TatankaHerd*[", "BY", "new MountedLakota[", "new MountedLakota*[", "BY", "joystick.translate", "joystick->Thing::translate" })
+	@MethodDefinitionChangerAnnotation({ "BY", "new TatankaHerd[", "new TatankaHerd*[", "BY", "new MountedLakota[", "new MountedLakota*[", "BY", "joystick.translate", "joystick->Thing::translate" })
 	public void setup() {
 		prairie = new Prairie("valleygras512.jpg");
 		herds = new TatankaHerd[1];
 		herds[0] = new TatankaHerd(8);
+		System.out.println("nlakotas: "+nlakotas);
 		lakotas = new MountedLakota[nlakotas];
 		Bone b = new Bone(0, 0, 0, 0, 0);
 		for (int i = 0; i < nlakotas; i++) {

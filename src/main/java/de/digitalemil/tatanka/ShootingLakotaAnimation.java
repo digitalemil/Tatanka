@@ -3,6 +3,7 @@ package de.digitalemil.tatanka;
 import java.util.Date;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class ShootingLakotaAnimation extends CompositeAnimation {
 	private Sioux lakota;
@@ -193,7 +194,7 @@ public class ShootingLakotaAnimation extends CompositeAnimation {
 		lt = _start = PartAnimation.currentTimeMillis();
 	}
 
-	@SearchAndReplaceAnnotation({ "BY", "animate", "CompositeAnimation::animate" })
+	@MethodDefinitionChangerAnnotation({ "BY", "animate", "CompositeAnimation::animate" })
 	public float animate() {
 
 		long now = PartAnimation.currentTimeMillis();

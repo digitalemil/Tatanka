@@ -7,10 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "de/digitalemil/eagle/Globals.h"
-#import "de/digitalemil/tatanka/TatankaModell.h"
+#import "de_digitalemilViewController.h"
+#import "all.h"
+
 @interface TatankaView : UIView {
-    DeDigitalemilTatankaTatankaModell *modell;
+    TatankaModell *modell;
+    
+	NSTimer *animationTimer;
+	NSTimeInterval animationInterval;
+	NSObject *lock;
+
+    CALayer *drawLayer;
+    UIImage **uiimgs;
+    CALayer **imgs;
+    int nimgs;
+    int *imgusers, *imgw, *imgh;
+    NSString **imgnames;
+    de_digitalemilViewController *controller;
+    unsigned int t1, t2;
     
 }
+- (UIImage *)resizeImage;
+- (float)min4;
+- (float)max4;
+
+@property (nonatomic, assign) NSTimer *animationTimer;
+@property NSTimeInterval animationInterval;
 @end

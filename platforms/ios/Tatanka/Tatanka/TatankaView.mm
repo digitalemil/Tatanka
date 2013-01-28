@@ -8,7 +8,7 @@
 
 #import "TatankaView.h"
 #import <QuartzCore/CoreAnimation.h>
-#import "de_digitalemilViewController.h"
+#import <GameKit/GameKit.h>
 
 #define min(X,Y) ((X) < (Y) ? (X) : (Y))
 
@@ -210,9 +210,6 @@
            Screen::getScreen(s)->activate();
            NSLog(@"Parts after activate %i\n", Part::parts);
            NSLog(@"Animations after activate %i\n", PartAnimation::animations);
-           
-
-//           modell->showScreen(s);
            
        }
        
@@ -427,6 +424,20 @@
 		[self stopAnimation];
 		[self startAnimation];
 	}
+}
+
+- (void) showGameCenter
+{
+    GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
+    if (gameCenterController != nil)
+    {
+       gameCenterController.gameCenterDelegate = self->controller.gameCenterDelegate;
+        [self presentViewController: gameCenterController animated: YES completion:nil];
+    }
+}
+- (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

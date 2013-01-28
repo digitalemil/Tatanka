@@ -86,6 +86,7 @@
 		286B25EF167F32890046A5DE /* de_digitalemilViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 286B25ED167F32890046A5DE /* de_digitalemilViewController_iPhone.xib */; };
 		286B25F2167F32890046A5DE /* de_digitalemilViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 286B25F0167F32890046A5DE /* de_digitalemilViewController_iPad.xib */; };
 		286B2722167F496C0046A5DE /* TatankaView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 286B2721167F496C0046A5DE /* TatankaView.mm */; };
+		28EE921116B6DEE1003AA83F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EE921016B6DEE1003AA83F /* GameKit.framework */; };
 		EC1FAEEA16B5AE6B0002A32C /* tepee.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1FAEE916B5AE6B0002A32C /* tepee.png */; };
 		EC1FAF0A16B5B1EF0002A32C /* tatanka0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC1FAF0016B5B1EF0002A32C /* tatanka0.jpg */; };
 		EC1FAF0B16B5B1EF0002A32C /* tatanka1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC1FAF0116B5B1EF0002A32C /* tatanka1.jpg */; };
@@ -245,6 +246,7 @@
 		286B25F1167F32890046A5DE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/de_digitalemilViewController_iPad.xib; sourceTree = "<group>"; };
 		286B2720167F496C0046A5DE /* TatankaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TatankaView.h; sourceTree = "<group>"; };
 		286B2721167F496C0046A5DE /* TatankaView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TatankaView.mm; sourceTree = "<group>"; };
+		28EE921016B6DEE1003AA83F /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		EC1FAEE916B5AE6B0002A32C /* tepee.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tepee.png; path = ../../../../src/main/res/tepee.png; sourceTree = "<group>"; };
 		EC1FAF0016B5B1EF0002A32C /* tatanka0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = tatanka0.jpg; path = ../../../../src/main/res/tatanka0.jpg; sourceTree = "<group>"; };
 		EC1FAF0116B5B1EF0002A32C /* tatanka1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = tatanka1.jpg; path = ../../../../src/main/res/tatanka1.jpg; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28EE921116B6DEE1003AA83F /* GameKit.framework in Frameworks */,
 				20C4610F16AD4229008C3775 /* QuartzCore.framework in Frameworks */,
 				286B25D3167F32890046A5DE /* UIKit.framework in Frameworks */,
 				286B25D5167F32890046A5DE /* Foundation.framework in Frameworks */,
@@ -372,6 +375,7 @@
 		286B25C3167F32890046A5DE = {
 			isa = PBXGroup;
 			children = (
+				28EE921016B6DEE1003AA83F /* GameKit.framework */,
 				20C4610E16AD4229008C3775 /* QuartzCore.framework */,
 				ECFD52DF16AC87C20091CF85 /* Icon@2x.png */,
 				ECFD52DD16AC87B90091CF85 /* Icon.png */,

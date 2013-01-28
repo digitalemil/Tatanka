@@ -28,8 +28,9 @@ Thing::Thing(int n) : Bone(0.0f, 0.0f, 0.0f, 0.0f, n) {
 
 void Thing::finalize() {
 
-  for (int i=0; i < getNumberOfTextAndFont(); i++) {
-    textAndFont[i]=0;
+  int n=getNumberOfTextAndFont();
+  for (int i=0; i < n; i++) {
+    delete textAndFont[i];
   }
   delete [ ] textAndFont;
   delete [ ] data;

@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GameKit/GameKit.h>
+
 
 @interface de_digitalemilViewController : UIViewController {
 }
+
+@property(nonatomic, assign) id<GKGameCenterControllerDelegate> gameCenterDelegate;
+
 @end

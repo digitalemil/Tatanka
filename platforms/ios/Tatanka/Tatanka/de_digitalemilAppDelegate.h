@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GameKit/GameKit.h>
+
+// Preferred method for testing for Game Center
+BOOL isGameCenterAvailable();
+
+
 
 @class de_digitalemilViewController;
 
-@interface de_digitalemilAppDelegate : UIResponder <UIApplicationDelegate>
+@interface de_digitalemilAppDelegate : UIResponder <UIApplicationDelegate, UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

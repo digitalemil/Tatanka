@@ -7,15 +7,12 @@ Modell::~Modell() {
 }
 
 Modell::Modell(int n) {
+	maxthings = 0;
 	things = 0;
 	numberOfThings = 0;
-	_start = 0;
-	frames = 0;
-	fps = 0;
 
   things=(Thing **)new void*[n];
-  for(int i=0; i< n; i++) things[i]= 0; Globals::setAllThings(things);
-  _start=0;
+  for(int i=0; i< n; i++) things[i]= 0; Globals::setAllThings(things,n);
 }
 
 
@@ -24,17 +21,22 @@ void Modell::setup() {
 }
 
 
+int Modell::moveToOtherScreen() {
+
+  return Screen::getActiveScreen()->moveToOtherScreen();
+}
+
+
+void Modell::showScreen(int id) {
+
+  if (Screen::getActiveScreen() != 0)   Screen::getActiveScreen()->deactivate();
+  Screen::getScreen(id)->activate();
+}
+
+
 void Modell::update(long currentTimeMillis) {
 
-  Globals::frames++;
-  frames++;
-  if (_start == 0)   _start=PartAnimation::currentTimeMillis();
-  long now=PartAnimation::currentTimeMillis();
-  if (now - _start > 1000) {
-    fps=(int)((1000 * frames) / (now - _start));
-    _start=0;
-    frames=0;
-  }
+  if (Screen::getActiveScreen() != 0)   Screen::getActiveScreen()->update(currentTimeMillis);
 }
 
 
@@ -46,24 +48,26 @@ unsigned char** Modell::getTextAndFont(int t) {
 
 int Modell::getFps() {
 
-  return fps;
+  if (Screen::getActiveScreen() != 0)   return Screen::getActiveScreen()->getFps();
+  return 0;
 }
 
 
 void Modell::touch(int x, int y) {
 
+  Screen::getActiveScreen()->touch(x,y);
 }
 
 
 bool Modell::touchStart(int x, int y) {
 
-  return false;
+  return Screen::getActiveScreen()->touchStart(x,y);
 }
 
 
 bool Modell::touchStop(int x, int y) {
 
-  return false;
+  return Screen::getActiveScreen()->touchStop(x,y);
 }
 
 
@@ -85,7 +89,15 @@ void Modell::zoom(int i) {
 
 int Modell::getNumberOfThings() {
 
-  return numberOfThings;
+  if (Screen::getActiveScreen() != 0)   return Screen::getActiveScreen()->getNumberOfThings();
+  return -1;
+}
+
+
+int Modell::getBackgroudColor() {
+
+  if (Screen::getActiveScreen() != 0)   return Screen::getActiveScreen()->getBackgroundColor();
+  return 0;
 }
 
 

@@ -11,13 +11,20 @@ public class PartAnimation implements Animation {
 	protected float lsx, lsy, lx, ly, lr;
 	protected int lca, delta;
 	protected long _start;
+	public static int animations= 0;
 
 	public PartAnimation() {
+		animations++;
 	}
 	
+	protected void finalize() throws Throwable {
+		PartAnimation.animations--;		
+	}
+
 	public PartAnimation(Part p, float tx, float ty, float tr, float tsx,
 			float tsy, int d, boolean l) {
 		init(p, tx, ty, tr, tsx, tsy, d, l);
+		animations++;
 	}
 
 	public void init(Part p, float tx, float ty, float tr, float tsx,

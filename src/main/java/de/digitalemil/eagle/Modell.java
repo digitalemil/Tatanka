@@ -3,36 +3,35 @@ package de.digitalemil.eagle;
 import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public abstract class Modell {
-
+	protected int maxthings;
 	protected Thing things[];
 	protected int numberOfThings;
-	private long _start, frames;
-	private int fps;
 
-
-	@MethodDefinitionChangerAnnotation({ "BY", "new Thing", "(Thing **)new void*", "BY", "Globals", "for(int i=0; i< n; i++) things[i]= 0; Globals" })
+	@MethodDefinitionChangerAnnotation({ "BY", "new Thing",
+			"(Thing **)new void*", "BY", "Globals",
+			"for(int i=0; i< n; i++) things[i]= 0; Globals" })
 	public Modell(int n) {
 		things = new Thing[n];
-		Globals.setAllThings(things);
-		_start = 0;
+		Globals.setAllThings(things, n);
 	}
 
-	public void setup() {		
+	public void setup() {
+	}
+	
+	
+	public int moveToOtherScreen() {
+		return Screen.getActiveScreen().moveToOtherScreen();
+	}
+
+	public void showScreen(int id) {
+		if (Screen.getActiveScreen() != null)
+			Screen.getActiveScreen().deactivate();
+		Screen.getScreen(id).activate();
 	}
 
 	public void update(long currentTimeMillis) {
-	//	System.out.println("update: "+ frames);
-		Globals.frames++;
-		frames++;
-		if (_start == 0)
-			_start = PartAnimation.currentTimeMillis();
-
-		long now = PartAnimation.currentTimeMillis();
-		if (now - _start > 1000) {
-			fps = (int)((1000 * frames) / (now - _start));
-			_start = 0;
-			frames = 0;
-		}
+		if (Screen.getActiveScreen() != null)
+			Screen.getActiveScreen().update(currentTimeMillis);
 	}
 
 	public String[] getTextAndFont(int t) {
@@ -40,18 +39,21 @@ public abstract class Modell {
 	}
 
 	public int getFps() {
-		return fps;
+		if (Screen.getActiveScreen() != null)
+			return Screen.getActiveScreen().getFps();
+		return 0;
 	}
 
 	public void touch(int x, int y) {
+		Screen.getActiveScreen().touch(x, y);
 	}
 
 	public boolean touchStart(int x, int y) {
-		return false;
+		return Screen.getActiveScreen().touchStart(x, y);
 	}
 
 	public boolean touchStop(int x, int y) {
-		return false;
+		return Screen.getActiveScreen().touchStop(x, y);
 	}
 
 	public Thing[] getThings() {
@@ -69,10 +71,17 @@ public abstract class Modell {
 	}
 
 	public int getNumberOfThings() {
-		// TODO Auto-generated method stub
-		return numberOfThings;
+		if (Screen.getActiveScreen() != null)
+			return Screen.getActiveScreen().getNumberOfThings();
+		return -1;
 	}
 
+	public int getBackgroudColor() {
+		if (Screen.getActiveScreen() != null)
+			return Screen.getActiveScreen().getBackgroundColor();
+		return 0;
+	}
+	
 	public void start() {
 		// TODO Auto-generated method stub
 
@@ -99,17 +108,17 @@ public abstract class Modell {
 	}
 
 	public int getImageWidth(int t) {
-		if(! (things[t].getType() == Types.IMAGE))
+		if (!(things[t].getType() == Types.IMAGE))
 			return 0;
-		return (int)((ImageThing) things[t]).getWidth();
+		return (int) ((ImageThing) things[t]).getWidth();
 	}
 
 	public int getImageHeight(int t) {
-		if(! (things[t].getType() == Types.IMAGE))
+		if (!(things[t].getType() == Types.IMAGE))
 			return 0;
-		return (int)((ImageThing) things[t]).getHeight();
+		return (int) ((ImageThing) things[t]).getHeight();
 	}
-	
+
 	public float[] getData(int t) {
 		return things[t].getThingData();
 	}

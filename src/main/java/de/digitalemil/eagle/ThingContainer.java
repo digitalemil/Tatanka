@@ -11,11 +11,20 @@ public class ThingContainer {
 	public ThingContainer() {
 	}
 
-	@MethodDefinitionChangerAnnotation({ "BY", "new Thing", "new Thing*" })	
+	@MethodDefinitionChangerAnnotation({ "BY", "new Thing", "new Thing*" })
 	public void init(int nthings) {
 		n = nthings;
 		things = new Thing[n];
 		layers = new int[1000];
+	}
+
+	@MethodDefinitionChangerAnnotation({"BY", "things[i]=null", "delete things[i]", "BY", "things=null", "delete [ ] things", "BY", "layers=null", "delete [ ] layers"})
+	protected void finalize() throws Throwable {
+		for (int i = 0; i < n; i++) {
+			things[i] = null;
+		}
+		things = null;
+		layers = null;
 	}
 
 	public int addThings(Thing[] in, int p, int layer) {

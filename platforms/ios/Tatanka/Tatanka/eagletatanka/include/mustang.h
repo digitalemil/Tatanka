@@ -21,6 +21,7 @@ class Mustang : public Thing {
 public:
 	AnimalAnimation* animation;
 
+	virtual void finalize();
 	Mustang();
 	virtual void animate();
 	virtual int getType();

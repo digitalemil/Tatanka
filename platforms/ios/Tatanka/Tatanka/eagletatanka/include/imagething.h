@@ -18,9 +18,12 @@ public:
 	bool texidset;
 	bool texchanged;
 	unsigned char* texName;
+	bool isTexNameSet;
 
 	virtual bool isTexidset();
 	ImageThing(unsigned char* name, float w, float h);
+	virtual void finalize();
+	virtual bool isIn(int ix, int iy);
 	virtual void init(float w, float h);
 	virtual int getTexID();
 	virtual bool isTexchanged();

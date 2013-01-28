@@ -6,5 +6,8 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="/Users/esiemes/android-sdks/platforms/android-17/android.jar"/>
 	<classpathentry kind="lib" path="/Users/esiemes/Dropbox/digitalemil/projects/myApps/toCPlusPlus/bin"/>
+	<classpathentry kind="lib" path="/Users/emil/android-sdks/platforms/android-17/android.jar"/>
+	<classpathentry kind="lib" path="/Users/digitalemil/android-sdk/sdk/platforms/android-17/android.jar"/>
+	<classpathentry kind="lib" path="/Users/digitalemil/Dropbox/digitalemil/projects/myApps/toCPlusPlus/bin"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

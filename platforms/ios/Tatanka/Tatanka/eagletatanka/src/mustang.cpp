@@ -3,8 +3,15 @@
 #include "mustang.h"
 
 Mustang::~Mustang() {
+	finalize();
 
 }
+
+void Mustang::finalize() {
+
+  delete animation;
+}
+
 
 Mustang::Mustang() : Thing(7) {
 	animation = 0;

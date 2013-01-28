@@ -1,10 +1,16 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class Mustang extends Thing {
 	AnimalAnimation animation;
 
+	@MethodDefinitionChangerAnnotation({"BY", "animation=null", "delete animation" })
+	protected void finalize() throws Throwable {
+		animation= null;
+	}
+	
 	public Mustang() {
 		super(7);
 		int brown = 0xff3a270c;

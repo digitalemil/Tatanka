@@ -3,8 +3,17 @@
 #include "mountedlakota.h"
 
 MountedLakota::~MountedLakota() {
+	finalize();
 
 }
+
+void MountedLakota::finalize() {
+
+  int i;
+  delete lakotaRot;
+  delete mustangRot;
+}
+
 
 MountedLakota::MountedLakota(float x, float y) {
 	mustang = 0;

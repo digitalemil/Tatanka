@@ -8,19 +8,6 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380489511.640578"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "178"
-         endingLineNumber = "178"
-         landmarkName = "-drawTatanka:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Tatanka/TatankaView.mm"
          timestampString = "380404250.01134"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
@@ -79,6 +66,19 @@
          startingLineNumber = "82"
          endingLineNumber = "82"
          landmarkName = "CollisionHandlerImpl::checkCollision()"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Tatanka/eagletatanka/src/firstscreen.cpp"
+         timestampString = "381006871.257484"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "28"
+         endingLineNumber = "28"
+         landmarkName = "FirstScreen::activate()"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

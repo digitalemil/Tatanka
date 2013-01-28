@@ -37,6 +37,7 @@ public:
 	float speed;
 
 	AnimalAnimation(Thing* thing, int steplength, int duration);
+	virtual void finalize();
 	virtual void undoTranslation();
 	virtual void kill();
 	virtual void createKillAnimation();

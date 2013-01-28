@@ -34,6 +34,7 @@ public:
 	virtual int getTextAndFont(unsigned char** t, int startT);
 	Bone(float x, float y, float z, float r, int n);
 	virtual int getNumberOfBCs();
+	virtual void finalize();
 	virtual BoundingCircle** getBCs();
 	virtual int addBCs(BoundingCircle** bcarray, int start);
 	virtual void beginTX();

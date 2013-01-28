@@ -24,6 +24,7 @@ OBJECTFILES= \
 	build/${DISTDIR}/part.o \
 	build/${DISTDIR}/partanimation.o \
 	build/${DISTDIR}/rectangle.o \
+	build/${DISTDIR}/screen.o \
 	build/${DISTDIR}/text.o \
 	build/${DISTDIR}/thing.o \
 	build/${DISTDIR}/thingcontainer.o \
@@ -32,6 +33,8 @@ OBJECTFILES= \
 	build/${DISTDIR}/animalanimation.o \
 	build/${DISTDIR}/arrow.o \
 	build/${DISTDIR}/arrowcollisionhandler.o \
+	build/${DISTDIR}/firstscreen.o \
+	build/${DISTDIR}/huntingscreen.o \
 	build/${DISTDIR}/joystickimpl.o \
 	build/${DISTDIR}/lakotacollisionhandler.o \
 	build/${DISTDIR}/mountedlakota.o \
@@ -140,6 +143,10 @@ build/${DISTDIR}/rectangle.o: src/rectangle.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/rectangle.o src/rectangle.cpp
 
+build/${DISTDIR}/screen.o: src/screen.cpp
+	${MKDIR} -p build/${DISTDIR}
+	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/screen.o src/screen.cpp
+
 build/${DISTDIR}/text.o: src/text.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/text.o src/text.cpp
@@ -171,6 +178,14 @@ build/${DISTDIR}/arrow.o: src/arrow.cpp
 build/${DISTDIR}/arrowcollisionhandler.o: src/arrowcollisionhandler.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/arrowcollisionhandler.o src/arrowcollisionhandler.cpp
+
+build/${DISTDIR}/firstscreen.o: src/firstscreen.cpp
+	${MKDIR} -p build/${DISTDIR}
+	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/firstscreen.o src/firstscreen.cpp
+
+build/${DISTDIR}/huntingscreen.o: src/huntingscreen.cpp
+	${MKDIR} -p build/${DISTDIR}
+	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/huntingscreen.o src/huntingscreen.cpp
 
 build/${DISTDIR}/joystickimpl.o: src/joystickimpl.cpp
 	${MKDIR} -p build/${DISTDIR}

@@ -3,6 +3,7 @@
 #include "thingcontainer.h"
 
 ThingContainer::~ThingContainer() {
+	finalize();
 
 }
 
@@ -20,6 +21,16 @@ void ThingContainer::init(int nthings) {
   n=nthings;
   things=new Thing*[n];
   layers=new int[1000];
+}
+
+
+void ThingContainer::finalize() {
+
+  for (int i=0; i < n; i++) {
+    delete things[i];
+  }
+  delete [ ] things;
+  delete [ ] layers;
 }
 
 

@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class Arrow extends Thing {
 	PartAnimation arrowAnimation;
@@ -37,6 +38,11 @@ public class Arrow extends Thing {
 		arrowAnimation = new PartAnimation();
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "arrowAnimation=null", "delete arrowAnimation" })
+	protected void finalize() throws Throwable {
+		arrowAnimation= null;
+	}
+	
 	public PartAnimation getArrowAnimation() {
 		return arrowAnimation;
 	}

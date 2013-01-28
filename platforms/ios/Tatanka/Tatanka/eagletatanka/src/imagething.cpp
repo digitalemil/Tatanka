@@ -3,6 +3,7 @@
 #include "imagething.h"
 
 ImageThing::~ImageThing() {
+	finalize();
 
 }
 
@@ -17,10 +18,26 @@ ImageThing::ImageThing(unsigned char* name, float w, float h) : Thing(1) {
 	texidset = false;
 	texchanged = 0;
 	texName = 0;
+	isTexNameSet = false;
 
   //Thing::1);
   setTexName(name);
   init(w,h);
+}
+
+
+void ImageThing::finalize() {
+
+  if(isTexNameSet) free(texName);
+}
+
+
+bool ImageThing::isIn(int ix, int iy) {
+
+  ix-=Globals::getW2();
+  iy-=Globals::getH2();
+  if (ix > x + rx - getWidth() / 2 && ix < x + rx + getWidth() / 2 && iy > y + ry - getHeight() / 2 && iy < y + ry + getHeight() / 2)   return true;
+  return false;
 }
 
 
@@ -63,7 +80,7 @@ void ImageThing::setTexID(int i) {
 void ImageThing::setTexName(unsigned char* n) {
 
   texchanged=true;
-  texName=n;
+     if(isTexNameSet) free(texName); texName=(unsigned char *)malloc((size_t)(strlen((const char*)n)+1)); strcpy((char*)texName, (const char*)n); isTexNameSet= true;
 }
 
 

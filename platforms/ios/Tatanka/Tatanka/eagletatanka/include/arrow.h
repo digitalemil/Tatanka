@@ -23,6 +23,7 @@ public:
 	PartAnimation* arrowAnimation;
 
 	Arrow();
+	virtual void finalize();
 	virtual PartAnimation* getArrowAnimation();
 	virtual int getType();
 	virtual void setRootRotation(float f);

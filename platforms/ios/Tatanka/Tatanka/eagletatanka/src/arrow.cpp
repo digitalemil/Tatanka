@@ -3,6 +3,7 @@
 #include "arrow.h"
 
 Arrow::~Arrow() {
+	finalize();
 
 }
 
@@ -34,6 +35,12 @@ Arrow::Arrow() : Thing(1) {
   addPart(arrow);
   setupDone();
   arrowAnimation=new PartAnimation();
+}
+
+
+void Arrow::finalize() {
+
+  delete arrowAnimation;
 }
 
 

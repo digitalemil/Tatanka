@@ -3,6 +3,7 @@
 #include "partanimation.h"
 
 PartAnimation::~PartAnimation() {
+	finalize();
 
 }
 
@@ -29,6 +30,13 @@ PartAnimation::PartAnimation() {
 	delta = 0;
 	_start = 0;
 
+  animations++;
+}
+
+
+void PartAnimation::finalize() {
+
+  PartAnimation::animations--;
 }
 
 
@@ -56,6 +64,7 @@ PartAnimation::PartAnimation(Part* p, float tx, float ty, float tr, float tsx, f
 	_start = 0;
 
   init(p,tx,ty,tr,tsx,tsy,d,l);
+  animations++;
 }
 
 
@@ -258,3 +267,4 @@ int PartAnimation::getType() {
 }
 
 
+int PartAnimation::animations = 0;

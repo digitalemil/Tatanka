@@ -24,6 +24,8 @@ public:
 	CollisionHandler* collisionHandler;
 
 	Thing(int n);
+	virtual void finalize();
+	virtual bool isIn(int x, int y);
 	virtual int getLayer();
 	virtual void setLayer(int layer);
 	virtual void setCollisionHandler(CollisionHandler* handler);

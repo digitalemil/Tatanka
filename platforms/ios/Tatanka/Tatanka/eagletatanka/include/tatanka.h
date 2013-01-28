@@ -30,6 +30,7 @@ public:
 
 	virtual bool didCollide();
 	virtual void setDidCollide(bool didCollide);
+	virtual void finalize();
 	Tatanka(float scale);
 	virtual void animate();
 	virtual AnimalAnimation* getAnimation();

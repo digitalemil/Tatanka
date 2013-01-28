@@ -19,6 +19,7 @@ public:
 
 	ThingContainer();
 	virtual void init(int nthings);
+	virtual void finalize();
 	virtual int addThings(Thing** in, int p, int layer);
 	virtual void removeThings(Thing** objs);
 	virtual void beginTX();

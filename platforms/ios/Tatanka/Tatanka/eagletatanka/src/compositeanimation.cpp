@@ -3,6 +3,7 @@
 #include "compositeanimation.h"
 
 CompositeAnimation::~CompositeAnimation() {
+	finalize();
 
 }
 
@@ -28,6 +29,14 @@ CompositeAnimation::CompositeAnimation(unsigned char* n, int ml, int maxa, bool 
       anis[i * maxanimation + j]=0;
     }
   }
+  PartAnimation::animations++;
+}
+
+
+void CompositeAnimation::finalize() {
+
+  dispose();
+  PartAnimation::animations--;
 }
 
 
@@ -35,10 +44,10 @@ void CompositeAnimation::dispose() {
 
   for (int i=0; i < maxlevel; i++) {
     for (int j=0; j < maxanimation; j++) {
-      anis[i * maxanimation + j]=0;
+      if (anis[i * maxanimation + j] != 0)       delete anis[i*maxanimation+j];
     }
   }
-  anis=0;
+  delete [ ] anis;
 }
 
 

@@ -5,7 +5,7 @@ import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 @ClazzModifierAnnotation({ "AF", "isTextSet", "boolean", "false" })
 public abstract class Part {
-
+	public static int parts= 0;
 	protected float rsx = 1.0f, rsy = 1.0f, sx = 1.0f, sy = 1.0f;
 	protected float x = 0.0f, y = 0.0f, z = 0.0f, rx = 0.0f, ry = 0.0f,
 			rz = 0.0f;
@@ -26,9 +26,10 @@ public abstract class Part {
 	protected Bone parent = null;
 
 	public Part() {
+		parts++;
 		name= "";
 	}
-
+	
 	abstract public int getData(float[] d, int startD, float xn, float yn,
 			float zn, float a11, float a21, float a12, float a22);
 
@@ -204,10 +205,12 @@ public abstract class Part {
 		name = n;
 	}
 
-	@MethodDefinitionChangerAnnotation({"BY", "int i;", "if(isTextSet) free(name);" })
+	@MethodDefinitionChangerAnnotation({"if(isTextSet) free(name);", "BY", "coordtap=null;", "delete coordtap; if(isTextSet) free(name);" })
 	protected void finalize() throws Throwable {
-		int i;
+		parts--;
+		coordtap= null;
 	}
+	
 	public int getNumberOfData() {
 		return 0; // type, n, color, data triangles*(x & y)
 	}

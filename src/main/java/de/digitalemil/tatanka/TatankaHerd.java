@@ -57,7 +57,7 @@ public class TatankaHerd extends ThingContainer {
 		}
 		for (int i = 0; i < n; i++) {
 			things[i].setCollisionHandler(new LakotaCollisionHandler(things[i],
-					Globals.getAllThings(), 4, 256));
+					Globals.getAllThings(), 4, Globals.getMaxThing()));
 		}
 		things[alpha].highlight(true);
 	}

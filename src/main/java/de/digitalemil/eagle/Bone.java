@@ -63,7 +63,17 @@ public class Bone extends Part {
 	public int getNumberOfBCs() {
 		return nbcs;
 	}
-
+	
+	@MethodDefinitionChangerAnnotation({"BY", "int i;", "int i; if(isTextSet) free(name);", "BY", "parts[i]=null", "delete parts[i]", "BY", "parts=null", "delete [ ] parts", "BY", "bcs=null", "delete bcs"})
+	protected void finalize() throws Throwable {
+		int i;
+		bcs= null;
+		for(i= 0; i< pn; i++) {
+			parts[i]= null;
+		}
+		parts= null;
+	}
+	
 	@MethodDefinitionChangerAnnotation({ "BY", "new BoundingCircle", "(BoundingCircle**)new void*" })
 	public BoundingCircle[] getBCs() {
 		if (bcs == null) {

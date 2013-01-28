@@ -24,12 +24,20 @@ public class CompositeAnimation implements Animation {
 				anis[i * maxanimation + j] = null;
 			}
 		}
+		PartAnimation.animations++;
 	}
 
+	protected void finalize() throws Throwable {
+		dispose();
+		PartAnimation.animations--;		
+	}
+	
+	@MethodDefinitionChangerAnnotation({"BY", "anis[i * maxanimation + j]=null", "delete anis[i*maxanimation+j]", "BY", "anis=null", "delete [ ] anis"})
 	public void dispose() {
 		for (int i = 0; i < maxlevel; i++) {
 			for (int j = 0; j < maxanimation; j++) {
-				anis[i * maxanimation + j] = null;
+				if(anis[i * maxanimation + j] != null)
+					anis[i * maxanimation + j] = null;
 			}
 		}
 		anis = null;

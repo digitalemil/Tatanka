@@ -25,6 +25,7 @@ public:
 	float scale;
 
 	ShootingLakotaAnimation(Sioux* s);
+	virtual void finalize();
 	virtual void clear();
 	virtual bool shoot(int shootAtX, int shootAtY);
 	virtual void increaseLevelImpl();

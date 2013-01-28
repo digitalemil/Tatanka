@@ -12,14 +12,14 @@ class Thing;
 
 class Modell {
 public:
+	int maxthings;
 	Thing** things;
 	int numberOfThings;
-	long _start;
-	long frames;
-	int fps;
 
 	Modell(int n);
 	virtual void setup();
+	virtual int moveToOtherScreen();
+	virtual void showScreen(int id);
 	virtual void update(long currentTimeMillis);
 	virtual unsigned char** getTextAndFont(int t);
 	virtual int getFps();
@@ -30,6 +30,7 @@ public:
 	virtual void keyPressed(int i);
 	virtual void zoom(int i);
 	virtual int getNumberOfThings();
+	virtual int getBackgroudColor();
 	virtual void start();
 	virtual bool isVisible(int t);
 	virtual bool hasChanged(int t);

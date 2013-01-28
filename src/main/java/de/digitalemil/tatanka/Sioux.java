@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class Sioux extends Thing {
 
@@ -30,6 +31,11 @@ public class Sioux extends Thing {
 		return fibre;
 	}
 
+	@MethodDefinitionChangerAnnotation({"BY", "shootingAnimation=null", "delete shootingAnimation" })
+	protected void finalize() throws Throwable {
+		shootingAnimation= null;
+	}
+	
 	public Sioux() {
 		super(3);
 		arrow = new Arrow();

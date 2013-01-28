@@ -8,6 +8,7 @@ public class Tatanka extends Thing {
 	protected int health = MAXHEALTH, hits = 0;
 	protected float speed;
 	protected boolean didc= true;
+	protected AnimalAnimation animation;
 	
 	public boolean didCollide() {
 		return didc;
@@ -17,8 +18,11 @@ public class Tatanka extends Thing {
 		this.didc = didCollide;
 	}
 
-	protected AnimalAnimation animation;
-
+	@MethodDefinitionChangerAnnotation({"BY", "animation=null", "delete animation" })
+	protected void finalize() throws Throwable {
+		animation= null;
+	}
+	
 	@MethodDefinitionChangerAnnotation({ "BY", "arrow.setName", "sprintf((char*)tmptextbuffer, (const char*)'arrow%i', i); arrow->setName(tmptextbuffer); //" })
 	public Tatanka(float scale) {
 		super(12);

@@ -30,6 +30,7 @@ public:
 	float speedy;
 	int arrows;
 
+	virtual void finalize();
 	MountedLakota(float x, float y);
 	virtual void slower();
 	virtual void faster();

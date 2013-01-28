@@ -3,6 +3,7 @@
 #include "thing.h"
 
 Thing::~Thing() {
+	finalize();
 
 }
 
@@ -22,6 +23,22 @@ Thing::Thing(int n) : Bone(0.0f, 0.0f, 0.0f, 0.0f, n) {
   nbc=0;
   changed=true;
   cancollide=true;
+}
+
+
+void Thing::finalize() {
+
+  for (int i=0; i < getNumberOfTextAndFont(); i++) {
+    textAndFont[i]=0;
+  }
+  delete [ ] textAndFont;
+  delete [ ] data;
+}
+
+
+bool Thing::isIn(int x, int y) {
+
+  return false;
 }
 
 

@@ -14,6 +14,7 @@ class CoordinateTap;
 
 class Part {
 public:
+	static int parts;
 	float rsx;
 	float rsy;
 	float sx;

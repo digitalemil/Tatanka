@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class JoystickImpl extends Thing implements Joystick {
 	private int r = 0, touchx, touchy, touchphi;
@@ -14,17 +15,22 @@ public class JoystickImpl extends Thing implements Joystick {
 		int gray1 = 0x40000000;
 		int gray2 = 0x80000000;
 		int red = 0x80FF0000;
-		
+
 		setName("Joystick");
 		addPart(new Ellipse(48, 48, 0, 0, -3, 0, Ellipse.TRIANGLES20, gray1));
 		stick = new Ellipse(20, 20, 0, 0, -3, 0, Ellipse.TRIANGLES20, gray2);
 		addPart(stick);
 		marker = new Ellipse(4, 4, 0, 0, -3, 0, Ellipse.TRIANGLES8, red);
-		marker.translate(0,  -44, 0);
+		marker.translate(0, -44, 0);
 		addPart(marker);
 		scaleRoot(Globals.getScale() * 2, Globals.getScale() * 2);
 		setupDone();
 		lakota = sioux;
+	}
+
+	@MethodDefinitionChangerAnnotation({"BY", "ani=null", "delete ani" })
+	protected void finalize() throws Throwable {
+		ani= null;
 	}
 
 	public void up() {
@@ -33,7 +39,8 @@ public class JoystickImpl extends Thing implements Joystick {
 		r = -10;
 		lakota.stopRotate();
 		pressed = false;
-		ani.init(stick, -stick.getX(), -stick.getY(), 0, 1.0f, 1.0f, 1000, false);
+		ani.init(stick, -stick.getX(), -stick.getY(), 0, 1.0f, 1.0f, 1000,
+				false);
 		ani.start();
 	}
 
@@ -45,7 +52,8 @@ public class JoystickImpl extends Thing implements Joystick {
 		return res;
 	}
 
-//	@SearchAndReplaceAnnotation({ "BY", "PI", "M_PI", "BY", "stick.", "stick->" })
+	// @SearchAndReplaceAnnotation({ "BY", "PI", "M_PI", "BY", "stick.",
+	// "stick->" })
 	public boolean convert(int mx, int my) {
 		touchx = (int) (mx - Globals.getW2() - x - stick.getX());
 		touchy = (int) (my - Globals.getH2() - y - stick.getY());
@@ -67,7 +75,8 @@ public class JoystickImpl extends Thing implements Joystick {
 		return instick;
 	}
 
-	//@SearchAndReplaceAnnotation({ "BY", "stick.", "stick->", "BY", "lakota.", "lakota->" })
+	// @SearchAndReplaceAnnotation({ "BY", "stick.", "stick->", "BY", "lakota.",
+	// "lakota->" })
 	public void move(int tx, int ty) {
 		if (!pressed)
 			return;
@@ -101,21 +110,21 @@ public class JoystickImpl extends Thing implements Joystick {
 			r *= -1;
 	}
 
-	
 	public void update(int phi) {
 		setMarker(phi);
 		update();
 	}
-	
+
 	public void update() {
 		ani.animate();
 	}
-	
+
 	public int getRadius() {
 		return r;
 	}
 
 	public void setMarker(int phi) {
-		marker.translate(-marker.getX()+(mycos[phi] * -44.0f), -marker.getY()-(mysin[phi] * -44.0f),0);
+		marker.translate(-marker.getX() + (mycos[phi] * -44.0f), -marker.getY()
+				- (mysin[phi] * -44.0f), 0);
 	}
 }

@@ -3,6 +3,7 @@
 #include "sioux.h"
 
 Sioux::~Sioux() {
+	finalize();
 
 }
 
@@ -33,6 +34,12 @@ void Sioux::setFibre(Part* fibre) {
 Part* Sioux::getFibre() {
 
   return fibre;
+}
+
+
+void Sioux::finalize() {
+
+  delete shootingAnimation;
 }
 
 

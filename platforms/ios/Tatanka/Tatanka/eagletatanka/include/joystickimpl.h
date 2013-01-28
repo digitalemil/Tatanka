@@ -30,6 +30,7 @@ public:
 	Part* marker;
 
 	JoystickImpl(MountedLakota* sioux);
+	virtual void finalize();
 	virtual void up();
 	virtual bool down(int x, int y);
 	virtual bool convert(int mx, int my);

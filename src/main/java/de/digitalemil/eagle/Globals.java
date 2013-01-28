@@ -1,5 +1,7 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class Globals {
 	private static int width, height;
 	private static float scale;
@@ -9,7 +11,13 @@ public class Globals {
 	private static int defaultWidth= 768;
 	private static int defaultHeight= 1024;
 	protected static int frames= 0;
+
+	protected static int maxthings;
 	
+	public static int getMaxThing() {
+		return maxthings;
+	}
+
 	public static int getFrames() {
 		return frames;
 	}
@@ -33,7 +41,6 @@ public class Globals {
 	public static float getScale() {
 		return scale;
 	}
-	
 
 	private static void calcScale() { 
 		scale = Math.min(((float)width / defaultWidth),
@@ -56,8 +63,9 @@ public class Globals {
 		calcScale();
 	}
 	
-	protected static void setAllThings(Thing[] all) {
+	protected static void setAllThings(Thing[] all, int n) {
 		allThings= all;
+		maxthings= n;
 	}
 	
 	public static int getDefaultWidth() {
@@ -68,9 +76,11 @@ public class Globals {
 		return defaultHeight;
 	}
 
+	@MethodDefinitionChangerAnnotation({ "BY", "new Screen", "(Screen**)new void*" })
 	public static void setDefaults(int defaultWidth, int defaultHeight) {
 		Globals.defaultWidth = defaultWidth;
 		Globals.defaultHeight = defaultHeight;
+		Screen.screens= new Screen[Screen.MAXSCREEN];
 		calcScale();
 	}
 

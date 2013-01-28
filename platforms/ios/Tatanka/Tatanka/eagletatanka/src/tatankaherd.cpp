@@ -49,7 +49,7 @@ TatankaHerd::TatankaHerd(int n) {
  while (!done);
   }
   for (int i=0; i < n; i++) {
-    things[i]->setCollisionHandler(new LakotaCollisionHandler(things[i],Globals::getAllThings(),4,256));
+    things[i]->setCollisionHandler(new LakotaCollisionHandler(things[i],Globals::getAllThings(),4,Globals::getMaxThing()));
   }
   things[alpha]->highlight(true);
 }

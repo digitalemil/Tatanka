@@ -18,10 +18,8 @@
 	NSObject *lock;
 
     CALayer *drawLayer;
-    UIImage **uiimgs;
     CALayer **imgs;
-    int nimgs;
-    int *imgusers, *imgw, *imgh;
+    int nimgs, *imgw, *imgh;
     NSString **imgnames;
     de_digitalemilViewController *controller;
     unsigned int t1, t2;

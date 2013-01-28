@@ -3,6 +3,7 @@
 #include "bone.h"
 
 Bone::~Bone() {
+	finalize();
 
 }
 
@@ -73,6 +74,17 @@ Bone::Bone(float x, float y, float z, float r, int n) {
 int Bone::getNumberOfBCs() {
 
   return nbcs;
+}
+
+
+void Bone::finalize() {
+
+  int i; if(isTextSet) free(name);
+  delete bcs;
+  for (i=0; i < pn; i++) {
+    delete parts[i];
+  }
+  delete [ ] parts;
 }
 
 

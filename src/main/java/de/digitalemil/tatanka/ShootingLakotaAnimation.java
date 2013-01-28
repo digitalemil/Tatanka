@@ -19,16 +19,24 @@ public class ShootingLakotaAnimation extends CompositeAnimation {
 		width = Globals.getWidth();
 		height = Globals.getHeight();
 		scale = Globals.getScale();
+		PartAnimation.animations++;
 	}
 
+	protected void finalize() throws Throwable {
+		PartAnimation.animations--;
+	}
+
+	@MethodDefinitionChangerAnnotation({ "BY",
+			"anis[j * maxanimation + i]=null",
+			"delete anis[j * maxanimation + i]; anis[j * maxanimation + i]= 0" })
 	public void clear() {
 		for (int i = 0; i < maxanimation; i++) {
 			for (int j = 0; j < maxlevel; j++) {
 				if (anis[j * maxanimation + i] != null) {
 					anis[j * maxanimation + i].stop();
-					if (anis[j * maxanimation + i] != null)
+					if (anis[j * maxanimation + i] != null) {
 						anis[j * maxanimation + i] = null;
-					anis[j * maxanimation + i] = null;
+					}
 				}
 			}
 		}
@@ -159,8 +167,7 @@ public class ShootingLakotaAnimation extends CompositeAnimation {
 					-arrow.getY() - arrow.getRy()
 							+ lakota.getArrow().getCoordinateTap().getY(), 0);
 
-			arot = lakota.getRotation()
-					+ lakota.getUpperparts().getRotation()
+			arot = lakota.getRotation() + lakota.getUpperparts().getRotation()
 					+ lakota.getBody().getRotation()
 					+ lakota.getLeftarm().getRotation()
 					+ lakota.getBow().getRotation()
@@ -194,7 +201,8 @@ public class ShootingLakotaAnimation extends CompositeAnimation {
 		lt = _start = PartAnimation.currentTimeMillis();
 	}
 
-	@MethodDefinitionChangerAnnotation({ "BY", "animate", "CompositeAnimation::animate" })
+	@MethodDefinitionChangerAnnotation({ "BY", "animate",
+			"CompositeAnimation::animate" })
 	public float animate() {
 
 		long now = PartAnimation.currentTimeMillis();

@@ -1,6 +1,7 @@
 package de.digitalemil.tatanka;
 
 import de.digitalemil.eagle.*;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class MountedLakota extends ThingContainer {
 	Mustang mustang;
@@ -11,6 +12,13 @@ public class MountedLakota extends ThingContainer {
 	float speed, speedxeff, speedyeff, speedx, speedy;
 	int arrows= 30;
 
+	@MethodDefinitionChangerAnnotation({"BY", "lakotaRot=null", "delete lakotaRot", "BY", "mustangRot=null", "delete mustangRot" })
+	protected void finalize() throws Throwable {
+		int i;
+		lakotaRot= null;
+		mustangRot= null;
+	}
+	
 	public MountedLakota(float x, float y) {
 		init(3);
 

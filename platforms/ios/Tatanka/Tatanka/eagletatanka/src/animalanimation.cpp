@@ -3,6 +3,7 @@
 #include "animalanimation.h"
 
 AnimalAnimation::~AnimalAnimation() {
+	finalize();
 
 }
 
@@ -24,6 +25,16 @@ AnimalAnimation::AnimalAnimation(Thing* thing, int steplength, int duration) : C
   animal=thing;
   sl=steplength;
   dur=duration;
+  PartAnimation::animations++;
+}
+
+
+void AnimalAnimation::finalize() {
+
+  int i;
+  delete ka;
+  delete dir;
+  PartAnimation::animations--;
 }
 
 

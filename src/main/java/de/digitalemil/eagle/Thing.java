@@ -1,6 +1,8 @@
 //
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
 public class Thing extends Bone {
 	protected int nbc, layer;
 	protected boolean changed, cancollide, nonvisiblecancollide, movable;
@@ -15,6 +17,19 @@ public class Thing extends Bone {
 		nbc = 0;
 		changed = true;
 		cancollide = true;
+	}
+	
+	@MethodDefinitionChangerAnnotation({"BY", "textAndFont[i * 2]=null", "delete textAndFont[i*2]", "BY", "textAndFont=null", "delete [ ] textAndFont", "BY", "collisionHandler=null", "delete collisionHandler", "BY", "data=null", "delete [ ] data" })
+	protected void finalize() throws Throwable {
+		for(int i= 0; i< getNumberOfTextAndFont(); i++) {
+			textAndFont[i]= null;
+		}
+		textAndFont= null;
+		data= null;
+	}
+	
+	public boolean isIn(int x, int y) {
+		return false;
 	}
 
 	public int getLayer() {

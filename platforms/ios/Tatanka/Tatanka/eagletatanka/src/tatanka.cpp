@@ -3,6 +3,7 @@
 #include "tatanka.h"
 
 Tatanka::~Tatanka() {
+	finalize();
 
 }
 
@@ -15,6 +16,12 @@ bool Tatanka::didCollide() {
 void Tatanka::setDidCollide(bool didCollide) {
 
   this->didc=didCollide;
+}
+
+
+void Tatanka::finalize() {
+
+  delete animation;
 }
 
 

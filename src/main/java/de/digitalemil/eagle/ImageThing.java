@@ -1,5 +1,9 @@
 package de.digitalemil.eagle;
 
+import de.digitalemil.tocplusplus.ClazzModifierAnnotation;
+import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
+
+@ClazzModifierAnnotation({ "AF", "isTexNameSet", "boolean", "false" })
 public class ImageThing extends Thing {
 	protected int texID;
 	protected boolean texidset= false, texchanged;
@@ -14,6 +18,20 @@ public class ImageThing extends Thing {
 		setTexName(name);
 		init(w, h);
 	}
+	
+	@MethodDefinitionChangerAnnotation({"BY", "int i;", "if(isTexNameSet) free(texName);" })
+	protected void finalize() throws Throwable {
+		int i;
+	}
+	
+	public boolean isIn(int ix, int iy) {
+		ix-= Globals.getW2();
+		iy-= Globals.getH2();
+		if(ix> x+rx-getWidth()/2 && ix< x+rx+getWidth()/2 && iy> y+ry- getHeight()/2 && iy< y+ry+getHeight()/2)
+			return true;
+		return false;
+	}
+
 
 	public void init(float w, float h) {
 		texID = 0;
@@ -41,6 +59,10 @@ public class ImageThing extends Thing {
 		texchanged = false;
 	}
 
+	@MethodDefinitionChangerAnnotation({
+		"BY",
+		"texName=n;",
+		"   if(isTexNameSet) free(texName); texName=(unsigned char *)malloc((size_t)(strlen((const char*)n)+1)); strcpy((char*)texName, (const char*)n); isTexNameSet= true;" })
 	public void setTexName(String n) {
 		texchanged = true;
 		texName = n;

@@ -36,8 +36,10 @@ public:
 	int lca;
 	int delta;
 	long _start;
+	static int animations;
 
 	PartAnimation();
+	virtual void finalize();
 	PartAnimation(Part* p, float tx, float ty, float tr, float tsx, float tsy, int d, bool l);
 	virtual void init(Part* p, float tx, float ty, float tr, float tsx, float tsy, int d, bool l);
 	PartAnimation(Part* p, int a, int d);

@@ -3,6 +3,7 @@
 #include "shootinglakotaanimation.h"
 
 ShootingLakotaAnimation::~ShootingLakotaAnimation() {
+	finalize();
 
 }
 
@@ -20,6 +21,13 @@ ShootingLakotaAnimation::ShootingLakotaAnimation(Sioux* s) : CompositeAnimation(
   width=Globals::getWidth();
   height=Globals::getHeight();
   scale=Globals::getScale();
+  PartAnimation::animations++;
+}
+
+
+void ShootingLakotaAnimation::finalize() {
+
+  PartAnimation::animations--;
 }
 
 
@@ -29,8 +37,9 @@ void ShootingLakotaAnimation::clear() {
     for (int j=0; j < maxlevel; j++) {
       if (anis[j * maxanimation + i] != 0) {
         anis[j * maxanimation + i]->stop();
-        if (anis[j * maxanimation + i] != 0)         anis[j * maxanimation + i]=0;
-        anis[j * maxanimation + i]=0;
+        if (anis[j * maxanimation + i] != 0) {
+          delete anis[j * maxanimation + i]; anis[j * maxanimation + i]= 0;
+        }
       }
     }
   }

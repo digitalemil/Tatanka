@@ -111,12 +111,7 @@
     
     srand((int)(OS::currentTimeMillies()*1000));
     nimgs= 1;
-    imgusers= new int[256];
-    for(int i= 0; i< 256; i++) {
-        imgusers[i]= 0;
-    }
     imgs= new CALayer*[256];
-    uiimgs= new UIImage*[256];
     
     imgnames= new NSString*[256];
     imgh= new int[256];
@@ -159,21 +154,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self drawTatanka:context];
 }
-
-- (void)drawTatanka:(CGContextRef)context
-{
-   CGContextSetFillColorWithColor(context, [[UIColor darkTextColor] CGColor]);
-    
-   
-    CGContextSaveGState(context);
-   @synchronized(lock) {
-    modell->update(OS::currentTimeMillies());
-       CGContextSetAllowsAntialiasing(context, true);
-   // CGContextSetLineWidth(context, 5.0);
-       CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-       CGContextSetFillColorSpace(context, colorspace);
-        CGContextSetInterpolationQuality(context, kCGInterpolationNone);
-        // Drawing code
+- (void)loadImages {
     for (int i = 0; i < modell->getNumberOfThings(); i++) {
         
         if (modell->getThings()[i] == null)
@@ -183,12 +164,10 @@
             int t = modell->getTexID(i);
             if (modell->imageNameChanged(i)) {
                 if (modell->isTexIDSet(i)) {
-                    imgusers[t]--;
-                    if(imgusers[t]== 0) {
-                       // textures.remove(t);
-                       // texNames.remove(t);
-                       // texUsage.remove(t);
-                    }
+                    // textures.remove(t);
+                    // texNames.remove(t);
+                    // texUsage.remove(t);
+                    
                 }
                 if (modell->getImageName(i) == null) {
                     modell->setTexIDForQuad(i, 0);
@@ -206,7 +185,49 @@
             }
         }
     }
-    for (int t = 0; t < modell->getNumberOfThings(); t++) {
+}
+
+- (void)drawTatanka:(CGContextRef)context
+{
+    
+    CGContextSaveGState(context);
+   @synchronized(lock) {
+    modell->update(OS::currentTimeMillies());
+       int s= modell->moveToOtherScreen();
+       if(s!= Screen::STAYONSCREEN) {
+           for(int i= 1; i< nimgs; i++) {
+               [imgs[i] release];
+               imgw[i]= 0;
+               imgh[i]= 0;
+           }
+           nimgs= 0;
+           if (Screen::getActiveScreen() != 0) {
+               Screen::getActiveScreen()->deactivate();
+               NSLog(@"Parts after deactivate %i\n", Part::parts);
+               NSLog(@"Animations after deactivate %i\n", PartAnimation::animations);
+               
+           }
+           Screen::getScreen(s)->activate();
+           NSLog(@"Parts after activate %i\n", Part::parts);
+           NSLog(@"Animations after activate %i\n", PartAnimation::animations);
+           
+
+//           modell->showScreen(s);
+           
+       }
+       
+       
+       
+       CGContextSetAllowsAntialiasing(context, true);
+   // CGContextSetLineWidth(context, 5.0);
+       CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+       CGContextSetFillColorSpace(context, colorspace);
+        CGContextSetInterpolationQuality(context, kCGInterpolationNone);
+       
+        
+       [self loadImages];
+        // Drawing code
+        for (int t = 0; t < modell->getNumberOfThings(); t++) {
         
         if (!modell->isVisible(t))
             continue;
@@ -318,43 +339,9 @@
  }
 
 
-
-/*  Typeface tf= paint.getTypeface();
- paint.setTypeface(Typeface.create(textandfont[texts + 1], Typeface.BOLD));
- float ts= paint.getTextSize();
- paint.setTextSize(Math.round(d[di + 6]));
- Rect fm= new Rect();
- paint.getTextBounds(textandfont[texts], 0, textandfont[texts + 1].length(), fm);
- int mw = fm.width();
- int mh = fm.height();
- int x = (int) (d[di + 4] + Globals.getW2());
- switch ((int) d[di + 7]) {
- case Text.TEXT_RIGHT:
- x -= mw;
- break;
- case Text.TEXT_CENTER:
- x -= mw / 2;
- break;
- }
- 
- canvas.drawText(textandfont[texts], x, d[di + 5]
- + (int) Globals.getH2() + mh / 2, paint);
- paint.setTextSize(ts);
- paint.setTypeface(tf);
- texts += 2;
- */
-
 - (int)loadPNG:(NSString *)name  width:(int)w height:(int)h {
 	if([name length]== 0)
 		return 0;
-    /*
-    for(int i= 1; i<nimgs; i++) {
-        if([name isEqual:imgnames[i]] && w== imgw[i] && h== imgh[i]) {
-            [imgs[i] retain];
-            return i;
-        }
-    }
-     */
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:name ofType:@"png"];
     UIImage *myImageObj = [[UIImage alloc] initWithContentsOfFile:imagePath];
     CALayer *img= [self resizeImage:myImageObj toWidth:w height:h];
@@ -363,8 +350,6 @@
     imgs[nimgs]= img;
     imgw[nimgs]= w;
     imgh[nimgs]= h;
-    [name retain];
-    imgnames[nimgs]= name;
     return nimgs++;
 }
 
@@ -372,15 +357,6 @@
 - (int)loadJPG:(NSString *)name  width:(int)w height:(int)h {
 	if([name length]== 0)
 		return 0;
-   /*
-    for(int i= 1; i< nimgs; i++) {
-        NSString *n= imgnames[i];
-        if([name isEqual:imgnames[i]] && w== imgw[i] && h== imgh[i]) {
-            [imgs[i] retain];
-            return i;
-        }
-    }
-    */
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:name ofType:@"jpg"];
     UIImage *myImageObj = [[UIImage alloc] initWithContentsOfFile:imagePath];
     CALayer *img= [self resizeImage:myImageObj toWidth:w height:h];
@@ -389,8 +365,6 @@
     imgs[nimgs]= img;
     imgw[nimgs]= w;
     imgh[nimgs]= h;
-    [name retain];
-    imgnames[nimgs]= name;
     return nimgs++;
 }
 
@@ -424,8 +398,6 @@
     CGRect rect    = CGRectMake(.0, .0, width, height);
     sublayer.frame= rect;
     sublayer.contents = (id)imageOut.CGImage;
-    uiimgs[nimgs]= imageOut;
-    [imageOut retain];
     [[self layer] insertSublayer:sublayer below:drawLayer];
     
     UIGraphicsEndImageContext();

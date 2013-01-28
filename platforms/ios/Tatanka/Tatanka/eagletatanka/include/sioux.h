@@ -37,6 +37,7 @@ public:
 	virtual Arrow* getArrow();
 	virtual void setFibre(Part* fibre);
 	virtual Part* getFibre();
+	virtual void finalize();
 	Sioux();
 	virtual Bone* getBody();
 	virtual Bone* getRightarm();

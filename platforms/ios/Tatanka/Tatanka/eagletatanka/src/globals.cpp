@@ -6,6 +6,12 @@ Globals::~Globals() {
 
 }
 
+int Globals::getMaxThing() {
+
+  return maxthings;
+}
+
+
 int Globals::getFrames() {
 
   return frames;
@@ -70,9 +76,10 @@ void Globals::set(int w, int h) {
 }
 
 
-void Globals::setAllThings(Thing** all) {
+void Globals::setAllThings(Thing** all, int n) {
 
   allThings=all;
+  maxthings=n;
 }
 
 
@@ -92,6 +99,7 @@ void Globals::setDefaults(int defaultWidth, int defaultHeight) {
 
   Globals::defaultWidth=defaultWidth;
   Globals::defaultHeight=defaultHeight;
+  Screen::screens=(Screen**)new void*[Screen::MAXSCREEN];
   calcScale();
 }
 
@@ -111,3 +119,4 @@ Thing** Globals::allThings = null;
 int Globals::defaultWidth = 768;
 int Globals::defaultHeight = 1024;
 int Globals::frames = 0;
+int Globals::maxthings = null;

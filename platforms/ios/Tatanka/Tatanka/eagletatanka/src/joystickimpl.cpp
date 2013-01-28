@@ -3,6 +3,7 @@
 #include "joystickimpl.h"
 
 JoystickImpl::~JoystickImpl() {
+	finalize();
 
 }
 
@@ -31,6 +32,12 @@ JoystickImpl::JoystickImpl(MountedLakota* sioux) : Thing(3) {
   scaleRoot(Globals::getScale() * 2,Globals::getScale() * 2);
   setupDone();
   lakota=sioux;
+}
+
+
+void JoystickImpl::finalize() {
+
+  delete ani;
 }
 
 

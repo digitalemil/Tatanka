@@ -24,6 +24,7 @@ public:
 	long _start;
 
 	CompositeAnimation(unsigned char* n, int ml, int maxa, bool l);
+	virtual void finalize();
 	virtual void dispose();
 	virtual void increaseLevel();
 	virtual void addAnimation(Animation* a, int l);

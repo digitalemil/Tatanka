@@ -8,7 +8,7 @@ import de.digitalemil.eagle.Thing;
 import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class FirstScreen extends Screen {
-
+	private int hunt, cont, opts, more;
 	public FirstScreen() {
 		id = 0;
 	}
@@ -20,30 +20,61 @@ public class FirstScreen extends Screen {
 	public void activate() {
 		super.activate();
 		Thing[] things = Globals.getAllThings();
-
-		things[4] = new ImageThing("ribbonleft.png", 128 * Globals.getScale(),
-				Globals.getHeight());
-		things[4].translate(
-				-Globals.getW2() + 128 * Globals.getScale() / 2 - 1, 0, 0);
-		things[3] = new ImageThing("ribbonright.png", 128 * Globals.getScale(),
-				Globals.getHeight());
-		things[3].translate(Globals.getW2() - 128 * Globals.getScale() / 2 + 1,
-				0, 0);
-		things[2] = new ImageThing("name.png",
-				(int) (1.5f * 256 * Globals.getScale()),
-				(int) (1.5 * 128 * Globals.getScale()));
-		things[2].translate(0, -Globals.getH2() + 156 * Globals.getScale(), 0);
-		things[0] = new ImageThing("background.png",
+		int t= 0;
+		things[t++] = new ImageThing("background.png",
 				(int) (Globals.getWidth()), (int) (Globals.getHeight()));
-
 		int i = Part.getRandom(0, 8);
 		String tmptextbuffer = "tatanka" + i + ".jpg";
-		things[1] = new ImageThing(tmptextbuffer,
+		things[t] = new ImageThing(tmptextbuffer,
 				(int) (600 * Globals.getScale()),
 				(int) (600 * Globals.getScale()));
-		things[1].translate(0, Globals.getH2() + -300 * Globals.getScale(), 0);
-
-		numberOfThings = 5;
+		things[t++].translate(0, Globals.getH2() + -300 * Globals.getScale(), 0);
+		things[t] = new ImageThing("gradientall800.png",
+				(int) (600 * Globals.getScale()),
+				(int) (600 * Globals.getScale()));
+		things[t++].translate(0, Globals.getH2() + -300 * Globals.getScale(), 0);
+		things[t] = new ImageThing("name.png",
+				(int) (1.8f * 256 * Globals.getScale()),
+				(int) (1.8f * 128 * Globals.getScale()));
+		things[t++].translate(0, -Globals.getH2() + 156 * Globals.getScale(), 0);
+		
+		hunt= t;
+		things[t] = new ImageThing("hunt.png",
+				(int) (1.0f * 256 * Globals.getScale()),
+				(int) (1.0f * 128 * Globals.getScale()));
+		things[t++].translate(0, -Globals.getH2() + 320* Globals.getScale(), 0);
+		
+		cont= t;
+		things[t] = new ImageThing("continueimg.png",
+				(int) (1.0 * 256 * Globals.getScale()),
+				(int) (1.0f * 128 * Globals.getScale()));
+		things[t++].translate(0, -Globals.getH2() + 440* Globals.getScale(), 0);
+		
+		opts= t;
+		things[t] = new ImageThing("options.png",
+				(int) (1.0f * 256 * Globals.getScale()),
+				(int) (1.0f * 128 * Globals.getScale()));
+		things[t++].translate(0, -Globals.getH2() + 550* Globals.getScale(), 0);
+		
+		more= t;
+		things[t] = new ImageThing("more.png",
+				(int) (1.0f * 256 * Globals.getScale()),
+				(int) (1.0f * 128 * Globals.getScale()));
+		things[t++].translate(0, -Globals.getH2() + 660* Globals.getScale(), 0);
+		
+		things[t] = new ImageThing("ribbonright.png", 128 * Globals.getScale(),
+				Globals.getHeight());
+		things[t++].translate(Globals.getW2() - 128 * Globals.getScale() / 2 + 1,
+				0, 0);
+		things[t] = new ImageThing("ribbonleft.png", 128 * Globals.getScale(),
+				Globals.getHeight());
+		things[t++].translate(
+				-Globals.getW2() + 128 * Globals.getScale() / 2 - 1, 0, 0);
+		
+		
+		
+		numberOfThings = t;
+		t++;
 	}
 
 	public int getBackgroundColor() {
@@ -54,8 +85,11 @@ public class FirstScreen extends Screen {
 	public boolean touchStart(int x, int y) {
 		Thing[] things = Globals.getAllThings();
 
-		if (things[2].isIn(x, y)) {
+		if (things[hunt].isIn(x, y)) {
 			nextscreen = 1;
+		}
+		if (things[more].isIn(x, y)) {
+			nextscreen = 2;
 		}
 		return true;
 	}

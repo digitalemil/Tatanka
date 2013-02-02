@@ -23,19 +23,24 @@ public class MainActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		setContentView(R.layout.activity_main);
+		view = new EagleView(getApplicationContext());
+		setContentView(view);
+		inGame = true;
+		view.go();
+		
+		//setContentView(R.layout.activity_main);
 
-		hunt = (ImageView) findViewById(R.id.hunt);
+//		hunt = (ImageView) findViewById(R.id.hunt);
 		// hunt.setScaleX(2);
-		hunt.setOnClickListener(new View.OnClickListener() {
+/*		hunt.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				view = new EagleView(getApplicationContext());
 				setContentView(view);
 				inGame = true;
 			}
 		});
-
-		ImageView rl = (ImageView) findViewById(R.id.imageView1);
+*/
+//		ImageView rl = (ImageView) findViewById(R.id.imageView1);
 		// System.err.println("---- RIBBON LEFT------"+rl.getMaxHeight()+" "+rl.getMaxWidth());
 	}
 

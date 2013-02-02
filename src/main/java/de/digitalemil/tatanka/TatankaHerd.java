@@ -34,6 +34,12 @@ public class TatankaHerd extends ThingContainer {
 				int rx = -hw / 2 + Part.getRandom(0, hw);
 				int ry = Globals.getH2() / -2 - hh / 2 + Part.getRandom(0, hh);
 				things[i].translateRoot(rx, ry, 0);
+				if(rx< 0)
+					things[i].rotate(Part.getRandom(1, 3));
+				else
+					things[i].rotate(-Part.getRandom(1, 3));
+						
+					
 				// things[i].rotateRoot(-20 + Part.getRandom(0, 40));
 				things[i].getThingData();
 
@@ -62,8 +68,9 @@ public class TatankaHerd extends ThingContainer {
 		things[alpha].highlight(true);
 	}
 
-	@MethodDefinitionChangerAnnotation({ "BY", "Tatanka tatanka", "Tatanka *tatanka" })
-	private int getRotation(float speedx, float speedy, float lakotaX) {
+	@MethodDefinitionChangerAnnotation({ "BY", "Tatanka tatanka",
+			"Tatanka *tatanka" })
+	private int getNewRotation(float speedx, float speedy, float lakotaX) {
 		Tatanka tatanka = (Tatanka) things[alpha];
 		if (tatanka.didCollide() || tatanka.getRotation() < -10
 				|| (tatanka.getRotation() > 10 && tatanka.getRotation() < 350))
@@ -76,7 +83,7 @@ public class TatankaHerd extends ThingContainer {
 			if (Part.getRandom(0, 100) < 50)
 				levelOfAggression *= -1;
 		}
-		if (Globals.getFrames() % 5 == 0
+		if (Globals.getFrames() % 50 == 0
 				&& speedy > 0
 				&& ((tatanka.getRotation() > 340 && tatanka.getRotation() <= 359)
 						|| (tatanka.getRotation() < 20 && tatanka.getRotation() >= 0)
@@ -89,7 +96,8 @@ public class TatankaHerd extends ThingContainer {
 
 	}
 
-	@MethodDefinitionChangerAnnotation({ "BY", "Tatanka tatanka", "Tatanka *tatanka"})
+	@MethodDefinitionChangerAnnotation({ "BY", "Tatanka tatanka",
+			"Tatanka *tatanka" })
 	public void update(float speedx, float speedy, float lakotaX, float lakotaY) {
 
 		float sx, sy, sin, cos;
@@ -123,19 +131,21 @@ public class TatankaHerd extends ThingContainer {
 			 * speedy;
 			 */
 			if (faster) {
-			//	tatanka.getAnimation().faster();
-			//	tatanka.getAnimation().faster();
+				// tatanka.getAnimation().faster();
+				// tatanka.getAnimation().faster();
 			}
 
 			// System.out.println("speedx: "+speedx+" speedy: "+speedy+" sx: "+sx+" sy: "+sy+
 			// " "+phi);
 			tatanka.beginTX();
 			tatanka.translate(sx + speedx, sy + speedy, 0);
-			tatanka.rotate(getRotation(speedx, speedy, lakotaX));
+			tatanka.rotate(getNewRotation(speedx, speedy, lakotaX));
 			tatanka.getCollisionHandler().clearCollision();
 			tatanka.getThingData();
 			int t = tatanka.getCollisionHandler().collisionHappend();
 
+		
+			
 			if (t == CollisionHandlerImpl.NOCOLLISION) {
 				tatanka.setDidCollide(false);
 				tatanka.commitTX();
@@ -147,15 +157,56 @@ public class TatankaHerd extends ThingContainer {
 					r = -1.0f;
 				}
 
-				tatanka.setDidCollide(true);
 				tatanka.rollbackTX();
-				things[i].rotate(-r);
 
+				boolean foundplace = false;
+				float n = 0;
+				while (!foundplace) {
+					tatanka.beginTX();
+					n+= 0.5;
+
+					if (tatanka.getY()+tatanka.getRy() > tatanka.getCollisionHandler()
+							.getOther().getY()+tatanka.getCollisionHandler()
+							.getOther().getRy()
+							&& tatanka.getCollisionHandler().getOther()
+									.getType() == TatankaTypes.TATANKA) 
+						sy = -sin * (tspeed - n) * 2 * Globals.getScale();
+					else
+						sy = -sin * (tspeed + n) * 2 * Globals.getScale();
+
+					if (tatanka.getX()+tatanka.getRx() > tatanka.getCollisionHandler()
+							.getOther().getX()+tatanka.getCollisionHandler()
+							.getOther().getRx()
+							&& tatanka.getCollisionHandler().getOther()
+									.getType() == TatankaTypes.TATANKA) 
+						sx = -cos * (tspeed+n) * 2 * Globals.getScale();
+					else
+						sx = -cos * (tspeed-n) * 2 * Globals.getScale();
+					
+					things[i].translate(sx+speedx, sy+speedy, 0);
+					things[i].rotate(-r*2);
+					tatanka.getCollisionHandler().clearCollision();
+					tatanka.getThingData();
+
+					t = tatanka.getCollisionHandler().collisionHappend();
+					if (t != CollisionHandlerImpl.NOCOLLISION)
+						tatanka.rollbackTX();
+					else {
+						tatanka.commitTX();
+						foundplace = true;
+					}
+					if(n>= 5 && t!= CollisionHandlerImpl.NOCOLLISION) {
+						foundplace= true;
+						things[i].translate(speedx, speedy, 0);
+							
+					}
+				}
 				// tatanka.invalidateData();
 			}
-			if(tatanka.getCoordinateTap().getY()> Globals.getHeight()) {
-				System.out.println("   ROTATION    ");
+			if (tatanka.getCoordinateTap().getY() > Globals.getHeight()) {
+				// System.out.println("   ROTATION    ");
 				tatanka.rotate(-tatanka.getRotation());
+				tatanka.translate(0, -100 * Globals.getScale(), 0);
 			}
 			tatanka.getCollisionHandler().clearCollision();
 			tatanka.animate();
@@ -164,12 +215,12 @@ public class TatankaHerd extends ThingContainer {
 		// things[alpha].getRy()));
 	}
 
-	public int getAlphaX() {
-		return (int) (things[alpha].getX() + things[alpha].getRx());
+	public int getTX(int t) {
+		return (int) (things[t].getX() + things[t].getRx());
 	}
 
-	public int getAlphaY() {
-		return (int) (things[alpha].getY() + things[alpha].getRy());
+	public int getTY(int t) {
+		return (int) (things[t].getY() + things[t].getRy());
 	}
 
 }

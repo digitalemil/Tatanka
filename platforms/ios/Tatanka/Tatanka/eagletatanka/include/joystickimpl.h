@@ -23,22 +23,23 @@ public:
 	int touchx;
 	int touchy;
 	int touchphi;
+	int nmarkers;
 	bool pressed;
 	PartAnimation* ani;
 	MountedLakota* lakota;
 	Part* stick;
-	Part* marker;
+	Part** marker;
 
-	JoystickImpl(MountedLakota* sioux);
+	JoystickImpl(MountedLakota* sioux, int markers);
 	virtual void finalize();
 	virtual void up();
 	virtual bool down(int x, int y);
 	virtual bool convert(int mx, int my);
 	virtual void move(int tx, int ty);
-	virtual void update(int phi);
+	virtual void update(int i, int phi, float r, float d);
 	virtual void update();
 	virtual int getRadius();
-	virtual void setMarker(int phi);
+	virtual void setMarker(int i, int phi, float r, float d);
 	virtual ~JoystickImpl();
 };
 

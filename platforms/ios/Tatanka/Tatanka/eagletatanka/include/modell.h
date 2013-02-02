@@ -15,6 +15,8 @@ public:
 	int maxthings;
 	Thing** things;
 	int numberOfThings;
+	static float version;
+	static bool ps;
 
 	Modell(int n);
 	virtual void setup();
@@ -28,7 +30,12 @@ public:
 	virtual bool touchStop(int x, int y);
 	virtual Thing** getThings();
 	virtual void keyPressed(int i);
+	virtual bool isSoundOn();
+	static bool shallPlaySound();
+	static void playSound(bool s);
+	static float getVersion();
 	virtual void zoom(int i);
+	static void setVersionNumber(float v);
 	virtual int getNumberOfThings();
 	virtual int getBackgroudColor();
 	virtual void start();

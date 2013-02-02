@@ -134,9 +134,45 @@ void ThingContainer::scaleRoot(float sx, float sy) {
 }
 
 
+float ThingContainer::getRotation(int t) {
+
+  return things[t]->getRotation();
+}
+
+
+float ThingContainer::getX(int t) {
+
+  return things[t]->getX();
+}
+
+
+float ThingContainer::getY(int t) {
+
+  return things[t]->getY();
+}
+
+
+float ThingContainer::getRx(int t) {
+
+  return things[t]->getRx();
+}
+
+
+float ThingContainer::getRy(int t) {
+
+  return things[t]->getRy();
+}
+
+
 int ThingContainer::getType() {
 
   return Types::THINGCONTAINER;
+}
+
+
+int ThingContainer::getN() {
+
+  return n;
 }
 
 

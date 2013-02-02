@@ -13,9 +13,12 @@ public class TatankaModell extends Modell {
 	public void setup() {
 		Screen huntingScreen= new HuntingScreen();
 		Screen firstScreen= new FirstScreen();
+		Screen moreScreen= new MoreScreen();
 		Screen.registerScreen(huntingScreen);
 		Screen.registerScreen(firstScreen);
-		
+		Screen.registerScreen(moreScreen);
+		Screen.registerScreen(new AboutScreen());
+		Screen.registerScreen(new GalleryScreen());		
 		showScreen(firstScreen.getScreenID());
 	//	System.exit(-1);
 	}

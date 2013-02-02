@@ -22,6 +22,7 @@ bool ArrowCollisionHandler::canCollide(Thing* thing) {
 bool ArrowCollisionHandler::handleCollision(Thing* t) {
 
   //System::out->println((unsigned char*)"HIT!!!");
+  Modell::playSound(true);
   Tatanka *tatanka=(Tatanka*)t;
   Arrow*arrow=(Arrow*)me;
   sprintf((char*)tmptextbuffer, (const char*)(unsigned char*)"arrow%i", tatanka->hits); Arrow* narr= (Arrow*)tatanka->getByName(tmptextbuffer); //=(Arrow*)tatanka->getByName((unsigned char*)"arrow" + tatanka->hits);

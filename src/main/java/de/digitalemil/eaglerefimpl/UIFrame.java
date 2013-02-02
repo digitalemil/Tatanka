@@ -92,7 +92,7 @@ break;
 } 
     public void setup() {
         try {
-    System.out.println("setup UIFrame: "+getWidth()+" "+getHeight());
+    System.out.println("setup UIFrame!: "+getWidth()+" "+getHeight());
             setVisible(true);
             
         	ui= new UIComponent(getWidth(), getHeight());
@@ -119,8 +119,7 @@ add(ui, BorderLayout.SOUTH);
     }
 
     public void paint(Graphics g) {
-     // System.out.println("UIFrame paint");
-    	if (!setup) {
+     	if (!setup) {
             setup();
         }
         //super.paint(g);

@@ -6,6 +6,8 @@ public abstract class Modell {
 	protected int maxthings;
 	protected Thing things[];
 	protected int numberOfThings;
+	protected static float version= 1.0f;
+	protected static boolean ps= false;
 
 	@MethodDefinitionChangerAnnotation({ "BY", "new Thing",
 			"(Thing **)new void*", "BY", "Globals",
@@ -64,12 +66,36 @@ public abstract class Modell {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public boolean isSoundOn() {
+		return true;
+	}
+	
+	public static boolean shallPlaySound() {
+		if(ps) {
+			ps =false;
+			return true;
+		}
+		return false;
+	}
+	
+	public static void playSound(boolean s) {
+		ps= s;
+	}
+	
+	public static float getVersion() {
+		return version;
+	}
 
 	public void zoom(int i) {
 		// TODO Auto-generated method stub
 
 	}
 
+	public static void setVersionNumber(float v) {
+		version =v;
+	}
+	
 	public int getNumberOfThings() {
 		if (Screen.getActiveScreen() != null)
 			return Screen.getActiveScreen().getNumberOfThings();

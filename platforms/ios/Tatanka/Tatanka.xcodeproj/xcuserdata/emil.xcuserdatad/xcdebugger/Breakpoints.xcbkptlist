@@ -190,11 +190,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "249"
-         endingLineNumber = "249"
+         startingLineNumber = "253"
+         endingLineNumber = "253"
          landmarkName = "-drawTatanka:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -203,24 +203,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "343"
-         endingLineNumber = "343"
-         landmarkName = "-loadJPG:width:height:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "317"
-         endingLineNumber = "317"
+         startingLineNumber = "347"
+         endingLineNumber = "347"
          landmarkName = "-drawTatanka:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -229,12 +216,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "326"
-         endingLineNumber = "326"
-         landmarkName = "-loadPNG:width:height:"
+         startingLineNumber = "321"
+         endingLineNumber = "321"
+         landmarkName = "-drawTatanka:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -242,13 +229,26 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "318"
-         endingLineNumber = "318"
-         landmarkName = "@implementation TatankaView"
-         landmarkType = "3">
+         startingLineNumber = "330"
+         endingLineNumber = "330"
+         landmarkName = "-drawTatanka:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Tatanka/TatankaView.mm"
+         timestampString = "381174962.774753"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "322"
+         endingLineNumber = "322"
+         landmarkName = "-drawTatanka:"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -268,12 +268,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897364.937433"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "197"
-         endingLineNumber = "197"
-         landmarkName = "-drawTatanka:"
+         startingLineNumber = "201"
+         endingLineNumber = "201"
+         landmarkName = "-loadImages"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -333,24 +333,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380469131.374018"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "189"
-         endingLineNumber = "189"
-         landmarkName = "@implementation TatankaView"
-         landmarkType = "3">
+         startingLineNumber = "193"
+         endingLineNumber = "193"
+         landmarkName = "-loadImages"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "216"
-         endingLineNumber = "216"
+         startingLineNumber = "220"
+         endingLineNumber = "220"
          landmarkName = "-drawTatanka:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -359,11 +359,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "234"
-         endingLineNumber = "234"
+         startingLineNumber = "238"
+         endingLineNumber = "238"
          landmarkName = "-drawTatanka:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -385,12 +385,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "213"
-         endingLineNumber = "213"
-         landmarkName = "-drawTatanka:"
+         startingLineNumber = "217"
+         endingLineNumber = "217"
+         landmarkName = "-loadImages"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -398,12 +398,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Tatanka/TatankaView.mm"
-         timestampString = "380897672.377484"
+         timestampString = "381174962.774753"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "322"
-         endingLineNumber = "322"
-         landmarkName = "-loadPNG:width:height:"
+         startingLineNumber = "326"
+         endingLineNumber = "326"
+         landmarkName = "-drawTatanka:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -456,6 +456,32 @@
          startingLineNumber = "81"
          endingLineNumber = "81"
          landmarkName = "-touchesEnded:withEvent:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Tatanka/TatankaView.mm"
+         timestampString = "381166185.131735"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "125"
+         endingLineNumber = "125"
+         landmarkName = "-setup:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Tatanka/TatankaView.mm"
+         timestampString = "381174962.774753"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "130"
+         endingLineNumber = "130"
+         landmarkName = "-setup:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

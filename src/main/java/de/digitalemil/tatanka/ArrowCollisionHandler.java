@@ -21,6 +21,7 @@ public class ArrowCollisionHandler extends CollisionHandlerImpl {
 	@MethodDefinitionChangerAnnotation({ "BY", "Arrow narr", "sprintf((char*)tmptextbuffer, (const char*)'arrow%i', tatanka->hits); Arrow  narr= (Arrow)tatanka.getByName(tmptextbuffer); //", "BY", "Arrow ", "Arrow*", "BY", "Tatanka t", "Tatanka *t", "BY", "Part.", "Part::" })
 	public boolean handleCollision(Thing t) {
 		System.out.println("HIT!!!");
+		Modell.playSound(true);
 		Tatanka tatanka = (Tatanka) t;
 		Arrow arrow = (Arrow) me;
 		Arrow narr = (Arrow) tatanka.getByName("arrow" + tatanka.hits);

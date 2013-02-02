@@ -20,10 +20,10 @@ public:
 	float tspeed;
 
 	TatankaHerd(int n);
-	virtual int getRotation(float speedx, float speedy, float lakotaX);
+	virtual int getNewRotation(float speedx, float speedy, float lakotaX);
 	virtual void update(float speedx, float speedy, float lakotaX, float lakotaY);
-	virtual int getAlphaX();
-	virtual int getAlphaY();
+	virtual int getTX(int t);
+	virtual int getTY(int t);
 	virtual ~TatankaHerd();
 };
 

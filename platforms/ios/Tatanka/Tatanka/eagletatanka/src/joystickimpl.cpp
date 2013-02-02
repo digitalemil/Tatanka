@@ -7,28 +7,33 @@ JoystickImpl::~JoystickImpl() {
 
 }
 
-JoystickImpl::JoystickImpl(MountedLakota* sioux) : Thing(3) {
+JoystickImpl::JoystickImpl(MountedLakota* sioux, int markers) : Thing(2 + markers) {
 	r = 0;
 	touchx = 0;
 	touchy = 0;
 	touchphi = 0;
+	nmarkers = 0;
 	pressed = false;
 	ani = new PartAnimation();
 	lakota = 0;
 	stick = 0;
 	marker = 0;
 
-  //Thing::3);
+  //Thing::2 + markers);
   int gray1=0x40000000;
   int gray2=0x80000000;
-  int red=0x80FF0000;
+  int red=0x80592b13;
   setName((unsigned char*)"Joystick");
   addPart(new Ellipse(48,48,0,0,-3,0,Ellipse::TRIANGLES20,gray1));
   stick=new Ellipse(20,20,0,0,-3,0,Ellipse::TRIANGLES20,gray2);
   addPart(stick);
-  marker=new Ellipse(4,4,0,0,-3,0,Ellipse::TRIANGLES8,red);
-  marker->translate(0,-44,0);
-  addPart(marker);
+  nmarkers=markers;
+  marker=(Part**)new void*[nmarkers];
+  for (int i=0; i < nmarkers; i++) {
+    marker[i]=new Ellipse(2,4,0,0,-3,0,Ellipse::TRIANGLES8,red);
+    marker[i]->translate(0,-44,0);
+    addPart(marker[i]);
+  }
   scaleRoot(Globals::getScale() * 2,Globals::getScale() * 2);
   setupDone();
   lakota=sioux;
@@ -37,7 +42,7 @@ JoystickImpl::JoystickImpl(MountedLakota* sioux) : Thing(3) {
 
 void JoystickImpl::finalize() {
 
-  delete ani;
+  delete ani; delete marker;
 }
 
 
@@ -105,10 +110,10 @@ void JoystickImpl::move(int tx, int ty) {
 }
 
 
-void JoystickImpl::update(int phi) {
+void JoystickImpl::update(int i, int phi, float r, float d) {
 
-  setMarker(phi);
-  update();
+  setMarker(i,phi,r,d);
+  if (i == 0)   update();
 }
 
 
@@ -124,9 +129,11 @@ int JoystickImpl::getRadius() {
 }
 
 
-void JoystickImpl::setMarker(int phi) {
+void JoystickImpl::setMarker(int i, int phi, float r, float d) {
 
-  marker->translate(-marker->getX() + (mycos[phi] * -44.0f),-marker->getY() - (mysin[phi] * -44.0f),0);
+  marker[i]->translate(0,-marker[i]->getY(),0);
+  marker[i]->translate(-marker[i]->getX() + (mycos[phi] * d * -44.0f),-marker[i]->getY() - (mysin[phi] * d * -44.0f),0);
+  marker[i]->rotate(-marker[i]->getRotation() - r);
 }
 
 

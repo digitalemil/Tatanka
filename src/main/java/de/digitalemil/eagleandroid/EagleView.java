@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import de.digitalemil.eagle.BoundingCircle;
 import de.digitalemil.eagle.Globals;
+import de.digitalemil.eagle.Screen;
 import de.digitalemil.eagle.Text;
 import de.digitalemil.eagle.Types;
 import de.digitalemil.tatanka.TatankaModell;
@@ -74,12 +75,29 @@ public class EagleView extends SurfaceView implements SurfaceHolder.Callback,
 	}
 
 	public void draw(Canvas canvas) {
-		// Log.v("TantankaView", "View Draw: " + width + " " + height);
+		 Log.v("TantankaView", "View Draw: " + width + " " + height);
+		  int s= modell.moveToOtherScreen();
+	       if(s!= Screen.STAYONSCREEN) {
+	           for(int i= 1; i< textures.size(); i++) {
+	        	   textures.remove(i);
+	        	   texNames.remove(i);
+	        	   texUsage.remove(i);
+	           } 
+	           if (Screen.getActiveScreen() != null) {
+	               Screen.getActiveScreen().deactivate();
+	               
+	           }
+	           Screen.getScreen(s).activate();
+	    //       NSLog(@"Parts after activate %i\n", Part::parts);
+	  //         NSLog(@"Animations after activate %i\n", PartAnimation::animations);
+//	     NSLog(@"Things after activate %i\n", modell->getNumberOfThings());
+	           
+	       }
 
 		for (int i = 0; i < modell.getNumberOfThings(); i++) {
 			if (modell.getThings()[i] == null)
 				continue;
-			if ((modell.getType(i) == Types.QUAD || modell.getType(i) == Types.TEXQUAD)
+			if ((modell.getType(i) == Types.IMAGE)
 					&& (modell.getImageName(i) != null || modell.getTexID(i) != 0)) {
 				int t = modell.getTexID(i);
 				if (modell.imageNameChanged(i)) {
@@ -157,7 +175,7 @@ public class EagleView extends SurfaceView implements SurfaceHolder.Callback,
 						float ts= paint.getTextSize();
 						paint.setTextSize(Math.round(d[di + 6]));
 						Rect fm= new Rect();
-						paint.getTextBounds(textandfont[texts], 0, textandfont[texts + 1].length(), fm);
+						paint.getTextBounds(textandfont[texts], 0, textandfont[texts].length(), fm);
 						int mw = fm.width();
 						int mh = fm.height();
 						int x = (int) (d[di + 4] + Globals.getW2());
@@ -223,7 +241,7 @@ public class EagleView extends SurfaceView implements SurfaceHolder.Callback,
 	}
 
 	private Bitmap loadTextureBitmap(String name) {
-		// Log.v("loading texture: ", name);
+		 Log.v("loading texture: ", name);
 		Bitmap bitmap;
 		int id = context.getResources().getIdentifier(
 				name.substring(0, name.indexOf('.')), "drawable",
@@ -254,6 +272,9 @@ public class EagleView extends SurfaceView implements SurfaceHolder.Callback,
 	}
 
 	public void go() {
+		 Log.v("TantankaView", "go");
+		if(running)
+			return;
 		running = true;
 		thread = new Thread(this);
 		thread.start();
@@ -311,7 +332,8 @@ public class EagleView extends SurfaceView implements SurfaceHolder.Callback,
 						continue;
 
 					if (width == -1) {
-
+						 Log.v("TantankaView", "setup");
+							
 						width = canvas.getWidth();
 						w2 = width / 2;
 						height = canvas.getHeight();
@@ -319,6 +341,7 @@ public class EagleView extends SurfaceView implements SurfaceHolder.Callback,
 						Globals.setDefaults(768, 1024);
 						Globals.set(width, height);
 						modell = new TatankaModell();
+						modell.setup();
 						modell.start();
 					}
 					long now = System.currentTimeMillis();

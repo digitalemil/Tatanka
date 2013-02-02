@@ -10,9 +10,12 @@
 #define null 0
 
 class Screen;
+class GalleryScreen;
 class Modell;
 class FirstScreen;
 class HuntingScreen;
+class AboutScreen;
+class MoreScreen;
 
 class TatankaModell : public Modell {
 public:

@@ -10,6 +10,7 @@ OBJECTFILES= \
 	build/${DISTDIR}/animation.o \
 	build/${DISTDIR}/bone.o \
 	build/${DISTDIR}/boundingcircle.o \
+	build/${DISTDIR}/canhavechilds.o \
 	build/${DISTDIR}/collisionhandler.o \
 	build/${DISTDIR}/collisionhandlerimpl.o \
 	build/${DISTDIR}/compositeanimation.o \
@@ -26,17 +27,21 @@ OBJECTFILES= \
 	build/${DISTDIR}/rectangle.o \
 	build/${DISTDIR}/screen.o \
 	build/${DISTDIR}/text.o \
+	build/${DISTDIR}/textthing.o \
 	build/${DISTDIR}/thing.o \
 	build/${DISTDIR}/thingcontainer.o \
 	build/${DISTDIR}/triangle.o \
 	build/${DISTDIR}/types.o \
+	build/${DISTDIR}/aboutscreen.o \
 	build/${DISTDIR}/animalanimation.o \
 	build/${DISTDIR}/arrow.o \
 	build/${DISTDIR}/arrowcollisionhandler.o \
 	build/${DISTDIR}/firstscreen.o \
+	build/${DISTDIR}/galleryscreen.o \
 	build/${DISTDIR}/huntingscreen.o \
 	build/${DISTDIR}/joystickimpl.o \
 	build/${DISTDIR}/lakotacollisionhandler.o \
+	build/${DISTDIR}/morescreen.o \
 	build/${DISTDIR}/mountedlakota.o \
 	build/${DISTDIR}/mustang.o \
 	build/${DISTDIR}/prairie.o \
@@ -86,6 +91,10 @@ build/${DISTDIR}/bone.o: src/bone.cpp
 build/${DISTDIR}/boundingcircle.o: src/boundingcircle.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/boundingcircle.o src/boundingcircle.cpp
+
+build/${DISTDIR}/canhavechilds.o: src/canhavechilds.cpp
+	${MKDIR} -p build/${DISTDIR}
+	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/canhavechilds.o src/canhavechilds.cpp
 
 build/${DISTDIR}/collisionhandler.o: src/collisionhandler.cpp
 	${MKDIR} -p build/${DISTDIR}
@@ -151,6 +160,10 @@ build/${DISTDIR}/text.o: src/text.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/text.o src/text.cpp
 
+build/${DISTDIR}/textthing.o: src/textthing.cpp
+	${MKDIR} -p build/${DISTDIR}
+	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/textthing.o src/textthing.cpp
+
 build/${DISTDIR}/thing.o: src/thing.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/thing.o src/thing.cpp
@@ -166,6 +179,10 @@ build/${DISTDIR}/triangle.o: src/triangle.cpp
 build/${DISTDIR}/types.o: src/types.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/types.o src/types.cpp
+
+build/${DISTDIR}/aboutscreen.o: src/aboutscreen.cpp
+	${MKDIR} -p build/${DISTDIR}
+	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/aboutscreen.o src/aboutscreen.cpp
 
 build/${DISTDIR}/animalanimation.o: src/animalanimation.cpp
 	${MKDIR} -p build/${DISTDIR}
@@ -183,6 +200,10 @@ build/${DISTDIR}/firstscreen.o: src/firstscreen.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/firstscreen.o src/firstscreen.cpp
 
+build/${DISTDIR}/galleryscreen.o: src/galleryscreen.cpp
+	${MKDIR} -p build/${DISTDIR}
+	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/galleryscreen.o src/galleryscreen.cpp
+
 build/${DISTDIR}/huntingscreen.o: src/huntingscreen.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/huntingscreen.o src/huntingscreen.cpp
@@ -194,6 +215,10 @@ build/${DISTDIR}/joystickimpl.o: src/joystickimpl.cpp
 build/${DISTDIR}/lakotacollisionhandler.o: src/lakotacollisionhandler.cpp
 	${MKDIR} -p build/${DISTDIR}
 	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/lakotacollisionhandler.o src/lakotacollisionhandler.cpp
+
+build/${DISTDIR}/morescreen.o: src/morescreen.cpp
+	${MKDIR} -p build/${DISTDIR}
+	$(CC) -I${INCLUDE} ${CFLAGS} -o build/${DISTDIR}/morescreen.o src/morescreen.cpp
 
 build/${DISTDIR}/mountedlakota.o: src/mountedlakota.cpp
 	${MKDIR} -p build/${DISTDIR}

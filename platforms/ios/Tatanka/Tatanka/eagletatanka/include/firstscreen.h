@@ -15,6 +15,10 @@ class Screen;
 
 class FirstScreen : public Screen {
 public:
+	int hunt;
+	int cont;
+	int opts;
+	int more;
 
 	FirstScreen();
 	virtual void activate();

@@ -82,8 +82,42 @@ void Modell::keyPressed(int i) {
 }
 
 
+bool Modell::isSoundOn() {
+
+  return true;
+}
+
+
+bool Modell::shallPlaySound() {
+
+  if (ps) {
+    ps=false;
+    return true;
+  }
+  return false;
+}
+
+
+void Modell::playSound(bool s) {
+
+  ps=s;
+}
+
+
+float Modell::getVersion() {
+
+  return version;
+}
+
+
 void Modell::zoom(int i) {
 
+}
+
+
+void Modell::setVersionNumber(float v) {
+
+  version=v;
 }
 
 
@@ -191,3 +225,5 @@ void Modell::moveViewport(int i, int j) {
 }
 
 
+float Modell::version = 1.0f;
+bool Modell::ps = false;

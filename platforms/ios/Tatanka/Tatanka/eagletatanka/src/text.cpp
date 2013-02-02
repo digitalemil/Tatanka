@@ -18,6 +18,7 @@ Text::Text(unsigned char* t, float irx, float iry, int ic) {
 	tx_font = 0;
 	tx_text = 0;
 	isTextSet = false;
+	isFontSet = false;
 
   setRoot(irx,iry,0,0);
   setColor(ic);
@@ -109,7 +110,7 @@ void Text::setSize(int s) {
 
 void Text::setFont(unsigned char* f) {
 
-  font=f;
+     if(isFontSet) free(font); font=(unsigned char *)malloc((size_t)(strlen((const char*)f)+1)); strcpy((char*)font, (const char*)f); isFontSet= true;
   invalidateData();
 }
 
@@ -155,7 +156,7 @@ int Text::getAlignment() {
 
 void Text::finalize() {
 
-  if(isTextSet) free(text);
+  if(isTextSet) free(text); if(isFontSet) free(font);
 }
 
 

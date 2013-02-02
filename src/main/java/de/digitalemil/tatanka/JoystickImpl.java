@@ -4,33 +4,39 @@ import de.digitalemil.eagle.*;
 import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
 public class JoystickImpl extends Thing implements Joystick {
-	private int r = 0, touchx, touchy, touchphi;
+	private int r = 0, touchx, touchy, touchphi, nmarkers;
 	private boolean pressed = false;
 	private PartAnimation ani = new PartAnimation();
 	private MountedLakota lakota;
-	private Part stick, marker;
+	private Part stick, marker[];
 
-	public JoystickImpl(MountedLakota sioux) {
-		super(3);
+	@MethodDefinitionChangerAnnotation({ "BY", "new Part", "(Part**)new void*" })
+	public JoystickImpl(MountedLakota sioux, int markers) {
+		super(2+markers);
 		int gray1 = 0x40000000;
 		int gray2 = 0x80000000;
-		int red = 0x80FF0000;
+		int red = 0x80592b13;
 
 		setName("Joystick");
 		addPart(new Ellipse(48, 48, 0, 0, -3, 0, Ellipse.TRIANGLES20, gray1));
 		stick = new Ellipse(20, 20, 0, 0, -3, 0, Ellipse.TRIANGLES20, gray2);
 		addPart(stick);
-		marker = new Ellipse(4, 4, 0, 0, -3, 0, Ellipse.TRIANGLES8, red);
-		marker.translate(0, -44, 0);
-		addPart(marker);
+		nmarkers = markers;
+		marker = new Part[nmarkers];
+		for (int i = 0; i < nmarkers; i++) {
+			marker[i] = new Ellipse(2, 4, 0, 0, -3, 0, Ellipse.TRIANGLES8, red);
+			marker[i].translate(0, -44, 0);
+			addPart(marker[i]);
+		}
 		scaleRoot(Globals.getScale() * 2, Globals.getScale() * 2);
 		setupDone();
 		lakota = sioux;
 	}
 
-	@MethodDefinitionChangerAnnotation({"BY", "ani=null", "delete ani" })
+	
+	@MethodDefinitionChangerAnnotation({ "BY", "ani=null", "delete ani; delete marker" })
 	protected void finalize() throws Throwable {
-		ani= null;
+		ani = null;
 	}
 
 	public void up() {
@@ -110,9 +116,10 @@ public class JoystickImpl extends Thing implements Joystick {
 			r *= -1;
 	}
 
-	public void update(int phi) {
-		setMarker(phi);
-		update();
+	public void update(int i, int phi, float r, float d) {
+		setMarker(i, phi, r, d);
+		if(i== 0)
+			update();
 	}
 
 	public void update() {
@@ -123,8 +130,11 @@ public class JoystickImpl extends Thing implements Joystick {
 		return r;
 	}
 
-	public void setMarker(int phi) {
-		marker.translate(-marker.getX() + (mycos[phi] * -44.0f), -marker.getY()
-				- (mysin[phi] * -44.0f), 0);
+	public void setMarker(int i, int phi, float r, float d) {
+		marker[i].translate(0, -marker[i].getY(), 0);
+		
+		marker[i].translate(-marker[i].getX() + (mycos[phi] * d *-44.0f), -marker[i].getY()
+				- (mysin[phi] * d* -44.0f), 0);
+		marker[i].rotate(-marker[i].getRotation()-r);
 	}
 }

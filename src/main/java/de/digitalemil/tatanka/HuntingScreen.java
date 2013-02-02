@@ -21,20 +21,26 @@ public class HuntingScreen extends Screen {
 		id = 1;
 	}
 
-	@MethodDefinitionChangerAnnotation({"BY", "Thing[]", "Thing**", "BY", "prairie=null", "delete prairie", "BY", "lakotas[0]=null", "delete lakotas[0]", "BY", "lakotas= null", "delete [ ] lakotas", "BY", "herds[0]=null", "delete herds[0]", "BY", "herds=null", "delete [ ] herds", "BY", "joystick=null", "delete joystick", "BY", "texts=null", "delete texts", "BY", "menu=null", "delete menu", "BY", "things[arrowsetal]=null", "delete things[arrowsetal]" })
+	@MethodDefinitionChangerAnnotation({ "BY", "Thing[]", "Thing**", "BY",
+			"prairie=null", "delete prairie", "BY", "lakotas[0]=null",
+			"delete lakotas[0]", "BY", "lakotas= null", "delete [ ] lakotas",
+			"BY", "herds[0]=null", "delete herds[0]", "BY", "herds=null",
+			"delete [ ] herds", "BY", "joystick=null", "delete joystick", "BY",
+			"texts=null", "delete texts", "BY", "menu=null", "delete menu",
+			"BY", "things[arrowsetal]=null", "delete things[arrowsetal]" })
 	protected void finalize() throws Throwable {
-		prairie= null;
-		lakotas[0]= null;
-		lakotas= null;
-		herds[0]= null;
-		herds= null;
-		joystick= null;
-		texts= null;
-		menu= null;
-		Thing[] things= Globals.getAllThings();
-		things[arrowsetal]= null;
-		for(int i= 0; i< numberOfThings; i++) {
-			things[i]= null;
+		prairie = null;
+		lakotas[0] = null;
+		lakotas = null;
+		herds[0] = null;
+		herds = null;
+		joystick = null;
+		texts = null;
+		menu = null;
+		Thing[] things = Globals.getAllThings();
+		things[arrowsetal] = null;
+		for (int i = 0; i < numberOfThings; i++) {
+			things[i] = null;
 		}
 	}
 
@@ -64,7 +70,7 @@ public class HuntingScreen extends Screen {
 				pos += lakotas[j].addThings(things, pos, layer);
 			}
 		}
-		joystick = new JoystickImpl(lakotas[0]);
+		joystick = new JoystickImpl(lakotas[0], herds[0].getN());
 		things[pos++] = joystick;
 		joystick.translate(Globals.getW2() - 128 * Globals.getScale(),
 				Globals.getH2() - 108 * Globals.getScale(), 0);
@@ -75,7 +81,7 @@ public class HuntingScreen extends Screen {
 				Globals.getH2(), 0);
 		texts.setArrows(lakotas[activelakota].getArrows());
 		pos++;
-		arrowsetal= pos;  
+		arrowsetal = pos;
 		things[pos] = new ImageThing("arrowsetalmin.png",
 				(int) (123 * Globals.getScale() / 2),
 				(int) (354 * Globals.getScale() / 2));
@@ -117,20 +123,29 @@ public class HuntingScreen extends Screen {
 						+ lakotas[activelakota].lakota.getRx(),
 				lakotas[activelakota].lakota.getY()
 						+ lakotas[activelakota].lakota.getRy());
+		float m= Globals.getH2();
+		float max=  4.0f*(m*m);
+		for (int t = 0; t < herds[0].getN(); t++) {
+			int x = -(int) (herds[0].getTX(t)
+					- lakotas[activelakota].lakota.getX() - lakotas[activelakota].lakota
+					.getRx());
+			int y = (int) (herds[0].getTY(t)
+					- lakotas[activelakota].lakota.getY() - lakotas[activelakota].lakota
+					.getRy());
+		
+			float d= x*x + y*y;
+			if(d> max)
+		 		d= max;
+			d/= max;
+			float newdir = (float) Math.atan2(y, x);
+			if (newdir < 0) {
+				newdir += 2 * Math.PI;
+			}
+			newdir = (float) (newdir * 360.0f / (2 * Math.PI));
 
-		int x = -(int) (herds[0].getAlphaX()
-				- lakotas[activelakota].lakota.getX() - lakotas[activelakota].lakota
-				.getRx());
-		int y = (int) (herds[0].getAlphaY()
-				- lakotas[activelakota].lakota.getY() - lakotas[activelakota].lakota
-				.getRy());
-		float newdir = (float) Math.atan2(y, x);
-		if (newdir < 0) {
-			newdir += 2 * Math.PI;
+			float tr= herds[0].getRotation(t);
+			joystick.update(t, (int) newdir, tr, d);
 		}
-		newdir = (float) (newdir * 360.0f / (2 * Math.PI));
-
-		joystick.update((int) newdir);
 	}
 
 	public void touch(int x, int y) {

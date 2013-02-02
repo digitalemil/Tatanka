@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <GameKit/GameKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import "de_digitalemilViewController.h"
 #import "all.h"
 
@@ -17,6 +18,8 @@
 	NSTimer *animationTimer;
 	NSTimeInterval animationInterval;
 	NSObject *lock;
+
+    AVAudioPlayer *bgAudioPlayer, *fgAudioPlayer;
 
     CALayer *drawLayer;
     CALayer **imgs;

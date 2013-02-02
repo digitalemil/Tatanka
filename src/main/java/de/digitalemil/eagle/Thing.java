@@ -19,12 +19,8 @@ public class Thing extends Bone {
 		cancollide = true;
 	}
 	
-	@MethodDefinitionChangerAnnotation({"BY", "textAndFont[i]=null", "delete textAndFont[i]", "BY", "textAndFont=null", "delete [ ] textAndFont", "BY", "collisionHandler=null", "delete collisionHandler", "BY", "data=null", "delete [ ] data" })
+	@MethodDefinitionChangerAnnotation({"BY", "textAndFont=null", "delete [ ] textAndFont", "BY", "collisionHandler=null", "delete collisionHandler", "BY", "data=null", "delete [ ] data" })
 	protected void finalize() throws Throwable {
-		int n= getNumberOfTextAndFont();
-		for(int i= 0; i< n; i++) {
-			textAndFont[i]= null;
-		}
 		textAndFont= null;
 		data= null;
 	}

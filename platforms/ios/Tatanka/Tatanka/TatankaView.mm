@@ -121,10 +121,41 @@
     modell = new TatankaModell();
     modell->setup();
     modell->start();
-    animationInterval = 1.0 / 60.0;
+    NSString *version= [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    animationInterval = 1.0 / 60.0; 
+    int ver= [version intValue]+1;
+    double dv= 1+ver/100000.0;
     
+   // sprintf((char *)tmptextbuffer, (const char*)"1.%16.5f", dv);
+    
+    modell->setVersionNumber((float)dv);
     self.multipleTouchEnabled = YES;
-        
+    
+    
+    NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/dancingcrows.wav", [[NSBundle mainBundle] resourcePath]]];
+    NSError *error;
+    
+    bgAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    bgAudioPlayer.numberOfLoops = -1;
+    [bgAudioPlayer setVolume:0.1f];
+    if(modell->isSoundOn()) {
+        [bgAudioPlayer play];
+    }
+    
+    if (bgAudioPlayer == nil)
+        NSLog([error description]);
+    else
+        [bgAudioPlayer play];
+
+    url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/tatanka.mp3", [[NSBundle mainBundle] resourcePath]]];
+    fgAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    fgAudioPlayer.numberOfLoops = 1;
+    [fgAudioPlayer setVolume:0.5f];
+    [fgAudioPlayer stop];
+    
+    if (fgAudioPlayer == nil)
+        NSLog([error description]);
+	
     [self startAnimation];
 }
 
@@ -163,11 +194,9 @@
             && (modell->getImageName(i) != 0 || modell->getTexID(i) != 0)) {
             int t = modell->getTexID(i);
             if (modell->imageNameChanged(i)) {
+                int ti= 0;
                 if (modell->isTexIDSet(i)) {
-                    // textures.remove(t);
-                    // texNames.remove(t);
-                    // texUsage.remove(t);
-                    
+                    ti= modell->getTexID(i);
                 }
                 if (modell->getImageName(i) == null) {
                     modell->setTexIDForQuad(i, 0);
@@ -177,9 +206,9 @@
                 NSString *subname= [name substringWithRange:NSMakeRange(0, [name length]-4)];
                 unichar c= [name characterAtIndex:[name length]-3];
                 if(c== 'j')
-                    t = [self loadJPG:subname width:modell->getImageWidth(i) height:modell->getImageHeight(i)];
+                    t = [self loadJPG:subname width:modell->getImageWidth(i) height:modell->getImageHeight(i) reuse:ti];
                 else
-                    t = [self loadPNG:subname width:modell->getImageWidth(i) height:modell->getImageHeight(i)];
+                    t = [self loadPNG:subname width:modell->getImageWidth(i) height:modell->getImageHeight(i) reuse:ti];
                 
                 modell->setTexIDForQuad(i, t);
             }
@@ -193,13 +222,23 @@
     CGContextSaveGState(context);
    @synchronized(lock) {
     modell->update(OS::currentTimeMillies());
+       if(modell->shallPlaySound()) {
+           [fgAudioPlayer play];
+       }
+       
        int s= modell->moveToOtherScreen();
        if(s!= Screen::STAYONSCREEN) {
            for(int i= 1; i< nimgs; i++) {
                [imgs[i] release];
+               [imgs[i] removeFromSuperlayer];
+               
                imgw[i]= 0;
                imgh[i]= 0;
            }
+           CALayer *rootlayer= [self layer];
+           rootlayer.sublayers= nil;
+           [self.layer addSublayer:drawLayer];
+           
            nimgs= 0;
            if (Screen::getActiveScreen() != 0) {
                Screen::getActiveScreen()->deactivate();
@@ -208,8 +247,9 @@
                
            }
            Screen::getScreen(s)->activate();
-           NSLog(@"Parts after activate %i\n", Part::parts);
-           NSLog(@"Animations after activate %i\n", PartAnimation::animations);
+    //       NSLog(@"Parts after activate %i\n", Part::parts);
+  //         NSLog(@"Animations after activate %i\n", PartAnimation::animations);
+//     NSLog(@"Things after activate %i\n", modell->getNumberOfThings());
            
        }
        
@@ -305,9 +345,10 @@
                     texts += 2;
 
                     [text drawAtPoint:pt
-                                          forWidth:theSize.width
+                                      //    forWidth:theSize.width
                                           withFont:font
-                                     lineBreakMode:UILineBreakModeClip];
+                                     //lineBreakMode:NSLineBreakBy
+                     ];
                     
                     UIGraphicsPopContext();
     
@@ -336,36 +377,46 @@
  }
 
 
-- (int)loadPNG:(NSString *)name  width:(int)w height:(int)h {
+- (int)loadPNG:(NSString *)name  width:(int)w height:(int)h reuse:(int)i {
 	if([name length]== 0)
 		return 0;
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:name ofType:@"png"];
     UIImage *myImageObj = [[UIImage alloc] initWithContentsOfFile:imagePath];
-    CALayer *img= [self resizeImage:myImageObj toWidth:w height:h];
+    CALayer *img= [self resizeImage:myImageObj toWidth:w height:h reuse:i];
     [img retain];
     
-    imgs[nimgs]= img;
-    imgw[nimgs]= w;
-    imgh[nimgs]= h;
-    return nimgs++;
+    if(i== 0) {
+        imgs[nimgs]= img;
+        imgw[nimgs]= w;
+        imgh[nimgs]= h;
+        return nimgs++;
+    }
+    imgw[i]= w;
+    imgh[i]= h;
+    return i;
 }
 
 
-- (int)loadJPG:(NSString *)name  width:(int)w height:(int)h {
+- (int)loadJPG:(NSString *)name  width:(int)w height:(int)h reuse:(int)i {
 	if([name length]== 0)
 		return 0;
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:name ofType:@"jpg"];
     UIImage *myImageObj = [[UIImage alloc] initWithContentsOfFile:imagePath];
-    CALayer *img= [self resizeImage:myImageObj toWidth:w height:h];
+    CALayer *img= [self resizeImage:myImageObj toWidth:w height:h reuse:i];
     [img retain];
     
-    imgs[nimgs]= img;
-    imgw[nimgs]= w;
-    imgh[nimgs]= h;
-    return nimgs++;
+    if(i== 0) {
+        imgs[nimgs]= img;
+        imgw[nimgs]= w;
+        imgh[nimgs]= h;
+        return nimgs++;
+    }
+    imgw[i]= w;
+    imgh[i]= h;
+    return i;
 }
 
-- (CALayer*)resizeImage:(UIImage*)image toWidth:(NSInteger)width height:(NSInteger)height
+- (CALayer*)resizeImage:(UIImage*)image toWidth:(NSInteger)width height:(NSInteger)height reuse:(int)i
 {
     // Create a graphics context with the target size
     // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
@@ -391,12 +442,18 @@
     // Retrieve the UIImage from the current context
     UIImage *imageOut = UIGraphicsGetImageFromCurrentImageContext();
     
-    CALayer *sublayer = [CALayer layer];
+    CALayer *sublayer;
     CGRect rect    = CGRectMake(.0, .0, width, height);
+    
+    if(i== 0) {
+        sublayer= [CALayer layer];
+        [[self layer] insertSublayer:sublayer below:drawLayer];
+    }
+    else {
+        sublayer= imgs[i];        
+    }
     sublayer.frame= rect;
     sublayer.contents = (id)imageOut.CGImage;
-    [[self layer] insertSublayer:sublayer below:drawLayer];
-    
     UIGraphicsEndImageContext();
     return sublayer;
 }
@@ -440,4 +497,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)dealloc {
+	
+	[bgAudioPlayer release];
+	[fgAudioPlayer release];
+}
 @end

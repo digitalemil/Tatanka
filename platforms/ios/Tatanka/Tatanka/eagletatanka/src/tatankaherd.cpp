@@ -30,6 +30,8 @@ TatankaHerd::TatankaHerd(int n) {
       int rx=-hw / 2 + Part::getRandom(0,hw);
       int ry=Globals::getH2() / -2 - hh / 2 + Part::getRandom(0,hh);
       things[i]->translateRoot(rx,ry,0);
+      if (rx < 0)       things[i]->rotate(Part::getRandom(1,3));
+ else       things[i]->rotate(-Part::getRandom(1,3));
       things[i]->getThingData();
       if (things[i]->getCollisionHandler()->collisionHappend() != CollisionHandlerImpl::NOCOLLISION) {
         //System::out->println((unsigned char*)"Tatanka collide: " + i + (unsigned char*)" "+ rx+ (unsigned char*)" "+ ry+ (unsigned char*)" "+ hw+ (unsigned char*)" "+ hh);
@@ -55,7 +57,7 @@ TatankaHerd::TatankaHerd(int n) {
 }
 
 
-int TatankaHerd::getRotation(float speedx, float speedy, float lakotaX) {
+int TatankaHerd::getNewRotation(float speedx, float speedy, float lakotaX) {
 
   Tatanka *tatanka=(Tatanka*)things[alpha];
   if (tatanka->didCollide() || tatanka->getRotation() < -10 || (tatanka->getRotation() > 10 && tatanka->getRotation() < 350))   return 0;
@@ -65,7 +67,7 @@ int TatankaHerd::getRotation(float speedx, float speedy, float lakotaX) {
   if (Globals::getFrames() % 20 == 0) {
     if (Part::getRandom(0,100) < 50)     levelOfAggression*=-1;
   }
-  if (Globals::getFrames() % 5 == 0 && speedy > 0 && ((tatanka->getRotation() > 340 && tatanka->getRotation() <= 359) || (tatanka->getRotation() < 20 && tatanka->getRotation() >= 0) || (tatanka->getRotation() <= 180 && tatanka->getRotation() >= 20 && deg < 0)|| (tatanka->getRotation() <= 340 && tatanka->getRotation() > 180 && deg > 0))) {
+  if (Globals::getFrames() % 50 == 0 && speedy > 0 && ((tatanka->getRotation() > 340 && tatanka->getRotation() <= 359) || (tatanka->getRotation() < 20 && tatanka->getRotation() >= 0) || (tatanka->getRotation() <= 180 && tatanka->getRotation() >= 20 && deg < 0)|| (tatanka->getRotation() <= 340 && tatanka->getRotation() > 180 && deg > 0))) {
     return deg;
   }
   return 0;
@@ -93,7 +95,7 @@ void TatankaHerd::update(float speedx, float speedy, float lakotaX, float lakota
     }
     tatanka->beginTX();
     tatanka->translate(sx + speedx,sy + speedy,0);
-    tatanka->rotate(getRotation(speedx,speedy,lakotaX));
+    tatanka->rotate(getNewRotation(speedx,speedy,lakotaX));
     tatanka->getCollisionHandler()->clearCollision();
     tatanka->getThingData();
     int t=tatanka->getCollisionHandler()->collisionHappend();
@@ -106,13 +108,35 @@ void TatankaHerd::update(float speedx, float speedy, float lakotaX, float lakota
       if (things[i]->getX() >= tatanka->getCollisionHandler()->getOther()->getX()) {
         r=-1.0f;
       }
-      tatanka->setDidCollide(true);
       tatanka->rollbackTX();
-      things[i]->rotate(-r);
+      bool foundplace=false;
+      float n=0;
+      while (!foundplace) {
+        tatanka->beginTX();
+        n+=0.5;
+        if (tatanka->getY() + tatanka->getRy() > tatanka->getCollisionHandler()->getOther()->getY() + tatanka->getCollisionHandler()->getOther()->getRy() && tatanka->getCollisionHandler()->getOther()->getType() == TatankaTypes::TATANKA)         sy=-sin * (tspeed - n) * 2* Globals::getScale();
+ else         sy=-sin * (tspeed + n) * 2* Globals::getScale();
+        if (tatanka->getX() + tatanka->getRx() > tatanka->getCollisionHandler()->getOther()->getX() + tatanka->getCollisionHandler()->getOther()->getRx() && tatanka->getCollisionHandler()->getOther()->getType() == TatankaTypes::TATANKA)         sx=-cos * (tspeed + n) * 2* Globals::getScale();
+ else         sx=-cos * (tspeed - n) * 2* Globals::getScale();
+        things[i]->translate(sx + speedx,sy + speedy,0);
+        things[i]->rotate(-r * 2);
+        tatanka->getCollisionHandler()->clearCollision();
+        tatanka->getThingData();
+        t=tatanka->getCollisionHandler()->collisionHappend();
+        if (t != CollisionHandlerImpl::NOCOLLISION)         tatanka->rollbackTX();
+ else {
+          tatanka->commitTX();
+          foundplace=true;
+        }
+        if (n >= 5 && t != CollisionHandlerImpl::NOCOLLISION) {
+          foundplace=true;
+          things[i]->translate(speedx,speedy,0);
+        }
+      }
     }
     if (tatanka->getCoordinateTap()->getY() > Globals::getHeight()) {
-      //System::out->println((unsigned char*)"   ROTATION    ");
       tatanka->rotate(-tatanka->getRotation());
+      tatanka->translate(0,-100 * Globals::getScale(),0);
     }
     tatanka->getCollisionHandler()->clearCollision();
     tatanka->animate();
@@ -120,15 +144,15 @@ void TatankaHerd::update(float speedx, float speedy, float lakotaX, float lakota
 }
 
 
-int TatankaHerd::getAlphaX() {
+int TatankaHerd::getTX(int t) {
 
-  return (int)(things[alpha]->getX() + things[alpha]->getRx());
+  return (int)(things[t]->getX() + things[t]->getRx());
 }
 
 
-int TatankaHerd::getAlphaY() {
+int TatankaHerd::getTY(int t) {
 
-  return (int)(things[alpha]->getY() + things[alpha]->getRy());
+  return (int)(things[t]->getY() + things[t]->getRy());
 }
 
 

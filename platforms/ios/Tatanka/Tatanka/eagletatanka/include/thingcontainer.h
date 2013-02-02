@@ -31,7 +31,13 @@ public:
 	virtual void translateRoot(float x, float y, float z);
 	virtual void rotateRoot(float deg);
 	virtual void scaleRoot(float sx, float sy);
+	virtual float getRotation(int t);
+	virtual float getX(int t);
+	virtual float getY(int t);
+	virtual float getRx(int t);
+	virtual float getRy(int t);
 	virtual int getType();
+	virtual int getN();
 	virtual ~ThingContainer();
 };
 

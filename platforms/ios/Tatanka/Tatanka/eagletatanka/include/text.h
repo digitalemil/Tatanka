@@ -26,6 +26,7 @@ public:
 	unsigned char* tx_font;
 	unsigned char* tx_text;
 	bool isTextSet;
+	bool isFontSet;
 
 	Text(unsigned char* t, float irx, float iry, int ic);
 	virtual void beginTX();

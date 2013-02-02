@@ -60,7 +60,7 @@ void HuntingScreen::activate() {
       pos+=lakotas[j]->addThings(things,pos,layer);
     }
   }
-  joystick=new JoystickImpl(lakotas[0]);
+  joystick=new JoystickImpl(lakotas[0],herds[0]->getN());
   things[pos++]=joystick;
   joystick->Thing::translate(Globals::getW2() - 128 * Globals::getScale(),Globals::getH2() - 108 * Globals::getScale(),0);
   texts=new Texts();
@@ -91,14 +91,22 @@ void HuntingScreen::update(long currentTimeMillis) {
   }
   prairie->update(lakotas[activelakota]->getSpeedX(),lakotas[activelakota]->getSpeedY());
   herds[0]->update(lakotas[activelakota]->getSpeedX(),lakotas[activelakota]->getSpeedY(),lakotas[activelakota]->lakota->getX() + lakotas[activelakota]->lakota->getRx(),lakotas[activelakota]->lakota->getY() + lakotas[activelakota]->lakota->getRy());
-  int x=-(int)(herds[0]->getAlphaX() - lakotas[activelakota]->lakota->getX() - lakotas[activelakota]->lakota->getRx());
-  int y=(int)(herds[0]->getAlphaY() - lakotas[activelakota]->lakota->getY() - lakotas[activelakota]->lakota->getRy());
-  float newdir=(float)atan2(y,x);
-  if (newdir < 0) {
-    newdir+=2 * PI;
+  float m=Globals::getH2();
+  float max=4.0f * (m * m);
+  for (int t=0; t < herds[0]->getN(); t++) {
+    int x=-(int)(herds[0]->getTX(t) - lakotas[activelakota]->lakota->getX() - lakotas[activelakota]->lakota->getRx());
+    int y=(int)(herds[0]->getTY(t) - lakotas[activelakota]->lakota->getY() - lakotas[activelakota]->lakota->getRy());
+    float d=x * x + y * y;
+    if (d > max)     d=max;
+    d/=max;
+    float newdir=(float)atan2(y,x);
+    if (newdir < 0) {
+      newdir+=2 * PI;
+    }
+    newdir=(float)(newdir * 360.0f / (2 * PI));
+    float tr=herds[0]->getRotation(t);
+    joystick->update(t,(int)newdir,tr,d);
   }
-  newdir=(float)(newdir * 360.0f / (2 * PI));
-  joystick->update((int)newdir);
 }
 
 

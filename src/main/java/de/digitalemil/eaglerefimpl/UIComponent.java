@@ -262,6 +262,8 @@ public class UIComponent extends JComponent {
 	public int loadTexture(String name, int w, int h) {
 		for (int i = 1; i <= textures.size(); i++) {
 			Image img = (Image) textures.get(new Integer(i));
+			if(img== null)
+				continue;
 			if (name.equals(texNames.get(i)) && w == img.getWidth(null)
 					&& h == img.getHeight(null))
 				return i;

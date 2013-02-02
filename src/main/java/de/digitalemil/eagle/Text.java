@@ -3,7 +3,7 @@ package de.digitalemil.eagle;
 import de.digitalemil.tocplusplus.ClazzModifierAnnotation;
 import de.digitalemil.tocplusplus.MethodDefinitionChangerAnnotation;
 
-@ClazzModifierAnnotation({ "AF", "isTextSet", "boolean", "false" })
+@ClazzModifierAnnotation({ "AF", "isTextSet", "boolean", "false", "AF", "isFontSet", "boolean", "false" })
 public class Text extends Part {
 
 	public final static int TEXT_LEFT = 0, TEXT_RIGHT = 1, TEXT_CENTER = 2;
@@ -87,6 +87,10 @@ public class Text extends Part {
 		invalidateData();
 	}
 
+	@MethodDefinitionChangerAnnotation({
+		"BY",
+		"font=f;",
+		"   if(isFontSet) free(font); font=(unsigned char *)malloc((size_t)(strlen((const char*)f)+1)); strcpy((char*)font, (const char*)f); isFontSet= true;" })
 	public void setFont(String f) {
 		font = f;
 		invalidateData();
@@ -119,7 +123,7 @@ public class Text extends Part {
 		return align;
 	}
 
-	@MethodDefinitionChangerAnnotation({"BY", "int i;", "if(isTextSet) free(text);" })
+	@MethodDefinitionChangerAnnotation({"BY", "int i;", "if(isTextSet) free(text); if(isFontSet) free(font);" })
 	protected void finalize() throws Throwable {
 		int i;
 	}

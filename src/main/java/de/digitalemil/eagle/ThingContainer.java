@@ -118,9 +118,32 @@ public class ThingContainer {
 				things[i].scaleRoot(sx, sy);
 		}
 	}
+	
+	public float getRotation(int t) {
+		return things[t].getRotation();
+	}
 
+	public float getX(int t) {
+		return things[t].getX();
+	}
+
+	public float getY(int t) {
+		return things[t].getY();
+	}
+
+	public float getRx(int t) {
+		return things[t].getRx();
+	}
+
+	public float getRy(int t) {
+		return things[t].getRy();
+	}
+	
 	public int getType() {
 		return Types.THINGCONTAINER;
 	}
 
+	public int getN() {
+		return n;
+	}
 }
